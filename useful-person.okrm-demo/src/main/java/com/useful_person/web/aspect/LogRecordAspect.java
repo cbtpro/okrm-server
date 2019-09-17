@@ -12,11 +12,10 @@ public class LogRecordAspect {
 	@Around("execution(* com.useful_person.web.controller.UserController.*(..)) && @annotation(org.springframework.web.bind.annotation.PostMapping)\n"
 			+ "	@annotation(org.springframework.web.bind.annotation.PutMapping)")
 	public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("进入切面");
-		Object[] args = pjp.getArgs();
-		for (Object arg : args) {
-			System.out.println("arg is " + arg);
-		}
+//		Object[] args = pjp.getArgs();
+//		for (Object arg : args) {
+//			("arg is " + arg);
+//		}
 		Object object = pjp.proceed();
 		return object;
 	}

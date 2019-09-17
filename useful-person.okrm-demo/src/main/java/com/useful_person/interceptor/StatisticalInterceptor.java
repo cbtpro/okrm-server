@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Component
 public class StatisticalInterceptor implements HandlerInterceptor {
 
@@ -24,7 +27,7 @@ public class StatisticalInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		long start = (long) request.getAttribute("startTime");
-		System.out.println("post interceptor handle 耗时：" + (new Date().getTime() - start) + "ms");
+		log.info("post interceptor handle 耗时：" + (new Date().getTime() - start) + "ms");
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 
@@ -35,18 +38,18 @@ public class StatisticalInterceptor implements HandlerInterceptor {
 		String remoteAddress = request.getRemoteAddr();
 		String remoteHost = request.getRemoteHost();
 		int remotePort = request.getRemotePort();
-		System.out.println("remoteUser: " + remoteUser + ", remoteAddress: " + remoteAddress + ", remoteHost: "
+		log.info("remoteUser: " + remoteUser + ", remoteAddress: " + remoteAddress + ", remoteHost: "
 				+ remoteHost + ", remotePort: " + remotePort);
 
 //		Enumeration<String> headerNames = request.getHeaderNames();
 //		while (headerNames.hasMoreElements()) {
 //			String headerName = headerNames.nextElement();
 //			String header = request.getHeader(headerName);
-//			System.out.println(headerName + ": " + header);
+//			log.info(headerName + ": " + header);
 //		}
 		// headers中可以获取host、accept、upgrade-insecure-requests、cookie、user-agent、accept-language、accept-encoding、connection等
 		long start = (long) request.getAttribute("startTime");
-		System.out.println("after interceptor completion 耗时：" + (new Date().getTime() - start) + "ms");
+		log.info("after interceptor completion 耗时：" + (new Date().getTime() - start) + "ms");
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
 }

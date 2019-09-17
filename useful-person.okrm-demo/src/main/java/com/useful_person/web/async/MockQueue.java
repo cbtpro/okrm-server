@@ -18,7 +18,7 @@ public class MockQueue {
 
 	public void setPlaceOrder(String placeOrder) throws Exception {
 		new Thread(() -> {
-			log.info("接收到离线任务请求" + placeOrder);
+			log.info("接收离线任务请求: [" + placeOrder + "]");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -27,7 +27,7 @@ public class MockQueue {
 				log.info("message: " + message + ", localizeMessage: " + localizeMessage);
 			}
 			this.completeOrder = placeOrder;
-			log.info("离线任务处理完毕" + placeOrder);
+			log.info("离线任务处理完毕: [" + placeOrder + "]");
 		}).start();
 	}
 
