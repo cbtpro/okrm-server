@@ -17,9 +17,31 @@
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+安装mysql 8.x
+
+运行redis
+
+安装docker
+
+docker pull redis
+
+docker run --name okrm-redis -d redis
+
+或者直接下载redis
+
+make
+
+make test
+
+make install
+
+make test
+
+./src/redis-server
+
+新建mysql用户okrm并给它赋予权限
+
+安装lombok
 
 #### 参与贡献
 
