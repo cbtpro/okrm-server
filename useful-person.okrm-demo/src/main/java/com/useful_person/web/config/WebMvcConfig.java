@@ -13,7 +13,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 	@Autowired
 	private StatisticalInterceptor statisticalInterceptor;
 	@Override
-	protected void addInterceptors(InterceptorRegistry registry) {
+	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(statisticalInterceptor);
 	}
+	
+	
 }
