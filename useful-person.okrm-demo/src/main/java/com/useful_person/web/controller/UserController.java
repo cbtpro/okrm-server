@@ -1,70 +1,82 @@
 package com.useful_person.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.useful_person.domain.User;
+import com.useful_person.exception.UserNotExistException;
+import com.useful_person.services.IUserService;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
+
+	@Autowired
+	private IUserService userService;
+	/**
+	 * 注册新用户
+	 * 
+	 * @param user
+	 * @return user
+	 */
+	@PostMapping
+	@JsonView(User.UserInfoDetailView.class)
+	public User createUser(@Valid @RequestBody User user, BindingResult errors) {
+		if(errors.hasErrors()) {
+			errors.getAllErrors().stream().forEach(error -> {
+				FieldError fieldError = (FieldError) error;
+				String message = fieldError.getField() + " " + error.getDefaultMessage();
+				System.out.println(message);
+			});
+		}
+		User newUser = User.builder().username(user.getUsername()).nickname(user.getNickname())
+				.password(user.getPassword()).birthday(user.getBirthday()).build();
+		return userService.save(newUser);
+	}
 
 	/**
 	 * 查询用户名是否存在
+	 * 
 	 * @param nickname
-	 * @return
+	 * @return users
 	 */
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public List<User> query(@RequestParam(name = "username", required = true) String nickname) {
-		List<User> users = new ArrayList<>();
-		users.add(new User());
-		users.add(new User());
-		users.add(new User());
-		return users;
+	@GetMapping
+	@JsonView(User.UserInfoSimpleView.class)
+	public boolean query(@RequestParam(name = "username", required = true) String username) {
+		return userService.isExistUsername(username);
 	}
 
-	@RequestMapping(value = "/user/{id:[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-[0-9A-Za-z]{4}-[0-9A-Za-z]{4}-[0-9A-Za-z]{12}}", method = RequestMethod.GET)
+	/**
+	 * 获取用户详情
+	 * 
+	 * @param uuid
+	 * @return user
+	 */
+	@GetMapping("/{id:[0-9A-Za-z]{32}}")
+	@JsonView(User.UserInfoDetailView.class)
 	public User getUserInfo(@PathVariable(name = "id", required = true) String uuid) {
-		User user = new User();
-		user.setNickname("tom");
+		User user = userService.findByUuid(uuid);
+		if (user == null) {
+			throw new UserNotExistException(uuid);
+		}
 		return user;
-	}
-	/**
-	 * 用户登录
-	 * @param user
-	 * @return user
-	 */
-	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public User signIn(User user) {
-		return user;
-	}
-
-	/**
-	 * 用户登出
-	 * @param user
-	 * @return boolean
-	 */
-	public boolean logout(User user) {
-		return true;
-	}
-
-	/**
-	 * 注册新用户
-	 * @param user
-	 * @return user
-	 */
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public User signUp(User user) {
-		return null;
 	}
 
 	/**
 	 * 注销用户
+	 * 
 	 * @param user
 	 * @return
 	 */

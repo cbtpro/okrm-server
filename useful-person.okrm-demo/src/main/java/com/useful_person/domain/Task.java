@@ -1,35 +1,50 @@
 package com.useful_person.domain;
 
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity(name = "Task")
+@Table(name = "t_task")
+@Data
+@Builder
 public class Task {
 
-	private String id;
+	@Id
+	@Getter
+	@Setter
+	private String uuid;
 
+	@ManyToMany
+	@JoinTable(name = "t_task_tag")
+	private List<Tag> items;
+	@Getter
+	@Setter
 	private String title;
+	
+	@Getter
+	@Setter
+	private String content;
 
+	@Getter
+	@Setter
 	private String description;
 
-	public String getId() {
-		return id;
-	}
+	@Getter
+	@Setter
+	private long createTime;
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	@Getter
+	@Setter
+	private long updateTime;
 
 }
