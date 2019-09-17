@@ -24,7 +24,7 @@ public class QueueListener implements ApplicationListener<ContextRefreshedEvent>
 			while (true) {
 				if (StringUtils.isNotBlank(mockQueue.getCompleteOrder())) {
 					String taskNumber = mockQueue.getCompleteOrder();
-					log.info("返回任务处理结果：" + taskNumber);
+					log.info("返回任务处理结果: [" + taskNumber + "]");
 					deferredResultHolder.getTaskMap().get(taskNumber)
 							.setResult("task order: " + taskNumber + " complete");
 					mockQueue.setCompleteOrder(null);

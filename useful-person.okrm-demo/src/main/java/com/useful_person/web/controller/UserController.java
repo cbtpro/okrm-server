@@ -19,6 +19,9 @@ import com.useful_person.domain.User;
 import com.useful_person.exception.UserNotExistException;
 import com.useful_person.services.IUserService;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -38,7 +41,7 @@ public class UserController {
 			errors.getAllErrors().stream().forEach(error -> {
 				FieldError fieldError = (FieldError) error;
 				String message = fieldError.getField() + " " + error.getDefaultMessage();
-				System.out.println(message);
+				log.info(message);
 			});
 		}
 		User newUser = User.builder().username(user.getUsername()).nickname(user.getNickname())
