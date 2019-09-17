@@ -3,7 +3,7 @@ package com.useful_person.web.async;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -20,7 +20,7 @@ public class AsyncController {
 	@Autowired
 	private DeferredResultHolder deferredResultHolder;
 
-	@RequestMapping("/order")
+	@GetMapping("/order")
 	public Callable<String> order() throws Exception {
 		log.info("主线程开始");
 		Callable<String> callable = new Callable<String>() {
@@ -39,7 +39,7 @@ public class AsyncController {
 	/**
 	 * 可以使用
 	 */
-	@RequestMapping("/order2")
+	@GetMapping("/order2")
 	public DeferredResult<String> order2() throws Exception {
 		log.info("主线程开始");
 		String taskNumber = RandomString.make(8);
