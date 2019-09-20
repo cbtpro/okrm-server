@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.useful_person.browser.authentication.OkrmAuthenticationFailureHandler;
+import com.useful_person.browser.authentication.OkrmAuthenticationSuccessHandler;
 import com.useful_person.core.properties.SecurityProperties;
 
 @Configuration
@@ -21,11 +23,17 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SecurityProperties securityProperties;
 
+	@Autowired
+	OkrmAuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
+	@Autowired
+	OkrmAuthenticationFailureHandler okrmAuthenticationFailureHandler;
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		String basicSigninPage = "/authentication/require";
-		http.formLogin().loginPage(basicSigninPage).loginProcessingUrl("/authentication/form").and().authorizeRequests()
-				.antMatchers(basicSigninPage, securityProperties.getBrowser().getSigninPage()).permitAll().anyRequest()
-				.authenticated().and().csrf().disable();
+		http.formLogin().loginPage("/authentication/require").loginProcessingUrl("/authentication/form").failureUrl("/authentication/failure")
+				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler).and()
+				.authorizeRequests()
+				.antMatchers("/", "/hello", "/authentication/require", "/authentication/failure", securityProperties.getBrowser().getSigninPage())
+				.permitAll().anyRequest().authenticated().and().csrf().disable();
 	}
 }
