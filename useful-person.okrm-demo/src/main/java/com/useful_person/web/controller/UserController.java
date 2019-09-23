@@ -3,6 +3,8 @@ package com.useful_person.web.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,12 @@ public class UserController {
 
 	@Autowired
 	private IUserService userService;
+
+	@GetMapping("/me")
+	public Object getCurrentUser(Authentication authentication) {
+		return authentication;
+//		return SecurityContextHolder.getContext().getAuthentication();
+	}
 	/**
 	 * 注册新用户
 	 * 
