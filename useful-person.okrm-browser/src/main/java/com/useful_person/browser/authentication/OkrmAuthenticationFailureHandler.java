@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.useful_person.browser.support.SimpleResponse;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SigninType;
 
@@ -35,7 +36,7 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-			response.getWriter().write(objectMapper.writeValueAsString(exception));
+			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
 		} else {
 			super.onAuthenticationFailure(request, response, exception);
 		}
