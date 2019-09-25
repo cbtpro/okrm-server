@@ -37,11 +37,9 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		StringBuffer logSb = new StringBuffer("");
 		while(parameterNames.hasMoreElements()) {
 			String parameterName = parameterNames.nextElement();
-			String parameterValue;
+			String  parameterValue = request.getParameter(parameterName);
 			if ("password".equals(parameterName)) {
-				parameterValue = "******";
-			} else {
-				parameterValue = request.getParameter(parameterName);
+				parameterValue = "*".repeat(parameterValue.length());
 			}
 			if (logSb.length() > 0) {
 				logSb.append(", ");
