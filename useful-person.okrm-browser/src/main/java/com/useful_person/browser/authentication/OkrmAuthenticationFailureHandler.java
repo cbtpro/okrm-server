@@ -1,6 +1,7 @@
 package com.useful_person.browser.authentication;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,22 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		log.info("登录失败");
+		Enumeration<String> parameterNames = request.getParameterNames();
+		StringBuffer logSb = new StringBuffer("");
+		while(parameterNames.hasMoreElements()) {
+			String parameterName = parameterNames.nextElement();
+			String parameterValue;
+			if ("password".equals(parameterName)) {
+				parameterValue = "******";
+			} else {
+				parameterValue = request.getParameter(parameterName);
+			}
+			if (logSb.length() > 0) {
+				logSb.append(", ");
+			}
+			logSb.append(parameterName + ": " + parameterValue);
+		}
+		log.info("登录失败，参数：" + logSb);
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
