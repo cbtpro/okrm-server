@@ -34,6 +34,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		ValidatorCodeFilter validatorCodeFilter = new ValidatorCodeFilter();
 		validatorCodeFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
+		validatorCodeFilter.setSecurityProperties(securityProperties);
+		validatorCodeFilter.afterPropertiesSet();
 		http.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
 				.loginPage("/authentication/require").loginProcessingUrl("/authentication/form")
 				.failureUrl("/authentication/failure").successHandler(okrmAuthenticationSuccessHandler)

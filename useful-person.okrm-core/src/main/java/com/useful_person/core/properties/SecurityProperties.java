@@ -7,6 +7,16 @@ public class SecurityProperties {
 
 	private BrowserProperties browser = new BrowserProperties();
 
+	private ValidatorCodeProperties code = new ValidatorCodeProperties();
+
+	public ValidatorCodeProperties getCode() {
+		return code;
+	}
+
+	public void setCode(ValidatorCodeProperties code) {
+		this.code = code;
+	}
+
 	public BrowserProperties getBrowser() {
 		return browser;
 	}

@@ -1,34 +1,24 @@
 package com.useful_person.core.validator.code;
 
-import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ImageCode {
+public class ImageCode implements Serializable {
 
-	private BufferedImage image;
+	private static final long serialVersionUID = -4826893818867302046L;
 
 	private String code;
 
 	private LocalDateTime expireTime;
 
-	public ImageCode(BufferedImage image, String code, int expireIn) {
-		this.image = image;
+	public ImageCode(String code, int expireIn) {
 		this.code = code;
 		this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
 	}
 
-	public ImageCode(BufferedImage image, String code, LocalDateTime expireTime) {
-		this.image = image;
+	public ImageCode(String code, LocalDateTime expireTime) {
 		this.code = code;
 		this.expireTime = expireTime;
-	}
-
-	public BufferedImage getImage() {
-		return image;
-	}
-
-	public void setImage(BufferedImage image) {
-		this.image = image;
 	}
 
 	public String getCode() {
