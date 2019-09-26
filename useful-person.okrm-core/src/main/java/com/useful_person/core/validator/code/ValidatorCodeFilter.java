@@ -105,17 +105,17 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		if (!StringUtils.hasText(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
-		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidatorCodeController.SESSION_KEY);
+		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);
 		if (codeImageInSession == null) {
 			throw new ValidatorCodeException("验证码不存在");
 		}
 		if (codeImageInSession.isExpired()) {
 			throw new ValidatorCodeException("验证码已过期");
 		}
-		if (!StringUtils.pathEquals(codeImageInSession.getCode(), codeInRequest)) {
+		if (!StringUtils.pathEquals(codeImageInSession.getCode().toLowerCase(), codeInRequest.toLowerCase())) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
-		sessionStrategy.removeAttribute(request, ValidatorCodeController.SESSION_KEY);
+		sessionStrategy.removeAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);
 	}
 
 }
