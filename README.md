@@ -17,6 +17,8 @@
 
 #### 使用说明
 
+安装IDE，修改IDE编码格式为UTF-8
+
 安装mysql 8.x
 
 运行redis

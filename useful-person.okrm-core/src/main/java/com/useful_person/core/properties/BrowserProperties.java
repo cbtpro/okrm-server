@@ -6,6 +6,8 @@ public class BrowserProperties {
 
 	private SigninType signinType = SigninType.JSON;
 
+	private int rememberMeSeconds = 3600;
+
 	public String getSigninPage() {
 		return signinPage;
 	}
@@ -20,6 +22,14 @@ public class BrowserProperties {
 
 	public void setSigninType(SigninType signinType) {
 		this.signinType = signinType;
+	}
+
+	public int getRememberMeSeconds() {
+		return rememberMeSeconds;
+	}
+
+	public void setRememberMeSeconds(int rememberMeSeconds) {
+		this.rememberMeSeconds = rememberMeSeconds;
 	}
 
 }
