@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.imageio.ImageIO;
@@ -20,14 +21,18 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.async.DeferredResult;
 
+import com.google.gson.Gson;
 import com.useful_person.core.properties.ImageCodeProperties;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SmsCodeProperties;
 import com.useful_person.core.validator.code.sms.SmsCodeSender;
 
+import lombok.extern.log4j.Log4j2;
 import net.bytebuddy.utility.RandomString;
 
+@Log4j2
 @RestController
 public class ValidatorCodeController {
 
@@ -55,29 +60,69 @@ public class ValidatorCodeController {
 		sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_IMAGE_CODE, imageCode);
 		ImageIO.write(buferedImage, "jpeg", response.getOutputStream());
 	}
+//	@GetMapping("/code/sms")
+//	public Map<String, Object> createSmsCode(HttpServletRequest request, HttpServletResponse response) throws ServletRequestBindingException {
+//		SmsCode smsCodeInSession = (SmsCode) sessionStrategy.getAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE);
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
+//		int expireIn = smsCodeProperties.getExpireIn();
+//		if (smsCodeInSession == null || smsCodeInSession.isExpired()) {
+//			String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
+//			int smsCodeLength = smsCodeProperties.getLength();
+//			int origin = Integer.valueOf("1".repeat(smsCodeLength));
+//			int bound = Integer.valueOf("9".repeat(smsCodeLength));
+//			String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(origin, bound));
+//			SmsCode smsCode = new SmsCode(randomCode, expireIn);
+//			smsCodeSender.send(mobile, smsCode.getCode());
+//			sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE, smsCode);
+//			result.put("msg", "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+//		} else {
+//			result.put("msg", "短信验证码未过期");
+//			LocalDateTime expireTime = smsCodeInSession.getExpireTime();
+//			LocalDateTime now = LocalDateTime.now();
+//			Duration duration = Duration.between(now, expireTime);
+//			result.put("expireIn", duration.toSeconds());
+//		}
+//		return result;
+//	}
+
 	@GetMapping("/code/sms")
-	public Map<String, Object> createSmsCode(HttpServletRequest request, HttpServletResponse response) throws ServletRequestBindingException {
-		SmsCode smsCodeInSession = (SmsCode) sessionStrategy.getAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE);
-		Map<String, Object> result = new HashMap<String, Object>();
-		SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
-		int expireIn = smsCodeProperties.getExpireIn();
-		if (smsCodeInSession == null || smsCodeInSession.isExpired()) {
-			String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
-			int smsCodeLength = smsCodeProperties.getLength();
-			int origin = Integer.valueOf("1".repeat(smsCodeLength));
-			int bound = Integer.valueOf("9".repeat(smsCodeLength));
-			String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(origin, bound));
-			SmsCode smsCode = new SmsCode(randomCode, expireIn);
-			smsCodeSender.send(mobile, smsCode.getCode());
-			sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE, smsCode);
-			result.put("msg", "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
-		} else {
-			result.put("msg", "短信验证码未过期");
-			LocalDateTime expireTime = smsCodeInSession.getExpireTime();
-			LocalDateTime now = LocalDateTime.now();
-			Duration duration = Duration.between(now, expireTime);
-			result.put("expireIn", duration.toSeconds());
-		}
-		return result;
+	public Callable<String> createSmsCode(HttpServletRequest request, HttpServletResponse response)
+			throws ServletRequestBindingException {
+		Callable<String> callable = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				SmsCode smsCodeInSession = (SmsCode) sessionStrategy.getAttribute(new ServletWebRequest(request),
+						SESSION_KEY_SMS_CODE);
+				Map<String, Object> result = new HashMap<String, Object>();
+				SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
+				int expireIn = smsCodeProperties.getExpireIn();
+				if (smsCodeInSession == null || smsCodeInSession.isExpired()) {
+					String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
+					int smsCodeLength = smsCodeProperties.getLength();
+					int origin = Integer.valueOf("1".repeat(smsCodeLength));
+					int bound = Integer.valueOf("9".repeat(smsCodeLength));
+					String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(origin, bound));
+					SmsCode smsCode = new SmsCode(randomCode, expireIn);
+					boolean successBoolean = smsCodeSender.send(mobile, smsCode.getCode());
+					if (successBoolean) {
+						sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE, smsCode);
+						result.put("msg", "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+					} else {
+						result.put("msg", "短信验证码发送失败");
+						// TODO 这里要做处理，联系管理员的操作，紧急的各种方式都可以
+					}
+				} else {
+					result.put("msg", "短信验证码未过期");
+					LocalDateTime expireTime = smsCodeInSession.getExpireTime();
+					LocalDateTime now = LocalDateTime.now();
+					Duration duration = Duration.between(now, expireTime);
+					result.put("expireIn", duration.toSeconds());
+				}
+				Gson gson = new Gson();
+				return gson.toJson(result);
+			}
+		};
+		return callable;
 	}
 }

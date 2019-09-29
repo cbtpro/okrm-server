@@ -36,9 +36,7 @@ public class AsyncController {
 		log.info("主线程返回");
 		return callable;
 	}
-	/**
-	 * 可以使用
-	 */
+
 	@GetMapping("/order2")
 	public DeferredResult<String> order2() throws Exception {
 		log.info("主线程开始");
