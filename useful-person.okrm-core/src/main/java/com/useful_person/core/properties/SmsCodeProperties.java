@@ -8,6 +8,10 @@ public class SmsCodeProperties {
 
 	private String regionId = "cn-hangzhou";
 
+	private String accessKeyId;
+
+	private String secret;
+
 	private String domain = "dysmsapi.aliyuncs.com";
 
 	private String version = "2017-05-25";
@@ -34,6 +38,22 @@ public class SmsCodeProperties {
 
 	public void setRegionId(String regionId) {
 		this.regionId = regionId;
+	}
+
+	public String getAccessKeyId() {
+		return accessKeyId;
+	}
+
+	public void setAccessKeyId(String accessKeyId) {
+		this.accessKeyId = accessKeyId;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 
 	public String getDomain() {
