@@ -37,10 +37,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		String needCodeUrls = securityProperties.getCode().getImage().getUrl();
-		String[] configUrls = StringUtils.split(needCodeUrls, ",");
-		if (configUrls == null) {
-			configUrls = new String[0];
-		}
+		String[] configUrls = needCodeUrls.split(",");
 		for (String configUrl : configUrls) {
 			urls.add(configUrl);
 		}
