@@ -1,6 +1,7 @@
 package com.useful_person.core.validator.code.sms;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -19,6 +20,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class DefaultSmsCodeSender implements SmsCodeSender {
 
+	@Value("${spring.application.name}")
+	private String projectName;
+
 	@Autowired
 	private SecurityProperties securityProperties;
 
@@ -32,19 +36,28 @@ public class DefaultSmsCodeSender implements SmsCodeSender {
 		request.setMethod(MethodType.POST);
 		request.setDomain(smsCodeProperties.getDomain());
 		request.setVersion(smsCodeProperties.getVersion());
-		request.setAction("SendSms");
-		request.putQueryParameter("RegionId", "cn-hangzhou");
+		request.setAction(SmsAction.SendSms.getValue());
+		request.putQueryParameter("RegionId", smsCodeProperties.getRegionId());
 		request.putQueryParameter("PhoneNumbers", mobile);
-		request.putQueryParameter("SignName", "生而不庸");
-		request.putQueryParameter("TemplateCode", "SMS_7390148");
-		request.putQueryParameter("TemplateParam", "{\"code\": \"" +  code + "\", \"product\": \"生而不庸\"}");
+		request.putQueryParameter("SignName", smsCodeProperties.getSignName());
+		request.putQueryParameter("TemplateCode", TemplateCode.SMS_7390148.getCode());
+		request.putQueryParameter("TemplateParam", "{\"code\": \"" +  code + "\", \"product\": \"" + projectName + "\"}");
 		try {
 			CommonResponse response = client.getCommonResponse(request);
 			String data = response.getData();
-			log.info("向手机：" + mobile + " 发送验证码：" + code + ", response：" + data);
 			Gson gson = new Gson();
 			SmsResponse smsResponse = gson.fromJson(data, SmsResponse.class);
-			return smsResponse.getSendStatus();
+			String responseCode = smsResponse.getCode();
+			String RequestId = smsResponse.getRequestId();
+			String bizId = smsResponse.getBizId();
+			String message = smsResponse.getMessage();
+			String responseMessage = "{ Code: \"" + responseCode + "\", RequestId: \"" + RequestId + "\", BizId: \"" + bizId + "\", Message: \"" + message + "\" }";
+			log.info("向手机：" + mobile + " 发送验证码：" + code + ", response：" + responseMessage);
+			boolean isSuccess = smsResponse.getSendStatus();
+			if (!isSuccess) {
+				log.info(gson.toJson(smsCodeProperties));
+			}
+			return isSuccess;
 		} catch (ServerException e) {
 			e.printStackTrace();
 			log.info("向手机：" + mobile + " 发送验证码：" + code + ", errMsg：" + e.getErrMsg());

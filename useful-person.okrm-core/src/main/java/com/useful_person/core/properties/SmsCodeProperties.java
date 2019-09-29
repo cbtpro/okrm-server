@@ -16,6 +16,8 @@ public class SmsCodeProperties {
 
 	private String version = "2017-05-25";
 
+	private String signName = "生而不庸";
+
 	public int getLength() {
 		return length;
 	}
@@ -70,6 +72,14 @@ public class SmsCodeProperties {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public String getSignName() {
+		return signName;
+	}
+
+	public void setSignName(String signName) {
+		this.signName = signName;
 	}
 
 }
