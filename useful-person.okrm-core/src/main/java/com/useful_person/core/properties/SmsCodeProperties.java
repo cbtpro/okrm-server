@@ -6,6 +6,8 @@ public class SmsCodeProperties {
 
 	private int expireIn = 5 * 60;
 
+	private String url = "";
+
 	private String regionId = "cn-hangzhou";
 
 	private String accessKeyId;
@@ -32,6 +34,14 @@ public class SmsCodeProperties {
 
 	public void setExpireIn(int expireIn) {
 		this.expireIn = expireIn;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getRegionId() {

@@ -16,7 +16,10 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.useful_person.browser.authentication.OkrmAuthenticationFailureHandler;
 import com.useful_person.browser.authentication.OkrmAuthenticationSuccessHandler;
+import com.useful_person.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.useful_person.core.properties.SecurityProperties;
+import com.useful_person.core.validator.code.SmsCodeFilter;
+import com.useful_person.core.validator.code.ValidatorCodeController;
 import com.useful_person.core.validator.code.ValidatorCodeFilter;
 
 @Configuration
@@ -42,6 +45,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {
 		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
@@ -56,16 +62,24 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		validatorCodeFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
 		validatorCodeFilter.setSecurityProperties(securityProperties);
 		validatorCodeFilter.afterPropertiesSet();
-		http.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
-				.loginPage("/authentication/require").loginProcessingUrl("/authentication/form")
+
+		SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+		smsCodeFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
+		smsCodeFilter.setSecurityProperties(securityProperties);
+		smsCodeFilter.afterPropertiesSet();
+
+		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
+				.loginPage(BrowserSecurityController.AUTHENTICATION_REQUIRE_URL).loginProcessingUrl("/authentication/form")
 				.failureUrl("/authentication/failure").successHandler(okrmAuthenticationSuccessHandler)
 				.failureHandler(okrmAuthenticationFailureHandler).and().rememberMe()
 				.tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 				.userDetailsService(userDetailsService).and().authorizeRequests()
-				.antMatchers("/", "/hello", "/authentication/require", "/authentication/failure",
+				.antMatchers("/", "/hello", BrowserSecurityController.AUTHENTICATION_REQUIRE_URL, "/authentication/failure",
 						securityProperties.getBrowser().getSigninPage(), "/code/captcha.jpg", "/code/sms",
 						"/favicon.ico")
-				.permitAll().anyRequest().authenticated().and().csrf().disable();
+				.permitAll().anyRequest().authenticated().and().csrf().disable()
+				.apply(smsCodeAuthenticationSecurityConfig);
 	}
 }

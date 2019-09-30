@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Basic signin</title>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 	<h2>Basic signin</h2>
@@ -21,7 +22,8 @@
 				<td>Verification Code</td>
 				<td>
 					<input type="text" name="imageCode">
-					<img alt="code" src="/code/captcha.jpg?width=100&height=30">
+					<img id="formLoginImageCode" alt="code" src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode">
+					<button id="refreshImageCodeButton" type="button">Refresh Image Code</button>
 				</td>
 			</tr>
 			<tr>
@@ -34,5 +36,55 @@
 			</tr>
 		</table>
 	</form>
+	<script type="text/javascript">
+		$('#refreshImageCodeButton').on('click', (e) => {
+			let formLoginImageCode = $('#formLoginImageCode');
+			let src = formLoginImageCode.attr('src');
+			formLoginImageCode.attr('src', src);
+		})
+	</script>
+	<h3>SMS Login</h3>
+	<form action="/authentication/mobile" method="post">
+		<table>
+			<tr>
+				<td>mobile:</td>
+				<td><input type="text" id="mobile" name="mobile"></td>
+			</tr>
+			<tr>
+				<td>Verification Code</td>
+				<td>
+					<input type="text" id="imageCode1" name="imageCode">
+					<img id="formLoginImageCode2" alt="code" src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode2">
+					<button id="refreshImageCodeButton2" type="button">Refresh Image Code</button>
+				</td>
+			</tr>
+			<tr>
+				<td>SMS Code:</td>
+				<td>
+					<input type="text" name="smsCode">
+					<button id="sendSmsCodeButton" type="button">Send SMS Code</button>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">Signin</button></td>
+			</tr>
+		</table>
+	</form>
+	<script type="text/javascript">
+		$('#refreshImageCodeButton2').on('click', () => {
+			let formLoginImageCode = $('#formLoginImageCode2');
+			let src = formLoginImageCode.attr('src');
+			formLoginImageCode.attr('src', src);
+		})
+		$('#sendSmsCodeButton').on('click', () => {
+			let mobile = $('#mobile').val();
+			let imageCode =  $('#imageCode1').val();
+			$.get(`/code/sms?mobile=${mobile}&imageCode=${imageCode}`).then((response) => {
+				alert(response)
+			}, (error) => {
+				alert(error.responseText)
+			})
+		})
+	</script>
 </body>
 </html>
