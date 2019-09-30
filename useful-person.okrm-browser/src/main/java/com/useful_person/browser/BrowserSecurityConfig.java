@@ -64,7 +64,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 				.userDetailsService(userDetailsService).and().authorizeRequests()
 				.antMatchers("/", "/hello", "/authentication/require", "/authentication/failure",
-						securityProperties.getBrowser().getSigninPage(), "/code/captcha.jpg", "/code/sms", "/favicon.ico")
-				.permitAll().anyRequest().authenticated().and();
+						securityProperties.getBrowser().getSigninPage(), "/code/captcha.jpg", "/code/sms",
+						"/favicon.ico")
+				.permitAll().anyRequest().authenticated().and().csrf().disable();
 	}
 }
