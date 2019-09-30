@@ -24,6 +24,7 @@ import com.useful_person.core.properties.SecurityProperties;
 public class BrowserSecurityController {
 
 //	private Logger logger = LoggerFactory.getLogger(getClass());
+	public static final String AUTHENTICATION_REQUIRE_URL = "/authentication/require";
 
 	private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -32,7 +33,7 @@ public class BrowserSecurityController {
 	@Autowired
 	private SecurityProperties securityProperties;
 
-	@RequestMapping("/authentication/require")
+	@RequestMapping(AUTHENTICATION_REQUIRE_URL)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
