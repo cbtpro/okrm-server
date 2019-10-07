@@ -28,6 +28,7 @@ import com.useful_person.core.properties.OkrmConstants;
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SmsCodeProperties;
+import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
 import com.useful_person.core.validator.code.sms.SmsCodeSender;
 
 import net.bytebuddy.utility.RandomString;
@@ -39,6 +40,9 @@ public class ValidatorCodeController {
 	private SecurityProperties securityProperties;
 
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+
+	@Autowired
+	private SmsCodeRedisOperation smsCodeRedisOperation;
 
 	@Autowired
 	private ValidatorCodeGenerator imageCodeGenerator;
@@ -70,8 +74,7 @@ public class ValidatorCodeController {
 		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				SmsCode smsCodeInSession = (SmsCode) sessionStrategy.getAttribute(new ServletWebRequest(request),
-						SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
+				SmsCode smsCodeInSession = (SmsCode) smsCodeRedisOperation.get(new ServletWebRequest(request));
 				Map<String, Object> result = new HashMap<String, Object>();
 				SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
 				int expireIn = smsCodeProperties.getExpireIn();
@@ -85,8 +88,7 @@ public class ValidatorCodeController {
 					SmsCode smsCode = new SmsCode(randomCode, expireIn);
 					boolean successBoolean = smsCodeSender.send(mobile, smsCode.getCode());
 					if (successBoolean) {
-						sessionStrategy.setAttribute(new ServletWebRequest(request),
-								SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE, smsCode);
+						smsCodeRedisOperation.save(new ServletWebRequest(request), smsCode);
 						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
 					} else {
 						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送失败");

@@ -19,6 +19,7 @@ import com.useful_person.browser.authentication.OkrmAuthenticationSuccessHandler
 import com.useful_person.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
+import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
 import com.useful_person.core.validator.code.SmsCodeFilter;
 import com.useful_person.core.validator.code.ValidatorCodeFilter;
 
@@ -32,6 +33,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private SecurityProperties securityProperties;
+
+	@Autowired
+	private SmsCodeRedisOperation smsCodeRedisOperation;
 
 	@Autowired
 	OkrmAuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
@@ -66,6 +70,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
 		smsCodeFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
 		smsCodeFilter.setSecurityProperties(securityProperties);
+		smsCodeFilter.setSmsCodeRedisOperation(smsCodeRedisOperation);
 		smsCodeFilter.afterPropertiesSet();
 
 		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
