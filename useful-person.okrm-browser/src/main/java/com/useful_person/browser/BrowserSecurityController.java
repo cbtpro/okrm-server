@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful_person.browser.support.SimpleResponse;
+import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 
 @RestController
 public class BrowserSecurityController {
 
 //	private Logger logger = LoggerFactory.getLogger(getClass());
-	public static final String AUTHENTICATION_REQUIRE_URL = "/authentication/require";
 
 	private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -33,7 +33,7 @@ public class BrowserSecurityController {
 	@Autowired
 	private SecurityProperties securityProperties;
 
-	@RequestMapping(AUTHENTICATION_REQUIRE_URL)
+	@RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
