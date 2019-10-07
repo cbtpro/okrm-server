@@ -9,12 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -99,7 +99,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 
 	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
 		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
-		if (!StringUtils.hasText(codeInRequest)) {
+		if (StringUtils.isBlank(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
 		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);
@@ -109,7 +109,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		if (codeImageInSession.isExpired()) {
 			throw new ValidatorCodeException("验证码已过期");
 		}
-		if (!StringUtils.pathEquals(codeImageInSession.getCode().toLowerCase(), codeInRequest.toLowerCase())) {
+		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
 		sessionStrategy.removeAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);

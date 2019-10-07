@@ -17,9 +17,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import com.useful_person.browser.authentication.OkrmAuthenticationFailureHandler;
 import com.useful_person.browser.authentication.OkrmAuthenticationSuccessHandler;
 import com.useful_person.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.validator.code.SmsCodeFilter;
-import com.useful_person.core.validator.code.ValidatorCodeController;
 import com.useful_person.core.validator.code.ValidatorCodeFilter;
 
 @Configuration
@@ -70,15 +70,17 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
-				.loginPage(BrowserSecurityController.AUTHENTICATION_REQUIRE_URL).loginProcessingUrl("/authentication/form")
-				.failureUrl("/authentication/failure").successHandler(okrmAuthenticationSuccessHandler)
-				.failureHandler(okrmAuthenticationFailureHandler).and().rememberMe()
-				.tokenRepository(persistentTokenRepository())
+				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
+				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)
+				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler).and()
+				.rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 				.userDetailsService(userDetailsService).and().authorizeRequests()
-				.antMatchers("/", "/hello", BrowserSecurityController.AUTHENTICATION_REQUIRE_URL, "/authentication/failure",
-						securityProperties.getBrowser().getSigninPage(), "/code/captcha.jpg", "/code/sms",
-						"/favicon.ico")
+				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
+						securityProperties.getBrowser().getSigninPage(),
+						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*", "/favicon.ico")
 				.permitAll().anyRequest().authenticated().and().csrf().disable()
 				.apply(smsCodeAuthenticationSecurityConfig);
 	}
