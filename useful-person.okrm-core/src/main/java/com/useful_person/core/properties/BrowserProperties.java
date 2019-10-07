@@ -2,7 +2,7 @@ package com.useful_person.core.properties;
 
 public class BrowserProperties {
 
-	private String signinPage = "/basic-signin.html";
+	private String signinPage = SecurityConstants.DEFAULT_SIGN_IN_PAGE_URL;
 
 	private SigninType signinType = SigninType.JSON;
 

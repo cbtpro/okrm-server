@@ -24,6 +24,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.google.gson.Gson;
 import com.useful_person.core.properties.ImageCodeProperties;
+import com.useful_person.core.properties.OkrmConstants;
+import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SmsCodeProperties;
 import com.useful_person.core.validator.code.sms.SmsCodeSender;
@@ -32,10 +34,6 @@ import net.bytebuddy.utility.RandomString;
 
 @RestController
 public class ValidatorCodeController {
-
-	public static final String SESSION_KEY_IMAGE_CODE = "SESSION_KEY_IMAGE_CODE";
-
-	public static final String SESSION_KEY_SMS_CODE = "SESSION_KEY_SMS_CODE";
 
 	@Autowired
 	private SecurityProperties securityProperties;
@@ -49,13 +47,21 @@ public class ValidatorCodeController {
 	private SmsCodeSender smsCodeSender;
 
 	@GetMapping("/code/captcha.jpg")
-	public void getImageCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		ImageCodeProperties imageCodeProperties = securityProperties.getCode().getImage();
-		String randomStr = RandomString.make(imageCodeProperties.getLength());
-		BufferedImage buferedImage = imageCodeGenerator.buildImageCode(new ServletWebRequest(request), randomStr);
-		ImageCode imageCode = new ImageCode(randomStr, imageCodeProperties.getExpireIn());
-		sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_IMAGE_CODE, imageCode);
-		ImageIO.write(buferedImage, "jpeg", response.getOutputStream());
+	public Callable<String> getImageCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Callable<String> callable = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				ImageCodeProperties imageCodeProperties = securityProperties.getCode().getImage();
+				String randomStr = RandomString.make(imageCodeProperties.getLength());
+				BufferedImage buferedImage = imageCodeGenerator.buildImageCode(new ServletWebRequest(request), randomStr);
+				ImageCode imageCode = new ImageCode(randomStr, imageCodeProperties.getExpireIn());
+				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE,
+						imageCode);
+				ImageIO.write(buferedImage, "jpeg", response.getOutputStream());
+				return null;
+			}
+		};
+		return callable;
 	}
 
 	@GetMapping("/code/sms")
@@ -65,12 +71,13 @@ public class ValidatorCodeController {
 			@Override
 			public String call() throws Exception {
 				SmsCode smsCodeInSession = (SmsCode) sessionStrategy.getAttribute(new ServletWebRequest(request),
-						SESSION_KEY_SMS_CODE);
+						SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
 				Map<String, Object> result = new HashMap<String, Object>();
 				SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
 				int expireIn = smsCodeProperties.getExpireIn();
 				if (smsCodeInSession == null || smsCodeInSession.isExpired()) {
-					String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
+					String mobile = ServletRequestUtils.getRequiredStringParameter(request,
+							SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
 					int smsCodeLength = smsCodeProperties.getLength();
 					int origin = Integer.valueOf("1".repeat(smsCodeLength));
 					int bound = Integer.valueOf("9".repeat(smsCodeLength));
@@ -78,14 +85,15 @@ public class ValidatorCodeController {
 					SmsCode smsCode = new SmsCode(randomCode, expireIn);
 					boolean successBoolean = smsCodeSender.send(mobile, smsCode.getCode());
 					if (successBoolean) {
-						sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY_SMS_CODE, smsCode);
-						result.put("msg", "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+						sessionStrategy.setAttribute(new ServletWebRequest(request),
+								SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE, smsCode);
+						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
 					} else {
-						result.put("msg", "短信验证码发送失败");
+						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送失败");
 						// TODO 这里要做处理，联系管理员的操作，紧急的各种方式都可以
 					}
 				} else {
-					result.put("msg", "短信验证码未过期");
+					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码未过期");
 					LocalDateTime expireTime = smsCodeInSession.getExpireTime();
 					LocalDateTime now = LocalDateTime.now();
 					Duration duration = Duration.between(now, expireTime);
