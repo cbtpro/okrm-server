@@ -20,6 +20,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 
 public class ValidatorCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -98,11 +99,11 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 	}
 
 	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
+		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
 		if (StringUtils.isBlank(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
-		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);
+		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
 		if (codeImageInSession == null) {
 			throw new ValidatorCodeException("验证码不存在");
 		}
@@ -112,7 +113,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
-		sessionStrategy.removeAttribute(request, ValidatorCodeController.SESSION_KEY_IMAGE_CODE);
+		sessionStrategy.removeAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
 	}
 
 }

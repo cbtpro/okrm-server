@@ -20,6 +20,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 
 public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -41,7 +42,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		for (String configUrl : configUrls) {
 			urls.add(configUrl);
 		}
-		urls.add("/authentication/mobile");
+		urls.add(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE);
 	}
 
 	@Override
@@ -98,11 +99,11 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	}
 
 	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "smsCode");
+		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS);
 		if (!StringUtils.hasText(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
-		SmsCode codeImageInSession = (SmsCode) sessionStrategy.getAttribute(request, ValidatorCodeController.SESSION_KEY_SMS_CODE);
+		SmsCode codeImageInSession = (SmsCode) sessionStrategy.getAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
 		if (codeImageInSession == null) {
 			throw new ValidatorCodeException("验证码不存在");
 		}
@@ -112,7 +113,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		if (!StringUtils.pathEquals(codeImageInSession.getCode().toLowerCase(), codeInRequest.toLowerCase())) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
-		sessionStrategy.removeAttribute(request, ValidatorCodeController.SESSION_KEY_SMS_CODE);
+		sessionStrategy.removeAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
 	}
 
 }
