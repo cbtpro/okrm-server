@@ -9,12 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -22,10 +20,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
+import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
 
 public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+	private SmsCodeRedisOperation smsCodeRedisOperation;
 
 	private AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -34,6 +33,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	private SecurityProperties securityProperties;
 
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
 	@Override
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
@@ -74,10 +74,6 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		return securityProperties;
 	}
 
-	public SessionStrategy getSessionStrategy() {
-		return sessionStrategy;
-	}
-
 	public Set<String> getUrls() {
 		return urls;
 	}
@@ -90,30 +86,34 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		this.securityProperties = securityProperties;
 	}
 
-	public void setSessionStrategy(SessionStrategy sessionStrategy) {
-		this.sessionStrategy = sessionStrategy;
-	}
-
 	public void setUrls(Set<String> urls) {
 		this.urls = urls;
 	}
 
 	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
 		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS);
-		if (!StringUtils.hasText(codeInRequest)) {
+		if (StringUtils.isBlank(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
-		SmsCode codeImageInSession = (SmsCode) sessionStrategy.getAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
+		SmsCode codeImageInSession = (SmsCode) smsCodeRedisOperation.get(request);
 		if (codeImageInSession == null) {
 			throw new ValidatorCodeException("验证码不存在");
 		}
 		if (codeImageInSession.isExpired()) {
 			throw new ValidatorCodeException("验证码已过期");
 		}
-		if (!StringUtils.pathEquals(codeImageInSession.getCode().toLowerCase(), codeInRequest.toLowerCase())) {
+		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
-		sessionStrategy.removeAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE);
+		smsCodeRedisOperation.remove(request);
+	}
+
+	public SmsCodeRedisOperation getSmsCodeRedisOperation() {
+		return smsCodeRedisOperation;
+	}
+
+	public void setSmsCodeRedisOperation(SmsCodeRedisOperation smsCodeRedisOperation) {
+		this.smsCodeRedisOperation = smsCodeRedisOperation;
 	}
 
 }
