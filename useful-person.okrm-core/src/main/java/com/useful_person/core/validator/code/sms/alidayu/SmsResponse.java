@@ -1,4 +1,4 @@
-package com.useful_person.core.validator.code.sms;
+package com.useful_person.core.validator.code.sms.alidayu;
 
 /**
  * https://error-center.aliyun.com/status/product/Dysmsapi?spm=a2c1g.8271268.10000.118.4773df25WBM8UY

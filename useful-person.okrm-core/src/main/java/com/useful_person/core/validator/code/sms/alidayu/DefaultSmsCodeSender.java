@@ -1,4 +1,4 @@
-package com.useful_person.core.validator.code.sms;
+package com.useful_person.core.validator.code.sms.alidayu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +14,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.google.gson.Gson;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SmsCodeProperties;
+import com.useful_person.core.validator.code.sms.SmsCodeSender;
 
 import lombok.extern.log4j.Log4j2;
 

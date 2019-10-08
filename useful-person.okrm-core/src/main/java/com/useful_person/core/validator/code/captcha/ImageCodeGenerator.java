@@ -1,4 +1,4 @@
-package com.useful_person.core.validator.code;
+package com.useful_person.core.validator.code.captcha;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.useful_person.core.properties.ImageCodeProperties;
 import com.useful_person.core.properties.SecurityProperties;
+import com.useful_person.core.validator.code.ValidatorCodeGenerator;
 
 public class ImageCodeGenerator implements ValidatorCodeGenerator {
 

@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.useful_person.core.properties.SecurityProperties;
-import com.useful_person.core.validator.code.sms.DefaultSmsCodeSender;
+import com.useful_person.core.validator.code.captcha.ImageCodeGenerator;
 import com.useful_person.core.validator.code.sms.SmsCodeSender;
+import com.useful_person.core.validator.code.sms.alidayu.DefaultSmsCodeSender;
 
 @Configuration
 public class ValidatorCodeBeanConfig {
