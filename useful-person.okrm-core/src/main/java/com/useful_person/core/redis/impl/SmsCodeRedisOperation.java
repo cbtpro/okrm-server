@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
-import com.useful_person.core.validator.code.SmsCode;
+import com.useful_person.core.validator.code.sms.SmsCode;
 
 @Component
 public class SmsCodeRedisOperation extends BasicRedisOperation {

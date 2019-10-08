@@ -1,9 +1,9 @@
-package com.useful_person.core.validator.code;
+package com.useful_person.core.validator.code.captcha;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class SmsCode implements Serializable {
+public class ImageCode implements Serializable {
 
 	private static final long serialVersionUID = -4826893818867302046L;
 
@@ -11,12 +11,12 @@ public class SmsCode implements Serializable {
 
 	private LocalDateTime expireTime;
 
-	public SmsCode(String code, int expireIn) {
+	public ImageCode(String code, int expireIn) {
 		this.code = code;
 		this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
 	}
 
-	public SmsCode(String code, LocalDateTime expireTime) {
+	public ImageCode(String code, LocalDateTime expireTime) {
 		this.code = code;
 		this.expireTime = expireTime;
 	}

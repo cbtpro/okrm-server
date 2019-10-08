@@ -1,4 +1,4 @@
-package com.useful_person.core.validator.code.sms;
+package com.useful_person.core.validator.code.sms.alidayu;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;

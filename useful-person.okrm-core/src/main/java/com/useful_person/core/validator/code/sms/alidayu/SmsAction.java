@@ -1,4 +1,4 @@
-package com.useful_person.core.validator.code.sms;
+package com.useful_person.core.validator.code.sms.alidayu;
 
 /**
  * https://api.aliyun.com/new#/?product=Dysmsapi&api=SendSms&tab=DEMO&lang=JAVA

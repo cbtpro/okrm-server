@@ -29,6 +29,8 @@ import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.properties.SmsCodeProperties;
 import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
+import com.useful_person.core.validator.code.captcha.ImageCode;
+import com.useful_person.core.validator.code.sms.SmsCode;
 import com.useful_person.core.validator.code.sms.SmsCodeSender;
 
 import net.bytebuddy.utility.RandomString;

@@ -20,8 +20,8 @@ import com.useful_person.core.authentication.mobile.SmsCodeAuthenticationSecurit
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
-import com.useful_person.core.validator.code.SmsCodeFilter;
 import com.useful_person.core.validator.code.ValidatorCodeFilter;
+import com.useful_person.core.validator.code.sms.SmsCodeFilter;
 
 @Configuration
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
