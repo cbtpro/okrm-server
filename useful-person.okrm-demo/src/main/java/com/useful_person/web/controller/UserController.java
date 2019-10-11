@@ -94,4 +94,5 @@ public class UserController {
 	public boolean cancellationUser(User user) {
 		return false;
 	}
+
 }

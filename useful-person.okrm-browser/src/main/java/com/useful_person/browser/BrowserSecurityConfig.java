@@ -85,7 +85,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
 						securityProperties.getBrowser().getSigninPage(),
-						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*", "/favicon.ico")
+						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*",
+						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*",
+						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*",
+						"/favicon.ico")
 				.permitAll().anyRequest().authenticated().and().csrf().disable()
 				.apply(smsCodeAuthenticationSecurityConfig);
 	}

@@ -2,12 +2,19 @@ package com.useful_person.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @ConfigurationProperties(prefix = "okrm.security")
 public class SecurityProperties {
 
 	private BrowserProperties browser = new BrowserProperties();
 
 	private ValidatorCodeProperties code = new ValidatorCodeProperties();
+
+	@Getter
+	@Setter
+	private MailProperties mail = new MailProperties();
 
 	public ValidatorCodeProperties getCode() {
 		return code;
