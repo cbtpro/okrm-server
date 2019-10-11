@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -76,11 +77,11 @@ public class ValidatorCodeController {
 		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				SmsCode smsCodeInSession = (SmsCode) smsCodeRedisOperation.get(new ServletWebRequest(request));
+				SmsCode smsCodeInRedis = (SmsCode) smsCodeRedisOperation.get(new ServletWebRequest(request));
 				Map<String, Object> result = new HashMap<String, Object>();
 				SmsCodeProperties smsCodeProperties = securityProperties.getCode().getSms();
 				int expireIn = smsCodeProperties.getExpireIn();
-				if (smsCodeInSession == null || smsCodeInSession.isExpired()) {
+				if (smsCodeInRedis == null || smsCodeInRedis.isExpired()) {
 					String mobile = ServletRequestUtils.getRequiredStringParameter(request,
 							SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
 					int smsCodeLength = smsCodeProperties.getLength();
@@ -90,7 +91,7 @@ public class ValidatorCodeController {
 					SmsCode smsCode = new SmsCode(randomCode, expireIn);
 					boolean successBoolean = smsCodeSender.send(mobile, smsCode.getCode());
 					if (successBoolean) {
-						smsCodeRedisOperation.save(new ServletWebRequest(request), smsCode);
+						smsCodeRedisOperation.save(new ServletWebRequest(request), smsCode, smsCodeProperties.getExpireIn(), TimeUnit.SECONDS);
 						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
 					} else {
 						result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送失败");
@@ -98,7 +99,7 @@ public class ValidatorCodeController {
 					}
 				} else {
 					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "短信验证码未过期");
-					LocalDateTime expireTime = smsCodeInSession.getExpireTime();
+					LocalDateTime expireTime = smsCodeInRedis.getExpireTime();
 					LocalDateTime now = LocalDateTime.now();
 					Duration duration = Duration.between(now, expireTime);
 					result.put("expireIn", duration.toSeconds());

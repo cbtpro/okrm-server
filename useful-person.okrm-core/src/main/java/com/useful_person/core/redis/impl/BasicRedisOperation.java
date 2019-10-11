@@ -15,8 +15,8 @@ public class BasicRedisOperation implements RedisRepository {
 	private RedisTemplate<Object, Object> redisTemplate;
 
 	@Override
-	public void save(String key, Object object) {
-		redisTemplate.opsForValue().set(key, object, 30, TimeUnit.MINUTES);
+	public void save(String key, Object object, long timeout, TimeUnit unit) {
+		redisTemplate.opsForValue().set(key, object, timeout, unit);
 	}
 
 	@Override
