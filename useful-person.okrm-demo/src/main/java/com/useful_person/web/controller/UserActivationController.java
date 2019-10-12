@@ -79,13 +79,13 @@ public class UserActivationController {
 				Map<String, String> result = new HashMap<String, String>();
 				String uuidInRedis = (String) basicRedisOperation.get(email);
 				if (uuidInRedis == null) {
-					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "的验证地址不存在，请在个人资料界面重新发送验证邮件！");
+					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "的验证链接地址不存在，请在个人资料界面重新发送验证邮件！");
 				} else if (!uuid.equals(uuidInRedis)) {
-					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "的验证地址不正确，请在个人资料界面重新发送验证邮件！");
+					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "的验证链接地址不正确，请在个人资料界面重新发送验证邮件！");
 				} else {
 					basicRedisOperation.remove(email);
 					log.info("{} 验证通过！", email);
-					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "地址验证通过，恭喜您！请畅快的畅游为您定制的世界吧！");
+					result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, email + "地址验证通过，恭喜您！开始畅游塑造不平凡的人生吧！");
 				}
 				Gson gson = new Gson();
 				return gson.toJson(result);
