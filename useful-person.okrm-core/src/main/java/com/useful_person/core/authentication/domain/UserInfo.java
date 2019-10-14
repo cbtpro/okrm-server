@@ -1,4 +1,4 @@
-package com.useful_person.domain;
+package com.useful_person.core.authentication.domain;
 
 import java.util.Date;
 
@@ -34,7 +34,7 @@ import lombok.Setter;
 @Table(name = "t_user")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Persistable<String> {
+public class UserInfo implements Persistable<String> {
 
 	public interface UserInfoSimpleView {
 	};

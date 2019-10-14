@@ -1,4 +1,4 @@
-package com.useful_person.exception;
+package com.useful_person.core.authentication.exception;
 
 public class UserNotExistException extends RuntimeException {
 

@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -17,6 +15,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import com.useful_person.browser.authentication.OkrmAuthenticationFailureHandler;
 import com.useful_person.browser.authentication.OkrmAuthenticationSuccessHandler;
 import com.useful_person.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.useful_person.core.properties.BrowserProperties;
 import com.useful_person.core.properties.SecurityConstants;
 import com.useful_person.core.properties.SecurityProperties;
 import com.useful_person.core.redis.impl.SmsCodeRedisOperation;
@@ -25,11 +24,6 @@ import com.useful_person.core.validator.code.sms.SmsCodeFilter;
 
 @Configuration
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Autowired
 	private SecurityProperties securityProperties;
@@ -73,6 +67,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		smsCodeFilter.setSmsCodeRedisOperation(smsCodeRedisOperation);
 		smsCodeFilter.afterPropertiesSet();
 
+		BrowserProperties browserProperties = securityProperties.getBrowser();
 		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
 				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
@@ -82,9 +77,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 				.userDetailsService(userDetailsService).and().authorizeRequests()
-				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+				.antMatchers("/", "/hello",
+						SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
-						securityProperties.getBrowser().getSigninPage(),
+						SecurityConstants.DEFAULT_SIGN_UP_URL,
+						browserProperties.getSigninPage(),
+						browserProperties.getSignupPage(),
 						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*",
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*",
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*",
