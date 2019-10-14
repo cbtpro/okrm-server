@@ -9,14 +9,16 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import com.useful_person.core.authentication.domain.UserInfo;
+import com.useful_person.core.authentication.services.IUserService;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private IUserService userServices;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,8 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		boolean accountNonExpired = true; // 账号没过期
 		boolean credentialsNonExpired = true; // 密码没过期
 		boolean accountNonLocked = true; // 账号未被锁定
+		UserInfo user = userServices.findByUsername(username);
 		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
-		return new User(username, passwordEncoder.encode("123456"), enabled, accountNonExpired, credentialsNonExpired,
+		return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
 				accountNonLocked, authorities);
 	}
 }
