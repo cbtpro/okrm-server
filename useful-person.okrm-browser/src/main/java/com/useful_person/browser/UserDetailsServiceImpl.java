@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		boolean credentialsNonExpired = true; // 密码没过期
 		boolean accountNonLocked = true; // 账号未被锁定
 		UserInfo user = userServices.findByUsername(username);
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
+		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
 		return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
 				accountNonLocked, authorities);
 	}

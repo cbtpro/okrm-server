@@ -73,21 +73,23 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
 				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)
-				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler).and()
-				.rememberMe().tokenRepository(persistentTokenRepository())
+				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler)
+				// 记住我功能
+				.and().rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-				.userDetailsService(userDetailsService).and().authorizeRequests()
-				.antMatchers("/", "/hello",
-						SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
-						SecurityConstants.DEFAULT_SIGN_UP_URL,
-						browserProperties.getSigninPage(),
-						browserProperties.getSignupPage(),
+				.userDetailsService(userDetailsService)
+				// 不需要登录的接口
+				.and().authorizeRequests()
+				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL, SecurityConstants.DEFAULT_SIGN_UP_URL,
+						browserProperties.getSigninPage(), browserProperties.getSignupPage(),
 						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*",
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*",
-						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*",
-						"/favicon.ico")
-				.permitAll().anyRequest().authenticated().and().csrf().disable()
+						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*", "/auth/qq/*", "/favicon.ico")
+				.permitAll().anyRequest().authenticated()
+				// 禁用csrf
+				.and().csrf().disable()
+				// 应用短信验证配置
 				.apply(smsCodeAuthenticationSecurityConfig);
 	}
 }
