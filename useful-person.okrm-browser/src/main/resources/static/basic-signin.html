@@ -141,7 +141,8 @@ const warnInfo = (msg, delay) => {
 			let mobile = $('#mobile').val();
 			let imageCode =  $('#imageCode1').val();
 			$.get(`/code/sms?mobile=${mobile}&imageCode=${imageCode}`).then((response) => {
-				warnInfo(response.msg);
+				let { msg } = JSON.parse(response);
+				warnInfo(msg);
 			}, (error) => {
 				let { responseText } = error;
 				let { content } = JSON.parse(responseText);
