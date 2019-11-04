@@ -30,29 +30,35 @@ public class ChinaAdultCollegeAndUniversityController {
 	@Autowired
 	public ChinaAdultCollegeAndUniversityServiceImpl chinaAdultCollegeAndUniversityService;
 
-	@ApiOperation("查询所有成人高校列表")
+	@ApiOperation("查询所有中国成人高校列表")
 	@GetMapping
 	public List<ChinaAdultCollegeAndUniversity> queryAll() {
 		return chinaAdultCollegeAndUniversityService.findAll();
 	}
 
-	@ApiOperation("批量新增/更新成人高校信息")
-	@PostMapping
-	public List<ChinaAdultCollegeAndUniversity> addAll(@RequestBody List<ChinaAdultCollegeAndUniversity> entities) {
-		return chinaAdultCollegeAndUniversityService.addAll(entities);
-	}
+//	@ApiOperation("批量新增/更新中国成人高校信息")
+//	@PostMapping
+//	public List<ChinaAdultCollegeAndUniversity> addAll(@RequestBody List<ChinaAdultCollegeAndUniversity> entities) {
+//		return chinaAdultCollegeAndUniversityService.addAll(entities);
+//	}
 
-	@ApiOperation("根据uuid获取成人高校信息")
+	@ApiOperation("根据uuid获取中国成人高校信息")
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaAdultCollegeAndUniversity queryById(@PathVariable(name = "uuid", required = true) String uuid) {
 		return chinaAdultCollegeAndUniversityService.findByUuid(uuid);
 	}
 
-	@ApiOperation("根据uuid更新成人高校信息")
+	@ApiOperation("根据uuid更新中国成人高校信息")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaAdultCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody ChinaAdultCollegeAndUniversity entity) {
 		entity.setUuid(uuid);
 		return chinaAdultCollegeAndUniversityService.updateOne(entity);
+	}
+	
+	@ApiOperation("新增中国成人高校信息")
+	@PostMapping
+	public ChinaAdultCollegeAndUniversity addOne(@RequestBody ChinaAdultCollegeAndUniversity entity) {
+		return chinaAdultCollegeAndUniversityService.addOne(entity);
 	}
 }
