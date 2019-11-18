@@ -1,5 +1,5 @@
 /**
- * 大学专业：土木工程
+ * 
  */
 package com.useful.person.domain;
 
@@ -26,12 +26,12 @@ import lombok.Setter;
  *
  */
 @Entity
-@Table(name = "t_major")
+@Table(name = "t_music")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Major {
+public class Music {
 
 	@Id
 	@Getter
@@ -41,11 +41,35 @@ public class Major {
 
 	@Getter
 	@Setter
-	private String name;
+	private String title;
 
 	@Getter
 	@Setter
-	private String descirption;
+	private String pic;
+
+	@Getter
+	@Setter
+	private String performer;
+
+	@Getter
+	@Setter
+	private String writeWords;
+
+	@Getter
+	@Setter
+	private String compose;
+
+	@Getter
+	@Setter
+	private String issueDate;
+
+	@Getter
+	@Setter
+	private String publisher;
+
+	@Getter
+	@Setter
+	private String description;
 
 	@Getter
 	@Setter

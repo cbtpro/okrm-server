@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
+import com.useful.person.core.exception.SenderMailException;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.exception.ChinaAdultCollegeAndUniversityNotExistException;
 import com.useful.person.exception.ChinaCollegeAndUniversityNotExistException;
@@ -73,6 +74,14 @@ public class ControllerExceptionHandler {
 		Map<String, String> result = new HashMap<>(2);
 		result.put("uuid", e.getUuid());
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
+		return result;
+	}
+	@ExceptionHandler(SenderMailException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Map<String, String> handlerSendMailException(SenderMailException e) {
+		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件发送失败");
 		return result;
 	}
 }
