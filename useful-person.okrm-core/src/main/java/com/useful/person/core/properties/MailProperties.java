@@ -9,7 +9,11 @@ import lombok.Setter;
  *
  */
 public class MailProperties {
-	
+
+	@Getter
+	@Setter
+	private MailConfig config;
+
 	@Getter
 	@Setter
 	private MailCodeProperties code;
