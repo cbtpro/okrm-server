@@ -1,18 +1,22 @@
 /**
- * 人生路线图，包含人生在合适年纪应该发生的重大事件
+ * 学院
  */
 package com.useful.person.domain;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,52 +26,36 @@ import lombok.Setter;
  *
  */
 @Entity
-@Table(name = "t_life_map")
-@Data
+@Table(name = "t_university")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class LifeMap {
+@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+public class University {
 
 	@Id
 	@Getter
 	@Setter
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
-	/**
-	 * 性别
-	 */
 	@Getter
 	@Setter
-	private int sex;
+	private String name;
 
-	/**
-	 * 事件发生年龄
-	 */
 	@Getter
 	@Setter
-	private int age;
+	private String descirption;
 
-	/**
-	 * 事件
-	 */
 	@Getter
 	@Setter
-	private String event;
+	@UpdateTimestamp
+	private Date updateTime;
 
-	/**
-	 * 描述
-	 */
 	@Getter
 	@Setter
-	private String description;
-
-	/**
-	 * 第几次
-	 */
-	@Getter
-	@Setter
-	private int times;
+	@Column(nullable = false, insertable = true, updatable = false)
+	@CreationTimestamp
+	private Date createTime;
+	
 }

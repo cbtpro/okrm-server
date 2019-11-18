@@ -1,24 +1,29 @@
+/**
+ * 
+ */
 package com.useful.person.domain;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.domain.Persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.domain.UserInfo.UserInfoDetailView;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,38 +32,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 
  * @author peter
  *
  */
 @Entity
-@Table(name = "t_tag")
+@Table(name = "t_event")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Tag {
+public class Event implements Persistable<String> {
 
 	@Getter
 	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "t_event_tags", joinColumns = {
+			@JoinColumn(name = "event_id", referencedColumnName = "uuid")
+	}, inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "uuid") })
+	@JsonIgnoreProperties(value = { "events" })
 	@Builder.Default
-	private Set<Task> tasks = new HashSet<>();
-
-	@Getter
-	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
-	@Builder.Default
-	private Set<Event> events = new HashSet<>();
-
-	@Getter
-	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
-	@Builder.Default
-	private Set<Hobby> hobbys = new HashSet<>();
+	private Set<Tag> tags = new HashSet<>();
 
 	@Id
 	@Getter
@@ -68,25 +61,35 @@ public class Tag {
 
 	@Getter
 	@Setter
-	@NotNull
 	private String title;
+
+	@Getter
+	@Setter
+	private String content;
 
 	@Getter
 	@Setter
 	private String description;
 
-
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
 	private Date updateTime;
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
+
+	@Override
+	public String getId() {
+		return this.uuid;
+	}
+
+	@Override
+	public boolean isNew() {
+		return StringUtils.isEmpty(this.uuid);
+	}
 
 }

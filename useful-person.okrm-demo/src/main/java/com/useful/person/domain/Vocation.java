@@ -27,13 +27,13 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "t_vocation")
+@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class Vocation {
 
 	@Id
 	@Getter
 	@Setter
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	@Getter

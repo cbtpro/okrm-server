@@ -14,11 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.Persistable;
-import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -40,23 +40,23 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class Task implements Persistable<String> {
 
 	@Getter
 	@Setter
 	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable(name = "t_task_tags", joinColumns = {
-			@JoinColumn(name = "task_id", referencedColumnName = "uuid") },
-			inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "uuid") })
+			@JoinColumn(name = "task_id", referencedColumnName = "uuid")
+	}, inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "uuid") })
 	@JsonIgnoreProperties(value = { "tasks" })
 	@Builder.Default
-	private Set<Tag> tags = new HashSet<>();;
+	private Set<Tag> tags = new HashSet<>();
 
 	@Id
 	@Getter
 	@Setter
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	@Getter

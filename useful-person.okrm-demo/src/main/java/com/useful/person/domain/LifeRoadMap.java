@@ -1,5 +1,5 @@
 /**
- * 大学专业：土木工程
+ * 人生路线图，包含人生在合适年纪应该发生的重大事件
  */
 package com.useful.person.domain;
 
@@ -17,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,12 +27,13 @@ import lombok.Setter;
  *
  */
 @Entity
-@Table(name = "t_major")
-@Builder
+@Table(name = "t_life_road_map")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Major {
+public class LifeRoadMap {
 
 	@Id
 	@Getter
@@ -39,13 +41,40 @@ public class Major {
 	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
+	/**
+	 * 性别
+	 */
 	@Getter
 	@Setter
-	private String name;
+	private int sex;
 
+	/**
+	 * 事件发生年龄
+	 */
 	@Getter
 	@Setter
-	private String descirption;
+	private int age;
+
+	/**
+	 * 事件
+	 */
+	@Getter
+	@Setter
+	private String event;
+
+	/**
+	 * 描述
+	 */
+	@Getter
+	@Setter
+	private String description;
+
+	/**
+	 * 第几次
+	 */
+	@Getter
+	@Setter
+	private int times;
 
 	@Getter
 	@Setter

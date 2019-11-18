@@ -39,6 +39,7 @@ import lombok.Setter;
 @Table(name = "t_user")
 @NoArgsConstructor
 @AllArgsConstructor
+@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class UserInfo implements Persistable<String> {
 
 	public interface UserInfoSimpleView {
@@ -51,8 +52,7 @@ public class UserInfo implements Persistable<String> {
 	@Getter
 	@Setter
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	@Getter

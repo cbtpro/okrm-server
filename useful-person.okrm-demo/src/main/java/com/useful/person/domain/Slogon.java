@@ -1,5 +1,5 @@
 /**
- * 大学专业：土木工程
+ * 
  */
 package com.useful.person.domain;
 
@@ -23,15 +23,15 @@ import lombok.Setter;
 
 /**
  * @author peter
- *
+ * 
  */
 @Entity
-@Table(name = "t_major")
+@Table(name = "t_slogon")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Major {
+public class Slogon {
 
 	@Id
 	@Getter
@@ -41,11 +41,15 @@ public class Major {
 
 	@Getter
 	@Setter
-	private String name;
+	private String title;
 
 	@Getter
 	@Setter
-	private String descirption;
+	private String pic;
+
+	@Getter
+	@Setter
+	private String author;
 
 	@Getter
 	@Setter
@@ -57,4 +61,5 @@ public class Major {
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
+
 }

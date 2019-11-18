@@ -27,6 +27,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "t_china_college_and_university")
+@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class ChinaCollegeAndUniversity {
 
 	/**
@@ -35,8 +36,7 @@ public class ChinaCollegeAndUniversity {
 	@Getter
 	@Setter
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	/**
@@ -101,6 +101,13 @@ public class ChinaCollegeAndUniversity {
 	@Getter
 	@Setter
 	private String educationCourse;
+
+	/**
+	 * 官网
+	 */
+	@Getter
+	@Setter
+	private String officialWebsite;
 
 	/**
 	 * 备注：民办或者其他值
