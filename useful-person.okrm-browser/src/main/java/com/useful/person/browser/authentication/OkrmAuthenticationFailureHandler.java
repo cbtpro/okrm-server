@@ -32,6 +32,7 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
 	@Autowired
 	private SecurityProperties securityProperties;
 
