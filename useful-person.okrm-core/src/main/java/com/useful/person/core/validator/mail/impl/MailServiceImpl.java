@@ -1,8 +1,6 @@
 package com.useful.person.core.validator.mail.impl;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -18,6 +16,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.useful.person.core.exception.SenderMailException;
+import com.useful.person.core.properties.MailConfig;
+import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.validator.mail.MailService;
 
 import lombok.extern.log4j.Log4j2;
@@ -27,9 +28,12 @@ import lombok.extern.log4j.Log4j2;
  * @author peter
  *
  */
-@Service("mailService")
 @Log4j2
+@Service("mailService")
 public class MailServiceImpl implements MailService {
+
+	@Autowired
+	private SecurityProperties securityProperties;
 
 	@Value("${spring.application.name}")
 	private String projectName;
@@ -37,29 +41,27 @@ public class MailServiceImpl implements MailService {
 	@Autowired
 	private JavaMailSenderImpl javaMailSender;
 
-	@Value("${spring.mail.username}")
-	private String from;
-
 	@Override
 	@Deprecated
 	public void sendSimpleMail(String to, String subject, String content) {
+		MailConfig mailConfig = securityProperties.getMail().getConfig();
+		String from = mailConfig.getUsername();
 		log.debug("Send e-mail to {} with subject {} and content={}", to, subject, content);
 		SimpleMailMessage simpleMessage = new SimpleMailMessage();
 		simpleMessage.setTo(to);
 		simpleMessage.setSubject(subject);
 		simpleMessage.setText(content);
 		simpleMessage.setFrom(from);
-		Properties javaMailProperties = new Properties();
-		javaMailProperties.put("mail.smtp.auth", "true");
-		javaMailProperties.put("mail.smtp.ssl.enable", true);
-		javaMailSender.setJavaMailProperties(javaMailProperties);
 		javaMailSender.send(simpleMessage);
 		log.debug("Sent e-mail to {}", to);
 	}
 
 	@Override
 	public void sendHtmlMail(String to, String subject, String content) {
-		log.info("发送HTML邮件开始：{}， {}， {}。", to, subject, content);
+		MailConfig mailConfig = securityProperties.getMail().getConfig();
+		String from = mailConfig.getUsername();
+		log.info("开始发送HTML邮件：{}，{}。", to, subject);
+		long start = System.currentTimeMillis();
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;
 		try {
@@ -68,21 +70,19 @@ public class MailServiceImpl implements MailService {
 			mimeMessageHelper.setSubject(subject);
 			mimeMessageHelper.setText(content, true);
 			mimeMessage.setFrom(new InternetAddress(MimeUtility.encodeText(projectName) + " <" + from + ">"));
-			Properties javaMailProperties = new Properties();
-			javaMailProperties.put("mail.smtp.auth", "true");
-			javaMailProperties.put("mail.smtp.ssl.enable", true);
-			javaMailSender.setJavaMailProperties(javaMailProperties);
 			javaMailSender.send(mimeMessage);
-			log.info("发送HTML邮件成功。");
-		} catch (MessagingException e) {
+			long aatimeConsuming =  System.currentTimeMillis() - start;
+			log.info("发送HTML邮件成功。耗时{}", aatimeConsuming);
+		} catch (Exception e) {
 			log.info("发送HTML邮件失败，消息：" + e);
-		} catch (UnsupportedEncodingException e) {
-			log.info("发送HTML邮件失败，消息：" + e);
+			throw new SenderMailException(e.getMessage());
 		}
 	}
 
 	@Override
 	public void sendAttachmentMail(String to, String subject, String content, String attachmentPath) {
+		MailConfig mailConfig = securityProperties.getMail().getConfig();
+		String from = mailConfig.getUsername();
 		log.info("发送带附件邮件开始：{}, {}, {}, {}", to, subject, content, attachmentPath);
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mimeMessageHelper;

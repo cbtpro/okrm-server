@@ -77,7 +77,7 @@ public class MailController {
 				Context verificationCodeContext = new Context();
 				verificationCodeContext.setVariable("verificationCode", randomCode);
 				String verificationCodeMailContent = templateEngine.process("verification-code-template", verificationCodeContext);
-				mailService.sendHtmlMail(to, "生而不庸验证码" + randomCode, verificationCodeMailContent);
+				mailService.sendHtmlMail(to, "验证码" + randomCode, verificationCodeMailContent);
 				smsCodeRedisOperation.save(new ServletWebRequest(request), mailCode, expireIn, TimeUnit.SECONDS);
 				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
 				Gson gson = new Gson();
