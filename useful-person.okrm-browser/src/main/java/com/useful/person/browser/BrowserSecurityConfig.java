@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,6 +59,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		return jdbcTokenRepositoryImpl;
 	}
 
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+	}
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		ValidatorCodeFilter validatorCodeFilter = new ValidatorCodeFilter();
@@ -81,7 +85,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 记住我功能
 				.and().rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-				.userDetailsService(userDetailsService)
+//				.userDetailsService(userDetailsService)
 				// 不需要登录的接口
 				.and().authorizeRequests()
 				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.useful.person.core.authentication.exception.MobileNotRegisteredException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.exception.SenderMailException;
@@ -45,6 +46,16 @@ public class ControllerExceptionHandler {
 		return result;
 	}
 
+	@ExceptionHandler(MobileNotRegisteredException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, String> handleMobileNotRegisteredException(MobileNotRegisteredException e) {
+		Map<String, String> result = new HashMap<>(2);
+		result.put("mobile", e.getMobile());
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
+		return result;
+	}
+
 	@ExceptionHandler(TaskNotExistException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -76,6 +87,7 @@ public class ControllerExceptionHandler {
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
 		return result;
 	}
+
 	@ExceptionHandler(SenderMailException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -84,4 +96,5 @@ public class ControllerExceptionHandler {
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件发送失败");
 		return result;
 	}
+
 }

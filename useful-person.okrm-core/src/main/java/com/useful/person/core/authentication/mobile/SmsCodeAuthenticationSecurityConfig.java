@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
+
+import com.useful.person.core.authentication.services.impl.UserDetailsServiceImpl;
 
 /**
  * 
@@ -27,7 +28,7 @@ public class SmsCodeAuthenticationSecurityConfig
 	private AuthenticationFailureHandler okrmAuthenticationFailureHandler;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {

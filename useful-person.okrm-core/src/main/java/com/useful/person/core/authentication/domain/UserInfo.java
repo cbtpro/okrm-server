@@ -48,10 +48,10 @@ public class UserInfo implements Persistable<String> {
 	public interface UserInfoDetailView extends UserInfoSimpleView {
 	};
 
+	@Id
 	@JsonView(UserInfoSimpleView.class)
 	@Getter
 	@Setter
-	@Id
 	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
@@ -67,6 +67,10 @@ public class UserInfo implements Persistable<String> {
 	@NotNull(message = "用户昵称不能为空")
 	@JsonView(UserInfoSimpleView.class)
 	private String nickname;
+
+	@Getter
+	@Setter
+	private String mobile;
 
 	@Getter
 	@Setter
