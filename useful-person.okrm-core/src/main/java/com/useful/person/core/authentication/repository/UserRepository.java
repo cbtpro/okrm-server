@@ -21,6 +21,13 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
 	UserInfo findByUsername(String username);
 
 	/**
+	 * 根据手机号查询用户
+	 * @param mobile
+	 * @return 用户
+	 */
+	UserInfo findByMobile(String mobile);
+
+	/**
 	 * 根据昵称模糊查询用户
 	 * @param nickname
 	 * @return 用户列表

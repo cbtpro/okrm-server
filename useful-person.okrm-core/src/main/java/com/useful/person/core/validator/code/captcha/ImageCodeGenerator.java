@@ -32,7 +32,7 @@ public class ImageCodeGenerator implements ValidatorCodeGenerator {
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width", imageCodeProperties.getWidth());
 		int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
 				imageCodeProperties.getHeight());
-		int fontSize = 24;
+		int fontSize = 26;
 //		Color randomColor = getRandColor(0, 0);
 		// 构建缓冲图像
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
@@ -45,7 +45,7 @@ public class ImageCodeGenerator implements ValidatorCodeGenerator {
 		g.setColor(getRandColor(160, 200));
 
 		// 生成干扰线
-		int linesCount = 50;
+		int linesCount = 15;
 		for (int i = 0; i < linesCount; i++) {
 			int x1 = random.nextInt(width);
 			int y1 = random.nextInt(height);
@@ -55,7 +55,7 @@ public class ImageCodeGenerator implements ValidatorCodeGenerator {
 			g.drawLine(x1, y1, x2, y2);
 		}
 		// 生成干扰噪点
-		int noiseCount = 600;
+		int noiseCount = 300;
 		for (int i = 0; i < noiseCount; i++) {
 			g.setColor(getRandomColor());
 			g.drawOval(random.nextInt(width), random.nextInt(height), 0, 0);

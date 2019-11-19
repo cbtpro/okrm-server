@@ -6,6 +6,7 @@ package com.useful.person.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +37,12 @@ public class ChinaCollegeAndUniversityController {
 		return chinaCollegesAndUniversitiesService.findAll();
 	}
 
-//	@ApiOperation("批量增加/更新中国高校")
-//	@PostMapping
-//	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
-//		return chinaCollegesAndUniversitiesService.addAll(list);
-//	}
+	@ApiOperation("批量增加/更新中国高校")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/batch")
+	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
+		return chinaCollegesAndUniversitiesService.addAll(list);
+	}
 
 	@ApiOperation("根据UUID查询高校列表")
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
@@ -49,6 +51,7 @@ public class ChinaCollegeAndUniversityController {
 	}
 
 	@ApiOperation("根据uuid更新中国高校")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody ChinaCollegeAndUniversity entity) {
@@ -56,6 +59,7 @@ public class ChinaCollegeAndUniversityController {
 	}
 
 	@ApiOperation("新增中国高校")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
 	public ChinaCollegeAndUniversity add(@RequestBody ChinaCollegeAndUniversity entity) {
 		return chinaCollegesAndUniversitiesService.addOne(entity);

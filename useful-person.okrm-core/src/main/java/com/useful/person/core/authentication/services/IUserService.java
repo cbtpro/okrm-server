@@ -52,4 +52,11 @@ public interface IUserService {
 	 */
 	List<UserInfo> findByNickname(String nickname);
 
+	/**
+	 * 根据手机号查找用户
+	 * @param mobile
+	 * @return
+	 */
+	UserInfo findByMobile(String mobile);
+
 }

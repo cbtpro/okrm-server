@@ -52,4 +52,5 @@ public class BrowserSecurityController {
 		}
 		return new SimpleResponse("访问的服务需要登录");
 	}
+
 }

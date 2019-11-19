@@ -68,4 +68,9 @@ public class UserServiceImpl implements IUserService {
 		password = passwordEncoder.encode(password);
 		user.setPassword(password);
 	}
+
+	@Override
+	public UserInfo findByMobile(String mobile) {
+		return userRepository.findByMobile(mobile);
+	}
 }
