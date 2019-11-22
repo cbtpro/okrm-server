@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RestController
-public class DemoApplication {
+public class OkrmServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(OkrmServerApplication.class, args);
 	}
 	
 	@GetMapping("/hello")
