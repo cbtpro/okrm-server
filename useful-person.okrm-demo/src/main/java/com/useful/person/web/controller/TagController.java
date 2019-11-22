@@ -36,12 +36,12 @@ public class TagController {
 
 	@PostMapping
 	public Tag createTask(@RequestBody Tag tag) {
-		return tagService.addOne(tag);
+		return tagService.saveOne(tag);
 	}
 
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public Tag updateTag(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Tag tag) {
-		return tagService.updateOne(tag);
+		return tagService.saveOne(tag);
 	}
 
 	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)

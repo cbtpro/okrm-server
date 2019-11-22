@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.useful.person.core.authentication.domain.UserInfo;
+import com.useful.person.core.authentication.domain.SysUser;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.authentication.repository.UserRepository;
 import com.useful.person.core.authentication.services.IUserService;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements IUserService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public UserInfo register(UserInfo user) {
+	public SysUser register(SysUser user) {
 		String username = user.getUsername();
 		boolean isExistUsername = isExistUsername(username);
 		if (isExistUsername) {
@@ -37,40 +37,40 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public boolean delete(UserInfo user) {
+	public boolean delete(SysUser user) {
 		userRepository.delete(user);
 		return true;
 	}
 
 	@Override
-	public UserInfo findByUuid(String uuid) {
+	public SysUser findByUuid(String uuid) {
 		return userRepository.findById(uuid).orElse(null);
 	}
 
 	@Override
-	public UserInfo findByUsername(String username) {
+	public SysUser findByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
 
 	@Override
-	public List<UserInfo> findByNickname(String nickname) {
+	public List<SysUser> findByNickname(String nickname) {
 		return userRepository.findByNicknameLike(nickname);
 	}
 
 	@Override
 	public boolean isExistUsername(String username) {
-		UserInfo users = userRepository.findByUsername(username);
+		SysUser users = userRepository.findByUsername(username);
 		return users != null;
 	}
 
-	private void encryptPassword(UserInfo user) {
+	private void encryptPassword(SysUser user) {
 		String password = user.getPassword();
 		password = passwordEncoder.encode(password);
 		user.setPassword(password);
 	}
 
 	@Override
-	public UserInfo findByMobile(String mobile) {
+	public SysUser findByMobile(String mobile) {
 		return userRepository.findByMobile(mobile);
 	}
 }

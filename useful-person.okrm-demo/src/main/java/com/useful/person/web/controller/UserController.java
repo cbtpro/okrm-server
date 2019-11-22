@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.domain.UserInfo;
+import com.useful.person.core.authentication.domain.SysUser;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.services.IUserService;
 
@@ -37,7 +37,7 @@ public class UserController {
 	 * @return users
 	 */
 	@GetMapping
-	@JsonView(UserInfo.UserInfoSimpleView.class)
+	@JsonView(SysUser.SysUserSimpleView.class)
 	public boolean query(@RequestParam(name = "username", required = true) String username) {
 		return userService.isExistUsername(username);
 	}
@@ -49,9 +49,9 @@ public class UserController {
 	 * @return user
 	 */
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	@JsonView(UserInfo.UserInfoDetailView.class)
-	public UserInfo getUserInfo(@PathVariable(name = "uuid", required = true) String uuid) {
-		UserInfo user = userService.findByUuid(uuid);
+	@JsonView(SysUser.SysUserDetailView.class)
+	public SysUser getUserInfo(@PathVariable(name = "uuid", required = true) String uuid) {
+		SysUser user = userService.findByUuid(uuid);
 		if (user == null) {
 			throw new UserNotExistException(uuid);
 		}

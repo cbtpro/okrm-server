@@ -35,18 +35,13 @@ public class TagServiceImpl implements TagService, BasicService<Tag> {
 	}
 
 	@Override
-	public Tag addOne(Tag entity) {
+	public Tag saveOne(Tag entity) {
 		return tagRepository.save(entity);
 	}
 
 	@Override
-	public List<Tag> addAll(List<Tag> entities) {
+	public List<Tag> saveAll(List<Tag> entities) {
 		return tagRepository.saveAll(entities);
-	}
-
-	@Override
-	public Tag updateOne(Tag entity) {
-		return tagRepository.save(entity);
 	}
 
 	@Override
@@ -62,7 +57,12 @@ public class TagServiceImpl implements TagService, BasicService<Tag> {
 	@Override
 	public List<Tag> findAll() {
 		// TODO 只能查询当前登录用户下的列表
-		return null;
+		return tagRepository.findAll();
+	}
+
+	@Override
+	public void deleteAll() {
+		tagRepository.deleteAll();
 	}
 
 }

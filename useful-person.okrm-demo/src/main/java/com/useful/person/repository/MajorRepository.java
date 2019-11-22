@@ -1,14 +1,16 @@
+/**
+ * 
+ */
 package com.useful.person.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.useful.person.domain.Task;
+import com.useful.person.domain.Major;
 
 /**
- * 
  * @author peter
  *
  */
-public interface TaskRepository extends JpaRepository<Task, String> {
+public interface MajorRepository extends JpaRepository<Major, String> {
 
 }

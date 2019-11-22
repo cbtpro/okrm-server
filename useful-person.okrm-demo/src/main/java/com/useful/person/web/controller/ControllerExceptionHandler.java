@@ -16,7 +16,7 @@ import com.useful.person.core.exception.SenderMailException;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.exception.ChinaAdultCollegeAndUniversityNotExistException;
 import com.useful.person.exception.ChinaCollegeAndUniversityNotExistException;
-import com.useful.person.exception.TaskNotExistException;
+import com.useful.person.exception.EventNotExistException;
 
 /**
  * 
@@ -56,10 +56,10 @@ public class ControllerExceptionHandler {
 		return result;
 	}
 
-	@ExceptionHandler(TaskNotExistException.class)
+	@ExceptionHandler(EventNotExistException.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public Map<String, String> handlerTaskNotExistExcetpion(TaskNotExistException taskNotExistException) {
+	public Map<String, String> handlerTaskNotExistExcetpion(EventNotExistException taskNotExistException) {
 		Map<String, String> result = new HashMap<>(2);
 		result.put("uuid", taskNotExistException.getUuid());
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, taskNotExistException.getMessage());

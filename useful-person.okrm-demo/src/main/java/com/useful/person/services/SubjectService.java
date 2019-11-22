@@ -1,10 +1,12 @@
+/**
+ * 
+ */
 package com.useful.person.services;
 
 /**
- * 
  * @author peter
  *
  */
-public interface TaskService {
+public interface SubjectService {
 
 }

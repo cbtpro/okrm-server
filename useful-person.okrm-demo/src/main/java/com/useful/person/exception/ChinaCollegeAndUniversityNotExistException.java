@@ -17,7 +17,7 @@ public class ChinaCollegeAndUniversityNotExistException extends RuntimeException
 	private String uuid;
 
 	public ChinaCollegeAndUniversityNotExistException(String uuid) {
-		super("chinaCollegesAndUniversities not exist");
+		super("china Colleges And Universities not exist");
 		this.uuid = uuid;
 	}
 

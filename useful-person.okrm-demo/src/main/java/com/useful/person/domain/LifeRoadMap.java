@@ -5,10 +5,13 @@ package com.useful.person.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +37,12 @@ import lombok.Setter;
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class LifeRoadMap {
+
+	@Getter
+	@Setter
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
+	@JoinColumn(name = "user_uuid")
+	private User user;
 
 	@Id
 	@Getter

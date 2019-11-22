@@ -18,7 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.domain.UserInfo.UserInfoDetailView;
+import com.useful.person.domain.User.UserInfoDetailView;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,13 +38,6 @@ import lombok.Setter;
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class Tag {
-
-	@Getter
-	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
-	@Builder.Default
-	private Set<Task> tasks = new HashSet<>();
 
 	@Getter
 	@Setter

@@ -30,17 +30,12 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	}
 
 	@Override
-	public ChinaAdultCollegeAndUniversity addOne(ChinaAdultCollegeAndUniversity entity) {
-		return chinaAdultCollegeAndUniversityRepository.save(entity);
-	}
-
-	@Override
-	public List<ChinaAdultCollegeAndUniversity> addAll(List<ChinaAdultCollegeAndUniversity> entities) {
+	public List<ChinaAdultCollegeAndUniversity> saveAll(List<ChinaAdultCollegeAndUniversity> entities) {
 		return chinaAdultCollegeAndUniversityRepository.saveAll(entities);
 	}
 
 	@Override
-	public ChinaAdultCollegeAndUniversity updateOne(ChinaAdultCollegeAndUniversity entity) {
+	public ChinaAdultCollegeAndUniversity saveOne(ChinaAdultCollegeAndUniversity entity) {
 		return chinaAdultCollegeAndUniversityRepository.save(entity);
 	}
 
@@ -57,6 +52,11 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	@Override
 	public List<ChinaAdultCollegeAndUniversity> findAll() {
 		return chinaAdultCollegeAndUniversityRepository.findAll();
+	}
+
+	@Override
+	public void deleteAll() {
+		chinaAdultCollegeAndUniversityRepository.deleteAll();
 	}
 
 }

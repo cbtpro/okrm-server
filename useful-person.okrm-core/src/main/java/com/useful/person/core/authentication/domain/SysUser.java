@@ -35,21 +35,21 @@ import lombok.Setter;
  */
 @Data
 @Builder
-@Entity(name = "User")
-@Table(name = "t_user")
+@Entity(name = "SysUser")
+@Table(name = "t_system_user")
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class UserInfo implements Persistable<String> {
+public class SysUser implements Persistable<String> {
 
-	public interface UserInfoSimpleView {
+	public interface SysUserSimpleView {
 	};
 
-	public interface UserInfoDetailView extends UserInfoSimpleView {
+	public interface SysUserDetailView extends SysUserSimpleView {
 	};
 
 	@Id
-	@JsonView(UserInfoSimpleView.class)
+	@JsonView(SysUserSimpleView.class)
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
@@ -59,13 +59,13 @@ public class UserInfo implements Persistable<String> {
 	@Setter
 	@NotNull(message = "用户名不能为空")
 	@Length(min = 6, max = 12)
-	@JsonView(UserInfoDetailView.class)
+	@JsonView(SysUserDetailView.class)
 	private String username;
 
 	@Getter
 	@Setter
 	@NotNull(message = "用户昵称不能为空")
-	@JsonView(UserInfoSimpleView.class)
+	@JsonView(SysUserSimpleView.class)
 	private String nickname;
 
 	@Getter
@@ -99,13 +99,13 @@ public class UserInfo implements Persistable<String> {
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
+	@JsonView(SysUserDetailView.class)
 	@UpdateTimestamp
 	private Date updateTime;
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
+	@JsonView(SysUserDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
