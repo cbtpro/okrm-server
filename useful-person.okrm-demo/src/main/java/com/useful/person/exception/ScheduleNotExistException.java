@@ -19,7 +19,7 @@ public class ScheduleNotExistException extends RuntimeException {
 	private String uuid;
 
 	public ScheduleNotExistException(String uuid) {
-		super("Schedule not exist exist");
+		super("schedule not exist exist");
 		this.uuid = uuid;
 	}
 }

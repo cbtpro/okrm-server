@@ -11,6 +11,20 @@ import java.util.List;
 public interface BasicService<T> {
 
 	/**
+	 * 添加对象
+	 * @param entity
+	 * @return T
+	 */
+	T saveOne(T entity);
+
+	/**
+	 * 添加多个对象
+	 * @param entities
+	 * @return
+	 */
+	List<T> saveAll(List<T> entities);
+
+	/**
 	 * 根据uuid查询对象
 	 * @param uuid
 	 * @return T
@@ -23,26 +37,6 @@ public interface BasicService<T> {
 	 * @return List<T>
 	 */
 	List<T> findAll();
-	/**
-	 * 添加对象
-	 * @param entity
-	 * @return T
-	 */
-	T addOne(T entity);
-
-	/**
-	 * 添加多个对象
-	 * @param entities
-	 * @return
-	 */
-	List<T> addAll(List<T> entities);
-
-	/**
-	 * 更新对象
-	 * @param entity
-	 * @return
-	 */
-	T updateOne(T entity);
 
 	/**
 	 * 删除对象
@@ -55,4 +49,9 @@ public interface BasicService<T> {
 	 * @param uuid
 	 */
 	void deleteByUuid(String uuid);
+
+	/**
+	 * 删除所有
+	 */
+	void deleteAll();
 }

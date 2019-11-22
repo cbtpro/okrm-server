@@ -41,7 +41,7 @@ public class ChinaCollegeAndUniversityController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/batch")
 	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
-		return chinaCollegesAndUniversitiesService.addAll(list);
+		return chinaCollegesAndUniversitiesService.saveAll(list);
 	}
 
 	@ApiOperation("根据UUID查询高校列表")
@@ -55,13 +55,13 @@ public class ChinaCollegeAndUniversityController {
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody ChinaCollegeAndUniversity entity) {
-		return chinaCollegesAndUniversitiesService.addOne(entity);
+		return chinaCollegesAndUniversitiesService.saveOne(entity);
 	}
 
 	@ApiOperation("新增中国高校")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
 	public ChinaCollegeAndUniversity add(@RequestBody ChinaCollegeAndUniversity entity) {
-		return chinaCollegesAndUniversitiesService.addOne(entity);
+		return chinaCollegesAndUniversitiesService.saveOne(entity);
 	}
 }

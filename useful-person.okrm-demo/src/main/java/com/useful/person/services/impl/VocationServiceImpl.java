@@ -29,18 +29,13 @@ public class VocationServiceImpl implements VocationService, BasicService<Vocati
 	}
 
 	@Override
-	public Vocation addOne(Vocation entity) {
+	public Vocation saveOne(Vocation entity) {
 		return vocationRepository.save(entity);
 	}
 
 	@Override
-	public List<Vocation> addAll(List<Vocation> entities) {
+	public List<Vocation> saveAll(List<Vocation> entities) {
 		return vocationRepository.saveAll(entities);
-	}
-
-	@Override
-	public Vocation updateOne(Vocation entity) {
-		return vocationRepository.save(entity);
 	}
 
 	@Override
@@ -55,8 +50,12 @@ public class VocationServiceImpl implements VocationService, BasicService<Vocati
 
 	@Override
 	public List<Vocation> findAll() {
-		// TODO 只能查询当前登录用户下的列表
-		return null;
+		return vocationRepository.findAll();
+	}
+
+	@Override
+	public void deleteAll() {
+		vocationRepository.deleteAll();
 	}
 
 }

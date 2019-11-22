@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.domain.Task;
-import com.useful.person.services.impl.TaskServiceImpl;
+import com.useful.person.domain.Event;
+import com.useful.person.services.impl.EventServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -20,11 +20,11 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/task")
-public class TaskController {
+@RequestMapping("/event")
+public class EventController {
 
 	@Autowired
-	private TaskServiceImpl taskService;
+	private EventServiceImpl eventService;
 
 	/**
 	 * 查询任务
@@ -32,8 +32,8 @@ public class TaskController {
 	 * @return
 	 */
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Task task(@PathVariable(name = "uuid", required = true) String uuid) {
-		return taskService.findByUuid(uuid);
+	public Event event(@PathVariable(name = "uuid", required = true) String uuid) {
+		return eventService.findByUuid(uuid);
 	}
 
 	/**
@@ -42,11 +42,10 @@ public class TaskController {
 	 * @param task
 	 * @return task
 	 */
-	@ApiOperation(value = "新增一个task")
+	@ApiOperation(value = "新增一个事件")
 	@PostMapping
-	public Task createTask(@RequestBody Task task) {
-		Task returnTask = taskService.addOne(task);
-		return returnTask;
+	public Event createTask(@RequestBody Event event) {
+		return eventService.saveOne(event);
 	}
 
 	/**
@@ -55,9 +54,9 @@ public class TaskController {
 	 * @param task
 	 * @return task
 	 */
+	@ApiOperation(value = "修改一个事件")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Task updateTask(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Task task) {
-		Task updatedTask = taskService.updateOne(task);
-		return updatedTask;
+	public Event updateTask(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Event event) {
+		return eventService.saveOne(event);
 	}
 }

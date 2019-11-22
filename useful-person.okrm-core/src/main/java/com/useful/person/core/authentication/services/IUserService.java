@@ -2,7 +2,7 @@ package com.useful.person.core.authentication.services;
 
 import java.util.List;
 
-import com.useful.person.core.authentication.domain.UserInfo;
+import com.useful.person.core.authentication.domain.SysUser;
 
 /**
  * @author peter
@@ -15,21 +15,21 @@ public interface IUserService {
 	 * @param user
 	 * @return
 	 */
-	UserInfo register(UserInfo user);
+	SysUser register(SysUser user);
 
 	/**
 	 * 删除用户
 	 * @param user
 	 * @return boolean
 	 */
-	boolean delete(UserInfo user);
+	boolean delete(SysUser user);
 	
 	/**
 	 * 根据uuid查找用户
 	 * @param uuid
 	 * @return UserInfo
 	 */
-	UserInfo findByUuid(String uuid);
+	SysUser findByUuid(String uuid);
 	
 	/**
 	 * 判断用户是否存在
@@ -43,20 +43,20 @@ public interface IUserService {
 	 * @param username
 	 * @return
 	 */
-	UserInfo findByUsername(String username);
+	SysUser findByUsername(String username);
 
 	/**
 	 * 根据昵称模糊查找用户
 	 * @param nickname
 	 * @return
 	 */
-	List<UserInfo> findByNickname(String nickname);
+	List<SysUser> findByNickname(String nickname);
 
 	/**
 	 * 根据手机号查找用户
 	 * @param mobile
 	 * @return
 	 */
-	UserInfo findByMobile(String mobile);
+	SysUser findByMobile(String mobile);
 
 }

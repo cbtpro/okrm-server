@@ -8,7 +8,7 @@ import lombok.Setter;
  * @author peter
  *
  */
-public class TaskNotExistException extends RuntimeException {
+public class EventNotExistException extends RuntimeException {
 
 	private static final long serialVersionUID = 8455452801922162239L;
 
@@ -16,8 +16,8 @@ public class TaskNotExistException extends RuntimeException {
 	@Setter
 	private String uuid;
 
-	public TaskNotExistException(String uuid) {
-		super("task not exist exist");
+	public EventNotExistException(String uuid) {
+		super("task not exist");
 		this.uuid = uuid;
 	}
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.domain.UserInfo;
+import com.useful.person.core.authentication.domain.SysUser;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.properties.SecurityConstants;
@@ -40,7 +40,7 @@ public class LoginController {
 	 * @return user
 	 */
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public UserInfo signIn(UserInfo user) {
+	public SysUser signIn(SysUser user) {
 		return user;
 	}
 
@@ -51,7 +51,7 @@ public class LoginController {
 	 * @return boolean
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public boolean logout(UserInfo user) {
+	public boolean logout(SysUser user) {
 		return true;
 	}
 
@@ -61,9 +61,9 @@ public class LoginController {
 	 * @param user
 	 * @return user
 	 */
-	@JsonView(UserInfo.UserInfoDetailView.class)
+	@JsonView(SysUser.SysUserDetailView.class)
 	@PostMapping(SecurityConstants.DEFAULT_SIGN_UP_URL)
-	public Map<String, Object> createUser(HttpServletRequest request, HttpServletResponse response, @Valid UserInfo user, BindingResult errors) throws Exception {
+	public Map<String, Object> createUser(HttpServletRequest request, HttpServletResponse response, @Valid SysUser user, BindingResult errors) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>(2);
 		if (errors.hasErrors()) {
 			Map<String, String> errorMap = new HashMap<String, String>(5);
@@ -75,7 +75,7 @@ public class LoginController {
 			map.put(AppConstants.DEFAULT_RETURN_MESSAGE, errorMap);
 			return map;
 		}
-		UserInfo newUser = userService.register(user);
+		SysUser newUser = userService.register(user);
 		map.put(AppConstants.DEFAULT_RETURN_MESSAGE, "用户注册成功");
 		map.put("user", newUser);
 		return map;
@@ -88,7 +88,7 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public boolean cancellationUser(UserInfo user) {
+	public boolean cancellationUser(SysUser user) {
 		return false;
 	}
 

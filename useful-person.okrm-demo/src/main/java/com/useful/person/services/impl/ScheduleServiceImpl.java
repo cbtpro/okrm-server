@@ -35,18 +35,13 @@ public class ScheduleServiceImpl implements ScheduleService, BasicService<Schedu
 	}
 
 	@Override
-	public Schedule addOne(Schedule entity) {
+	public Schedule saveOne(Schedule entity) {
 		return scheduleRepository.save(entity);
 	}
 
 	@Override
-	public List<Schedule> addAll(List<Schedule> entities) {
+	public List<Schedule> saveAll(List<Schedule> entities) {
 		return null;
-	}
-
-	@Override
-	public Schedule updateOne(Schedule entity) {
-		return scheduleRepository.save(entity);
 	}
 
 	@Override
@@ -57,5 +52,10 @@ public class ScheduleServiceImpl implements ScheduleService, BasicService<Schedu
 	@Override
 	public void deleteByUuid(String uuid) {
 		scheduleRepository.deleteById(uuid);
+	}
+
+	@Override
+	public void deleteAll() {
+		scheduleRepository.deleteAll();
 	}
 }

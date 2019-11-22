@@ -37,14 +37,14 @@ public class ScheduleController {
 	@ApiOperation("新增日程")
 	@PostMapping
 	public Schedule add(@RequestBody Schedule entity) {
-		return scheduleService.addOne(entity);
+		return scheduleService.saveOne(entity);
 	}
 
 	@ApiOperation("根据uuid更新日程")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public Schedule updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody Schedule entity) {
-		return scheduleService.updateOne(entity);
+		return scheduleService.saveOne(entity);
 	}
 
 }

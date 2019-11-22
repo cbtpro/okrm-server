@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.domain.UserInfo.UserInfoDetailView;
+import com.useful.person.domain.User.UserInfoDetailView;
 
 import lombok.Getter;
 import lombok.Setter;
