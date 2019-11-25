@@ -12,14 +12,14 @@ public interface IUserService {
 
 	/**
 	 * 注册用户
-	 * @param user
+	 * @param userInfo
 	 * @return
 	 */
 	UserInfo register(UserInfo userInfo);
 
 	/**
 	 * 删除用户
-	 * @param user
+	 * @param userInfo
 	 * @return boolean
 	 */
 	boolean delete(UserInfo userInfo);

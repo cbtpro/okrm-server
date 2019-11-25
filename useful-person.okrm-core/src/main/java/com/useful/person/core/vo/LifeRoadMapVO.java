@@ -10,12 +10,14 @@ import com.useful.person.core.domain.LifeRoadMap;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author peter
  *
  */
 @Builder
+@ToString
 public class LifeRoadMapVO {
 
 	@Getter
