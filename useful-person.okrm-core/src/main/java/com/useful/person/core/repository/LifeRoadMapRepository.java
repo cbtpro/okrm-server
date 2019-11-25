@@ -16,5 +16,10 @@ import com.useful.person.core.domain.UserInfo;
  */
 public interface LifeRoadMapRepository extends JpaRepository<LifeRoadMap, String> {
 
-	List<LifeRoadMap> findByUser(UserInfo user);
+	/**
+	 * 根据用户查询路线图
+	 * @param userInfo
+	 * @return
+	 */
+	List<LifeRoadMap> findByUser(UserInfo userInfo);
 }

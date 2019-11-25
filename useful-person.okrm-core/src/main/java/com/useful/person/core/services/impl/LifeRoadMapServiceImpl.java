@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.LifeRoadMap;
 import com.useful.person.core.domain.UserInfo;
-import com.useful.person.core.exception.LifeRoadMapNotExistException;
+import com.useful.person.core.exception.ResourceNotExistException;
 import com.useful.person.core.repository.LifeRoadMapRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.LifeRoadMapService;
@@ -38,7 +38,7 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 
 	@Override
 	public LifeRoadMap findByUuid(String uuid) {
-		return lifeRoadMapRepository.findById(uuid).orElseThrow(() -> new LifeRoadMapNotExistException(uuid));
+		return lifeRoadMapRepository.findById(uuid).orElseThrow(() -> new ResourceNotExistException(uuid));
 	}
 
 	@Override

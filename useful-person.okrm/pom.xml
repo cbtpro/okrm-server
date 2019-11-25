@@ -75,7 +75,7 @@
 		<module>../useful-person.okrm-app</module>
 		<module>../useful-person.okrm-browser</module>
 		<module>../useful-person.okrm-core</module>
-		<module>../useful-person.okrm-demo</module>
+		<module>../useful-person.okrm-server</module>
 	</modules>
 	<repositories>
 		<repository>
