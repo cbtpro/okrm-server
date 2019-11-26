@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.core.domain.Music;
-import com.useful.person.core.services.impl.MusicServiceImpl;
+import com.useful.person.core.domain.Subject;
+import com.useful.person.core.services.impl.SubjectServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -23,34 +23,34 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/music")
-public class MusicController {
+@RequestMapping("/subject")
+public class SubjectController {
 
 	@Autowired
-	private MusicServiceImpl musicService;
+	private SubjectServiceImpl subjectService;
 
-	@ApiOperation("新增音乐")
+	@ApiOperation("新增科目")
 	@PostMapping
-	public Music addMusic(@RequestBody Music entity) {
-		return musicService.saveOne(entity);
+	public Subject addSubject(@RequestBody Subject entity) {
+		return subjectService.saveOne(entity);
 	}
 
-	@ApiOperation("根据uuid删除音乐")
+	@ApiOperation("根据uuid删除科目")
 	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteMusicByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		musicService.deleteByUuid(uuid);
+	public void deleteSubjectByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+		subjectService.deleteByUuid(uuid);
 	}
 
-	@ApiOperation("修改音乐")
+	@ApiOperation("修改科目")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Music updateMusic(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Music entity) {
-		return musicService.saveOne(entity);
+	public Subject updateSubject(@PathVariable(name = "uuid", required = true) String uuid,
+			@RequestBody Subject entity) {
+		return subjectService.saveOne(entity);
 	}
 
-	@ApiOperation("根据uuid查询音乐")
+	@ApiOperation("根据uuid查询科目")
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Music queryMusic(@PathVariable(name = "uuid", required = true) String uuid) {
-		return musicService.findByUuid(uuid);
+	public Subject querySubject(@PathVariable(name = "uuid", required = true) String uuid) {
+		return subjectService.findByUuid(uuid);
 	}
 }

@@ -6,6 +6,7 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.Hobby;
 import com.useful.person.core.exception.HobbyNotExistException;
@@ -17,6 +18,7 @@ import com.useful.person.core.services.HobbyService;
  * @author peter
  *
  */
+@Service("hobbyService")
 public class HobbyServiceImpl implements HobbyService, BasicService<Hobby> {
 
 	@Autowired

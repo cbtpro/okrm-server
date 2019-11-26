@@ -95,4 +95,15 @@ public class LifeRoadMap {
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
+
+	public LifeRoadMap(String uuid, int sex, int age, String event, String description, int times, Date updateTime, Date createTime) {
+		this.uuid = uuid;
+		this.sex = sex;
+		this.age = age;
+		this.event = event;
+		this.description = description;
+		this.times = times;
+		this.updateTime = updateTime;
+		this.createTime = createTime;
+	}
 }
