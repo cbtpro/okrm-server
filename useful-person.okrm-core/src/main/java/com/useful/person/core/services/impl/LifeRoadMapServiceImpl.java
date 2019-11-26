@@ -6,11 +6,13 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.LifeRoadMap;
 import com.useful.person.core.domain.UserInfo;
-import com.useful.person.core.exception.ResourceNotExistException;
+import com.useful.person.core.exception.ResourceNotFoundException;
 import com.useful.person.core.repository.LifeRoadMapRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.LifeRoadMapService;
@@ -28,6 +30,8 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 
 	@Override
 	public LifeRoadMap saveOne(LifeRoadMap entity) {
+		UserInfo currentUserInfo = UserInfo.builder().uuid("40288069-6e1c-5646-016e-1c9c708b1506").build();
+		entity.setUser(currentUserInfo);
 		return lifeRoadMapRepository.save(entity);
 	}
 
@@ -38,7 +42,8 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 
 	@Override
 	public LifeRoadMap findByUuid(String uuid) {
-		return lifeRoadMapRepository.findById(uuid).orElseThrow(() -> new ResourceNotExistException(uuid));
+		return lifeRoadMapRepository.findById(uuid)
+				.orElseThrow(() -> new ResourceNotFoundException(uuid, "life road map not found"));
 	}
 
 	@Override
@@ -62,8 +67,12 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 	}
 
 	public LifeRoadMapVO findAllMyLifeRoadMap() {
-		List<LifeRoadMap> list = lifeRoadMapRepository.findByUser(UserInfo.builder().username("cbtpro").build());
-		LifeRoadMapVO mylifeRoadMayVO = LifeRoadMapVO.builder().nickname("nickname").lifeRoadMaps(list).build();
+		UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder
+				.getContext().getAuthentication();
+		UserInfo curUser = (UserInfo) authenticationToken.getPrincipal();
+		List<LifeRoadMap> list = lifeRoadMapRepository.findByUser(curUser);
+		LifeRoadMapVO mylifeRoadMayVO = LifeRoadMapVO.builder().uuid(curUser.getUuid()).nickname(curUser.getNickname())
+				.lifeRoadMaps(list).build();
 		return mylifeRoadMayVO;
 	}
 }

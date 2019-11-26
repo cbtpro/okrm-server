@@ -1,8 +1,7 @@
 package com.useful.person.core.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.services.IUserService;
+import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 
 /**
  * 
@@ -27,8 +27,10 @@ public class UserController {
 	private IUserService userService;
 
 	@GetMapping("/me")
-	public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
-		return user;
+	@JsonView(UserInfoDetailView.class)
+	public Object getCurrentUser(Authentication user) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return currentUser;
 	}
 	/**
 	 * 查询用户名是否存在

@@ -29,17 +29,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserInfo user = userServices.findByUsername(username);
-		// 用户是否未被逻辑删除
-		boolean enabled = true;
-		// 账号没过期
-		boolean accountNonExpired = true;
-		// 密码没过期
-		boolean credentialsNonExpired = true;
-		// 账号未被锁定
-		boolean accountNonLocked = true; 
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
-		return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
-				accountNonLocked, authorities);
+		if (user == null) {
+			return null;
+		}
+//		// 用户是否未被逻辑删除
+//		boolean enabled = true;
+//		// 账号没过期
+//		boolean accountNonExpired = true;
+//		// 密码没过期
+//		boolean credentialsNonExpired = true;
+//		// 账号未被锁定
+//		boolean accountNonLocked = true; 
+//		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
+//		return new User(username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
+//				accountNonLocked, authorities);
+//		UserInfo userInfo = UserInfo.builder().u
+		return user;
 	}
 
 	public UserDetails loadUserByMobile(String mobile) throws MobileNotRegisteredException {

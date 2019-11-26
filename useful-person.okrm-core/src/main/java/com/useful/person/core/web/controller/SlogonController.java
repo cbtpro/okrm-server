@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.core.domain.Music;
-import com.useful.person.core.services.impl.MusicServiceImpl;
+import com.useful.person.core.domain.Slogon;
+import com.useful.person.core.services.impl.SlogonServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -23,34 +23,34 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/music")
-public class MusicController {
+@RequestMapping("/slogon")
+public class SlogonController {
 
 	@Autowired
-	private MusicServiceImpl musicService;
+	private SlogonServiceImpl slogonService;
 
-	@ApiOperation("新增音乐")
+	@ApiOperation("新增slogon")
 	@PostMapping
-	public Music addMusic(@RequestBody Music entity) {
-		return musicService.saveOne(entity);
+	public Slogon addSlogon(@RequestBody Slogon entity) {
+		return slogonService.saveOne(entity);
 	}
 
-	@ApiOperation("根据uuid删除音乐")
+	@ApiOperation("根据uuid删除slogon")
 	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteMusicByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		musicService.deleteByUuid(uuid);
+	public void deleteSlogonByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+		slogonService.deleteByUuid(uuid);
 	}
 
-	@ApiOperation("修改音乐")
+	@ApiOperation("修改slogon")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Music updateMusic(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Music entity) {
-		return musicService.saveOne(entity);
+	public Slogon updateSlogon(@PathVariable(name = "uuid", required = true) String uuid,
+			@RequestBody Slogon entity) {
+		return slogonService.saveOne(entity);
 	}
 
-	@ApiOperation("根据uuid查询音乐")
+	@ApiOperation("根据uuid查询slogon")
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Music queryMusic(@PathVariable(name = "uuid", required = true) String uuid) {
-		return musicService.findByUuid(uuid);
+	public Slogon querySlogon(@PathVariable(name = "uuid", required = true) String uuid) {
+		return slogonService.findByUuid(uuid);
 	}
 }

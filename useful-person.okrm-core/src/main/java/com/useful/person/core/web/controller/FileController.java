@@ -26,7 +26,7 @@ import com.useful.person.core.vo.FileInfo;
  *
  */
 @RestController
-@RequestMapping("file")
+@RequestMapping("/file")
 public class FileController {
 
 	String folder = "/Users/peter/Documents/okrm repo";

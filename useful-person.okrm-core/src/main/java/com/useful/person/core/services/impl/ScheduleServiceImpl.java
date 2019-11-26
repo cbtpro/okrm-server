@@ -41,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService, BasicService<Schedu
 
 	@Override
 	public List<Schedule> saveAll(List<Schedule> entities) {
-		return null;
+		return scheduleRepository.saveAll(entities);
 	}
 
 	@Override

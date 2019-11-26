@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.useful.person.core.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,61 +13,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.core.domain.Event;
-import com.useful.person.core.services.impl.EventServiceImpl;
+import com.useful.person.core.domain.Hobby;
+import com.useful.person.core.services.impl.HobbyServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 
  * @author peter
  *
  */
 @RestController
-@RequestMapping("/event")
-public class EventController {
+@RequestMapping("/hobby")
+public class HobbyController {
 
 	@Autowired
-	private EventServiceImpl eventService;
+	private HobbyServiceImpl hobbyService;
 
-	/**
-	 * 查询任务
-	 * 
-	 * @return
-	 */
-	@ApiOperation("根据uuid查询事件")
+	@ApiOperation("根据uuid查询兴趣爱好")
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Event event(@PathVariable(name = "uuid", required = true) String uuid) {
-		return eventService.findByUuid(uuid);
+	public Hobby hobby(@PathVariable(name = "uuid", required = true) String uuid) {
+		return hobbyService.findByUuid(uuid);
 	}
 
-	/**
-	 * 创建任务
-	 * 
-	 * @param task
-	 * @return task
-	 */
-	@ApiOperation(value = "新增事件")
+	@ApiOperation("新增兴趣好爱")
 	@PostMapping
-	public Event createTask(@RequestBody Event event) {
-		return eventService.saveOne(event);
+	public Hobby createHobby(@RequestBody Hobby entity) {
+		return hobbyService.saveOne(entity);
 	}
 
-	/**
-	 * 更新任务
-	 * 
-	 * @param task
-	 * @return task
-	 */
-	@ApiOperation(value = "修改事件")
+	@ApiOperation("修改兴趣爱好")
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Event updateTask(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Event event) {
-		return eventService.saveOne(event);
+	public Hobby updateHobby(@PathVariable(name = "uuid", required = true) String uuid,
+			@RequestBody Hobby entity) {
+		return hobbyService.saveOne(entity);
 	}
-
-	@ApiOperation("删除事件")
+	
+	@ApiOperation("删除兴趣爱好")
 	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
-		eventService.deleteByUuid(uuid);
+		hobbyService.deleteByUuid(uuid);
 	}
 }

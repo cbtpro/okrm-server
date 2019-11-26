@@ -61,7 +61,7 @@ public class BookController {
 		return bookService.saveOne(entity);
 	}
 
-	@ApiOperation(value = "删除一本书")
+	@ApiOperation(value = "删除书籍")
 	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public void deleteBook(@PathVariable(name = "uuid", required = true) String uuid) {
 		bookService.deleteByUuid(uuid);

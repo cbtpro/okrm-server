@@ -39,7 +39,7 @@ public class ChinaAdultCollegeAndUniversityController {
 
 	@ApiOperation("批量新增/更新中国成人高校信息")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("batch")
+	@PostMapping("/batch")
 	public List<ChinaAdultCollegeAndUniversity> addAll(@RequestBody List<ChinaAdultCollegeAndUniversity> entities) {
 		return chinaAdultCollegeAndUniversityService.saveAll(entities);
 	}

@@ -10,7 +10,7 @@ import lombok.Setter;
  * @author peter
  *
  */
-public class ResourceNotExistException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1247635482191185428L;
 
@@ -18,8 +18,13 @@ public class ResourceNotExistException extends RuntimeException {
 	@Setter
 	public String uuid;
 
-	public ResourceNotExistException(String uuid) {
+	@Getter
+	@Setter
+	public String msg;
+
+	public ResourceNotFoundException(String uuid, String msg) {
 		super("resource not exist");
 		this.uuid = uuid;
+		this.msg = msg;
 	}
 }
