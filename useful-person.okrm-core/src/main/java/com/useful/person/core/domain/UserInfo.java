@@ -60,6 +60,7 @@ public class UserInfo implements UserDetails  {
 	public interface UserInfoDetailView extends UserInfoSimpleView {};
 
 	public interface UserInfoSecurityView extends UserInfoSimpleView {};
+
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
@@ -141,7 +142,6 @@ public class UserInfo implements UserDetails  {
 		return true;
 	}
 
-
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)
@@ -154,5 +154,4 @@ public class UserInfo implements UserDetails  {
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
-
 }

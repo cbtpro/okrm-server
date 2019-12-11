@@ -3,7 +3,13 @@
  */
 package com.useful.person.core.web.controller;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.domain.LifeRoadMap;
+import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.services.impl.LifeRoadMapServiceImpl;
 import com.useful.person.core.vo.LifeRoadMapVO;
 
@@ -32,13 +39,16 @@ public class LifeRoadMapController {
 
 	@ApiOperation("查询人生路线图")
 	@GetMapping
-	public LifeRoadMapVO queryMyLifeRoadMap() {
-		return lifeRoadMapService.findAllMyLifeRoadMap();
+	public List<LifeRoadMapVO> queryMyLifeRoadMap(Authentication user) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return lifeRoadMapService.findAllMyLifeRoadMap(currentUser);
 	}
 
 	@ApiOperation("新增人生路线图")
 	@PostMapping
-	public LifeRoadMap create(@RequestBody LifeRoadMap entity) {
+	public LifeRoadMap create(@RequestBody LifeRoadMap entity, Authentication user) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		entity.setUser(currentUser);
 		return lifeRoadMapService.saveOne(entity);
 	}
 
@@ -54,4 +64,9 @@ public class LifeRoadMapController {
 	public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
 		lifeRoadMapService.deleteByUuid(uuid);
 	}
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
+		return authorities;
+	}
+
 }

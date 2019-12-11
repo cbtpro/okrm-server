@@ -3,32 +3,72 @@
  */
 package com.useful.person.core.vo;
 
-import java.util.List;
+import java.util.Date;
 
-import com.useful.person.core.domain.LifeRoadMap;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author peter
  *
  */
-@Builder
-@ToString
 public class LifeRoadMapVO {
 
 	@Getter
 	@Setter
 	private String uuid;
 
+	/**
+	 * 性别
+	 */
 	@Getter
 	@Setter
-	private String nickname;
+	private int sex;
+
+	/**
+	 * 事件发生年龄
+	 */
+	@Getter
+	@Setter
+	private int age;
+
+	/**
+	 * 事件
+	 */
+	@Getter
+	@Setter
+	private String event;
+
+	/**
+	 * 描述
+	 */
+	@Getter
+	@Setter
+	private String description;
+
+	/**
+	 * 第几次
+	 */
+	@Getter
+	@Setter
+	private int times;
 
 	@Getter
 	@Setter
-	private List<LifeRoadMap> lifeRoadMaps;
+	private Date updateTime;
+
+	@Getter
+	@Setter
+	private Date createTime;
+
+	public LifeRoadMapVO(String uuid, int sex, int age, String event, String description, int times, Date updateTime, Date createTime) {
+		this.uuid = uuid;
+		this.sex = sex;
+		this.age = age;
+		this.event = event;
+		this.description = description;
+		this.times = times;
+		this.updateTime = updateTime;
+		this.createTime = createTime;
+	}
 }

@@ -76,6 +76,26 @@ public class ValidatorCodeController {
 		return callable;
 	}
 
+	@GetMapping("/code/captchabase64.jpg")
+	public Callable<String> getImageCodeBase64(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Callable<String> callable = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				Map<String, Object> result = new HashMap<String, Object>(2);
+				ImageCodeProperties imageCodeProperties = securityProperties.getCode().getImage();
+				String randomStr = RandomString.make(imageCodeProperties.getLength());
+				String base64Str = "data:image/jepg;base64," + imageCodeGenerator.getRandomCodeBase64(new ServletWebRequest(request), randomStr);
+				ImageCode imageCode = new ImageCode(randomStr, imageCodeProperties.getExpireIn());
+				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE, imageCode);
+				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "验证码生成成功");
+				result.put("base64", base64Str);
+				Gson gson = new Gson();
+				return gson.toJson(result);
+			}
+		};
+		return callable;
+	}
+
 	@GetMapping("/code/sms")
 	public Callable<String> createSmsCode(HttpServletRequest request, HttpServletResponse response)
 			throws ServletRequestBindingException {

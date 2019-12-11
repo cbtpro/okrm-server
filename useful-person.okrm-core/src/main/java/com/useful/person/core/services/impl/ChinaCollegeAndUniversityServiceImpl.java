@@ -13,20 +13,23 @@ import com.useful.person.core.exception.ChinaCollegeAndUniversityNotExistExcepti
 import com.useful.person.core.repository.ChinaCollegeAndUniversityRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.ChinaCollegeAndUniversityService;
+import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 
 /**
  * @author peter
  *
  */
 @Service("chinaCollegesAndUniversitiesService")
-public class ChinaCollegeAndUniversityServiceImpl implements ChinaCollegeAndUniversityService, BasicService<ChinaCollegeAndUniversity> {
+public class ChinaCollegeAndUniversityServiceImpl
+		implements ChinaCollegeAndUniversityService, BasicService<ChinaCollegeAndUniversity> {
 
 	@Autowired
 	private ChinaCollegeAndUniversityRepository chinaCollegesAndUniversitiesRepository;
 
 	@Override
 	public ChinaCollegeAndUniversity findByUuid(String uuid) {
-		return chinaCollegesAndUniversitiesRepository.findById(uuid).orElseThrow(() -> new ChinaCollegeAndUniversityNotExistException(uuid));
+		return chinaCollegesAndUniversitiesRepository.findById(uuid)
+				.orElseThrow(() -> new ChinaCollegeAndUniversityNotExistException(uuid));
 	}
 
 	@Override
@@ -52,6 +55,11 @@ public class ChinaCollegeAndUniversityServiceImpl implements ChinaCollegeAndUniv
 	@Override
 	public List<ChinaCollegeAndUniversity> findAll() {
 		return chinaCollegesAndUniversitiesRepository.findAll();
+	}
+
+	@Override
+	public List<ChinaCollegeAndUniversityLocationVO> findAllLocation() {
+		return chinaCollegesAndUniversitiesRepository.findAllLocation();
 	}
 
 	@Override

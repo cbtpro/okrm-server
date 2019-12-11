@@ -6,8 +6,6 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.LifeRoadMap;
@@ -30,8 +28,6 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 
 	@Override
 	public LifeRoadMap saveOne(LifeRoadMap entity) {
-		UserInfo currentUserInfo = UserInfo.builder().uuid("40288069-6e1c-5646-016e-1c9c708b1506").build();
-		entity.setUser(currentUserInfo);
 		return lifeRoadMapRepository.save(entity);
 	}
 
@@ -66,13 +62,8 @@ public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<
 		lifeRoadMapRepository.deleteAll();
 	}
 
-	public LifeRoadMapVO findAllMyLifeRoadMap() {
-		UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder
-				.getContext().getAuthentication();
-		UserInfo curUser = (UserInfo) authenticationToken.getPrincipal();
-		List<LifeRoadMap> list = lifeRoadMapRepository.findByUser(curUser);
-		LifeRoadMapVO mylifeRoadMayVO = LifeRoadMapVO.builder().uuid(curUser.getUuid()).nickname(curUser.getNickname())
-				.lifeRoadMaps(list).build();
-		return mylifeRoadMayVO;
+	public List<LifeRoadMapVO> findAllMyLifeRoadMap(UserInfo currentUser) {
+		List<LifeRoadMapVO> list = lifeRoadMapRepository.findByUser(currentUser);
+		return list;
 	}
 }
