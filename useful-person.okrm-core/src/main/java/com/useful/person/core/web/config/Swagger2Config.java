@@ -36,7 +36,7 @@ public class Swagger2Config {
 	@Bean
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.useful.person.web.controller"))
+				.apis(RequestHandlerSelectors.basePackage("com.useful.person.core.web.controller"))
 				.paths(PathSelectors.any()).build();
 	}
 
