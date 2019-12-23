@@ -89,6 +89,11 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoSimpleView.class)
+	private String avatar;
+
+	@Getter
+	@Setter
 	private String mobile;
 
 	@Getter

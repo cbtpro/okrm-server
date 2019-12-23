@@ -5,150 +5,150 @@
 <title>Basic signin</title>
 <style type="text/css">
 .msg.active {
-	display: block;
-	transform-origin: 100% 0%;
-	-webkit-animation: fadeIn 0.5s ease-in-out;
-	animation: fadeIn 0.5s ease-in-out;
+    display: block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
 }
 .msg {
-	display: none;
-	position: absolute;
-	top: 20%;
+    display: none;
+    position: absolute;
+    top: 20%;
 }
 .msg p {
-	position: relative;
-	margin: 0 auto;
-	text-align: center;
-	background-color: #1E2021;
-	padding: 20px;
-	width: 400px;
-	border-radius: 3px;
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-	color: #FFF;
-	font-size: 13px;
-	line-height: 1.4;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #1E2021;
+    padding: 20px;
+    width: 400px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
 }
 @-webkit-keyframes fadeIn { 
-	0% {
-		opacity:0;
-		transform: scale(0); 
-	}
-	30% {
-		opacity: 30%;
-		transform: scale(0.3);
-	}
-	100% { 
-		opacity:100%; 
-		transform: scale(1); 
-	}
+    0% {
+        opacity:0;
+        transform: scale(0); 
+    }
+    30% {
+        opacity: 30%;
+        transform: scale(0.3);
+    }
+    100% { 
+        opacity:100%; 
+        transform: scale(1); 
+    }
 }
 
 @keyframes fadeIn {
-	0% { opacity:0; }
-	100% { opacity:100%; }
+    0% { opacity:0; }
+    100% { opacity:100%; }
 }
 </style>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 const warnInfo = (msg, delay) => {
-	// 弹出消息
-	var msgDom = document.getElementById('msg');
-	msgDom.className += '  active'
-	msgDom.getElementsByTagName('p')[0].innerHTML = msg;
-	requestAnimationFrame(function() {
-		setTimeout(function() {
-			var msgDom = document.getElementById('msg');
-			msgDom.className = $.trim(msgDom.className.replace('active', ''));
-		}, delay || 2000);
-	});
+    // 弹出消息
+    var msgDom = document.getElementById('msg');
+    msgDom.className += '  active'
+    msgDom.getElementsByTagName('p')[0].innerHTML = msg;
+    requestAnimationFrame(function() {
+        setTimeout(function() {
+            var msgDom = document.getElementById('msg');
+            msgDom.className = $.trim(msgDom.className.replace('active', ''));
+        }, delay || 2000);
+    });
 }
 </script>
 </head>
 <body>
-	<h2>Basic signin</h2>
-	<h3>Form Login</h3>
-	<div id="msg" class="msg">
-		<p>没有消息</p>
-	</div>
-	<form action="/authentication/form" method="post">
-		<table>
-			<tr>
-				<td>User Name</td>
-				<td><input type="text" name="username"></td>
-			</tr>
-			<tr>
-				<td>Password</td>
-				<td><input type="password" name="password"></td>
-			</tr>
-			<tr>
-				<td>Verification Code</td>
-				<td><input type="text" name="imageCode"> <img
-					id="formLoginImageCode" alt="code"
-					src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode">
-					<button id="refreshImageCodeButton" type="button">Refresh
-						Image Code</button>
-					<button id="getImageCode" type="button">Get Captcha</button></td>
-			</tr>
-			<tr>
-				<td colspan="1"><input name="remember-me" type="checkbox"
-					value="true" />Remember Me</td>
-			</tr>
-			<tr>
-				<td colspan="2"><button type="submit">Signin</button></td>
-			</tr>
-		</table>
-	</form>
-	<script type="text/javascript">
-		$('#refreshImageCodeButton').on('click', (e) => {
-			let formLoginImageCode = $('#formLoginImageCode');
-			let src = formLoginImageCode.attr('src');
-			formLoginImageCode.attr('src', src);
-		})
-	</script>
-	<h3>SMS Login</h3>
-	<form action="/authentication/mobile" method="post">
-		<table>
-			<tr>
-				<td>mobile:</td>
-				<td><input type="text" id="mobile" name="mobile"></td>
-			</tr>
-			<tr>
-				<td>Verification Code</td>
-				<td><input type="text" id="imageCode1" name="imageCode">
-					<img id="formLoginImageCode2" alt="code"
-					src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode2">
-					<button id="refreshImageCodeButton2" type="button">Refresh
-						Image Code</button></td>
-			</tr>
-			<tr>
-				<td>SMS Code:</td>
-				<td><input type="text" name="smsCode">
-					<button id="sendSmsCodeButton" type="button">Send SMS Code</button>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><button type="submit">Signin</button></td>
-			</tr>
-		</table>
-	</form>
-	<script type="text/javascript">
-		$('#refreshImageCodeButton2').on('click', () => {
-			let formLoginImageCode = $('#formLoginImageCode2');
-			let src = formLoginImageCode.attr('src');
-			formLoginImageCode.attr('src', src);
-		})
-		$('#sendSmsCodeButton').on('click', () => {
-			let mobile = $('#mobile').val();
-			let imageCode =  $('#imageCode1').val();
-			$.get(`/code/sms?mobile=${mobile}&imageCode=${imageCode}`).then((response) => {
-				let { msg } = JSON.parse(response);
-				warnInfo(msg);
-			}, (error) => {
-				let { responseText } = error;
-				let { content } = JSON.parse(responseText);
-				warnInfo(content)
-			})
-		})
-	</script>
+    <h2>Basic signin</h2>
+    <h3>Form Login</h3>
+    <div id="msg" class="msg">
+        <p>没有消息</p>
+    </div>
+    <form action="/authentication/form" method="post">
+        <table>
+            <tr>
+                <td>User Name</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>Verification Code</td>
+                <td><input type="text" name="imageCode"> <img
+                    id="formLoginImageCode" alt="code"
+                    src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode">
+                    <button id="refreshImageCodeButton" type="button">Refresh
+                        Image Code</button>
+                    <button id="getImageCode" type="button">Get Captcha</button></td>
+            </tr>
+            <tr>
+                <td colspan="1"><input name="remember-me" type="checkbox"
+                    value="true" />Remember Me</td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Signin</button></td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        $('#refreshImageCodeButton').on('click', (e) => {
+            let formLoginImageCode = $('#formLoginImageCode');
+            let src = formLoginImageCode.attr('src');
+            formLoginImageCode.attr('src', src);
+        })
+    </script>
+    <h3>SMS Login</h3>
+    <form action="/authentication/mobile" method="post">
+        <table>
+            <tr>
+                <td>mobile:</td>
+                <td><input type="text" id="mobile" name="mobile"></td>
+            </tr>
+            <tr>
+                <td>Verification Code</td>
+                <td><input type="text" id="imageCode1" name="imageCode">
+                    <img id="formLoginImageCode2" alt="code"
+                    src="/code/captcha.jpg?width=100&height=30&from=formLoginimageCode2">
+                    <button id="refreshImageCodeButton2" type="button">Refresh
+                        Image Code</button></td>
+            </tr>
+            <tr>
+                <td>SMS Code:</td>
+                <td><input type="text" name="smsCode">
+                    <button id="sendSmsCodeButton" type="button">Send SMS Code</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Signin</button></td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        $('#refreshImageCodeButton2').on('click', () => {
+            let formLoginImageCode = $('#formLoginImageCode2');
+            let src = formLoginImageCode.attr('src');
+            formLoginImageCode.attr('src', src);
+        })
+        $('#sendSmsCodeButton').on('click', () => {
+            let mobile = $('#mobile').val();
+            let imageCode =  $('#imageCode1').val();
+            $.get(`/code/sms?mobile=${mobile}&imageCode=${imageCode}`).then((response) => {
+                let { msg } = JSON.parse(response);
+                warnInfo(msg);
+            }, (error) => {
+                let { responseText } = error;
+                let { content } = JSON.parse(responseText);
+                warnInfo(content)
+            })
+        })
+    </script>
 </body>
 </html>
