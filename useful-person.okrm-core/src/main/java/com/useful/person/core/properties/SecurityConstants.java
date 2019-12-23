@@ -23,11 +23,15 @@ public interface SecurityConstants {
 
 	String DEFAULT_SIGN_UP_URL = "/signup";
 
+	String DEFAULT_SIGN_OUT_URL = "/logout";
+
 	String DEFAULT_ACTIVATE_URL_PREFIX = "/activate";
 
 	String DEFAULT_SIGN_IN_PAGE_URL = "/basic-signin.html";
 
 	String DEFAULT_SIGN_UP_PAGE_URL = "/basic-signup.html";
+
+	String DEFAULT_SIGN_OUT_PAGE_URL = "/basic-signout.html";
 
 	String DEFAULT_PARAMETER_NAME_CODE_IMAGE = "imageCode";
 

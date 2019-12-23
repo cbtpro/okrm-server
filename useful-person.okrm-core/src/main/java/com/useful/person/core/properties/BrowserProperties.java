@@ -20,6 +20,10 @@ public class BrowserProperties {
 
 	@Getter
 	@Setter
+	private String signoutPage = SecurityConstants.DEFAULT_SIGN_OUT_PAGE_URL;
+
+	@Getter
+	@Setter
 	private SigninType signinType = SigninType.JSON;
 
 	@Getter

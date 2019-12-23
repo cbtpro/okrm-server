@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -85,10 +86,13 @@ public class ValidatorCodeController {
 				ImageCodeProperties imageCodeProperties = securityProperties.getCode().getImage();
 				String randomStr = RandomString.make(imageCodeProperties.getLength());
 				String base64Str = "data:image/jepg;base64," + imageCodeGenerator.getRandomCodeBase64(new ServletWebRequest(request), randomStr);
-				ImageCode imageCode = new ImageCode(randomStr, imageCodeProperties.getExpireIn());
+				int expireIn = imageCodeProperties.getExpireIn();
+				ImageCode imageCode = new ImageCode(randomStr, expireIn);
 				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE, imageCode);
 				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "验证码生成成功");
 				result.put("base64", base64Str);
+				LocalDateTime expireTime = imageCode.getExpireTime();
+				result.put("expireTime", expireTime.toInstant(ZoneOffset.UTC).toString());
 				Gson gson = new Gson();
 				return gson.toJson(result);
 			}

@@ -3,7 +3,6 @@ package com.useful.person.browser;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +42,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OkrmAuthenticationFailureHandler okrmAuthenticationFailureHandler;
 
+//	@Autowired
+//	OkrmLogoutSuccess okrmLogoutSuccess;
+
 	@Autowired
 	private DataSource dataSource;
 
@@ -52,7 +54,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-	@Bean
+//	@Bean("persistentTokenRepository")
 	public PersistentTokenRepository persistentTokenRepository() {
 		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
 		jdbcTokenRepositoryImpl.setDataSource(dataSource);
@@ -63,6 +65,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		ValidatorCodeFilter validatorCodeFilter = new ValidatorCodeFilter();
@@ -77,12 +80,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		smsCodeFilter.afterPropertiesSet();
 
 		BrowserProperties browserProperties = securityProperties.getBrowser();
+		String signoutPage = browserProperties.getSignoutPage();
 		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
 				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
 				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)
 				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler)
+				// 登出功能
+//				.and().logout().logoutUrl(SecurityConstants.DEFAULT_SIGN_OUT_URL).logoutSuccessHandler(okrmLogoutSuccess)
+//				.logoutSuccessUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+//				.invalidateHttpSession(true).deleteCookies("SESSION")
+//				.invalidateHttpSession(true).deleteCookies("remember-me")
 				// 记住我功能
 				.and().rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
@@ -90,8 +99,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 不需要登录的接口
 				.and().authorizeRequests()
 				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL, SecurityConstants.DEFAULT_SIGN_UP_URL,
-						browserProperties.getSigninPage(), browserProperties.getSignupPage(),
+						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
+						browserProperties.getSigninPage(),
+						browserProperties.getSignupPage(),
+						signoutPage,
 						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*",
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*",
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*", "/auth/qq/*", "/favicon.ico")
