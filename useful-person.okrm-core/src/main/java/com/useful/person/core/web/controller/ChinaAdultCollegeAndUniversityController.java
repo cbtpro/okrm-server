@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaAdultCollegeAndUniversityServiceImpl;
+import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -37,6 +38,11 @@ public class ChinaAdultCollegeAndUniversityController {
 		return chinaAdultCollegeAndUniversityService.findAll();
 	}
 
+	@ApiOperation("查询所有中国成人高校位置信息")
+	@GetMapping("/locations")
+	public List<ChinaAdultCollegeAndUniversityLocationVO> queryAllChinaAdultCollegesAndUniversityLocatio() {
+		return chinaAdultCollegeAndUniversityService.findAllLocation();
+	}
 	@ApiOperation("批量新增/更新中国成人高校信息")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/batch")

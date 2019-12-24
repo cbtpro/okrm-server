@@ -13,5 +13,5 @@ import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
  */
 public interface ChinaCollegeAndUniversityService {
 
-    List<ChinaCollegeAndUniversityLocationVO> findAllLocation();
+	List<ChinaCollegeAndUniversityLocationVO> findAllLocation();
 }

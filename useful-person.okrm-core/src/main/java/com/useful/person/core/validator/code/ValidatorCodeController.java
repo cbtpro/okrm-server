@@ -122,6 +122,7 @@ public class ValidatorCodeController {
 					if (successBoolean) {
 						smsCodeRedisOperation.save(new ServletWebRequest(request), smsCode, smsCodeProperties.getExpireIn(), TimeUnit.SECONDS);
 						result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+						result.put("expireIn", expireIn);
 					} else {
 						result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "短信验证码发送失败");
 						// TODO 这里要做处理，联系管理员的操作，紧急的各种方式都可以
