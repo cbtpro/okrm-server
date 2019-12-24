@@ -7,7 +7,6 @@
 		<groupId>com.useful-person</groupId>
 		<artifactId>useful-person.okrm</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../useful-person.okrm</relativePath>
 	</parent>
 
 	<properties>
