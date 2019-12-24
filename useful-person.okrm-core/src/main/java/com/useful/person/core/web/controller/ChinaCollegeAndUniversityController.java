@@ -44,7 +44,7 @@ public class ChinaCollegeAndUniversityController {
 		return chinaCollegesAndUniversitiesService.findAllLocation();
 	}
 	@ApiOperation("批量增加/更新中国高校")
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/batch")
 	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
 		return chinaCollegesAndUniversitiesService.saveAll(list);

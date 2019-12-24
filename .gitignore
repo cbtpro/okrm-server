@@ -11,6 +11,10 @@ buildNumber.properties
 .DS_Store
 */.classpath
 */.project
+.project
 */.settings/
+.settings
+.vscode
 */.factorypath
 */logging.log*
+useful-person.okrm-core/target
