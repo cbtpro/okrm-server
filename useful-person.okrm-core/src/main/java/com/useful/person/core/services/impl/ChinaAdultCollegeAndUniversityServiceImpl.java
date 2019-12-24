@@ -13,6 +13,7 @@ import com.useful.person.core.exception.ChinaAdultCollegeAndUniversityNotExistEx
 import com.useful.person.core.repository.ChinaAdultCollegeAndUniversityRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.ChinaAdultCollegeAndUniversityService;
+import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 
 /**
  * @author peter
@@ -52,6 +53,11 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	@Override
 	public List<ChinaAdultCollegeAndUniversity> findAll() {
 		return chinaAdultCollegeAndUniversityRepository.findAll();
+	}
+
+	@Override
+	public List<ChinaAdultCollegeAndUniversityLocationVO> findAllLocation() {
+		return chinaAdultCollegeAndUniversityRepository.findAllLocation();
 	}
 
 	@Override

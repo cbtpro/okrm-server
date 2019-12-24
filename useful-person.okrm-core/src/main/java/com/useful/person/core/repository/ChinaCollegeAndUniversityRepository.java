@@ -18,12 +18,11 @@ import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 public interface ChinaCollegeAndUniversityRepository extends JpaRepository<ChinaCollegeAndUniversity, String> {
 
 	/**
-	 * 根据用户查询路线图
+	 * 查询所有高校的位置信息
 	 * 
 	 * @param userInfo
-	 * @return
+	 * @return List<ChinaCollegeAndUniversityLocationVO>
 	 */
 	@Query("select new com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO(uuid, number, name, longitude, latitude) from ChinaCollegeAndUniversity")
-
 	List<ChinaCollegeAndUniversityLocationVO> findAllLocation();
 }
