@@ -94,7 +94,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.invalidateHttpSession(true).deleteCookies("remember-me")
 				// 记住我功能
 				.and().rememberMe().tokenRepository(persistentTokenRepository())
-				.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+				.tokenValiditySeconds(browserProperties.getRememberMeSeconds())
 //				.userDetailsService(userDetailsService)
 				// 不需要登录的接口
 				.and().authorizeRequests()
