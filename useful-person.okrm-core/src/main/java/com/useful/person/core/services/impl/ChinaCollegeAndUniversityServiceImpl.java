@@ -33,6 +33,11 @@ public class ChinaCollegeAndUniversityServiceImpl
 	}
 
 	@Override
+	public List<ChinaCollegeAndUniversityLocationVO> findByNameLike(String name) {
+		return chinaCollegesAndUniversitiesRepository.findByNameLike(name);
+	}
+
+	@Override
 	public ChinaCollegeAndUniversity saveOne(ChinaCollegeAndUniversity entity) {
 		return chinaCollegesAndUniversitiesRepository.save(entity);
 	}

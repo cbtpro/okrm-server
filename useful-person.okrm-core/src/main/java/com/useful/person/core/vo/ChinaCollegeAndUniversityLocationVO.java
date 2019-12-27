@@ -22,16 +22,21 @@ public class ChinaCollegeAndUniversityLocationVO {
 
 	@Getter
 	@Setter
+	private String province;
+
+	@Getter
+	@Setter
 	private float longitude;
 
 	@Getter
 	@Setter
 	private float latitude;
 
-	public ChinaCollegeAndUniversityLocationVO(String uuid, long number, String name, float longitude, float latitude) {
+	public ChinaCollegeAndUniversityLocationVO(String uuid, long number, String name, String province, float longitude, float latitude) {
 		this.uuid = uuid;
 		this.number = number;
 		this.name = name;
+		this.province = province;
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
