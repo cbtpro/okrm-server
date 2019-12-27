@@ -6,6 +6,8 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
@@ -13,7 +15,6 @@ import com.useful.person.core.exception.ChinaAdultCollegeAndUniversityNotExistEx
 import com.useful.person.core.repository.ChinaAdultCollegeAndUniversityRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.ChinaAdultCollegeAndUniversityService;
-import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 
 /**
  * @author peter
@@ -28,6 +29,11 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	@Override
 	public ChinaAdultCollegeAndUniversity findByUuid(String uuid) {
 		return chinaAdultCollegeAndUniversityRepository.findById(uuid).orElseThrow(() -> new ChinaAdultCollegeAndUniversityNotExistException(uuid));
+	}
+
+	@Override
+	public Page<ChinaAdultCollegeAndUniversity> findByNameLike(String name, Pageable pageable) {
+		return chinaAdultCollegeAndUniversityRepository.findByNameLike(name, pageable);
 	}
 
 	@Override
@@ -56,8 +62,8 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	}
 
 	@Override
-	public List<ChinaAdultCollegeAndUniversityLocationVO> findAllLocation() {
-		return chinaAdultCollegeAndUniversityRepository.findAllLocation();
+	public Page<ChinaAdultCollegeAndUniversity> findAll(Pageable pageable) {
+		return chinaAdultCollegeAndUniversityRepository.findAll(pageable);
 	}
 
 	@Override

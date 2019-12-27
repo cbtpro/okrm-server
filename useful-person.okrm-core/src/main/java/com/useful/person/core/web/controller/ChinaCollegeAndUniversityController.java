@@ -6,6 +6,10 @@ package com.useful.person.core.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
-import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -35,18 +38,20 @@ public class ChinaCollegeAndUniversityController {
 	private ChinaCollegeAndUniversityServiceImpl chinaCollegesAndUniversitiesService;
 
 	@ApiOperation("查询所有中国高校列表")
-	@GetMapping
+	@GetMapping("/all")
 	public List<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversities() {
 		return chinaCollegesAndUniversitiesService.findAll();
 	}
 
-	@ApiOperation("查询所有中国高校位置信息列表")
-	@GetMapping("/locations")
-	public List<ChinaCollegeAndUniversityLocationVO> queryAllChinaCollegesAndUniversityLocation(@RequestParam(name = "name", required = false) String name) {
+	@ApiOperation("分页查询所有中国高校列表")
+	@GetMapping
+	public Page<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversityByPageable(
+			@RequestParam(name = "name", required = false) String name,
+			@PageableDefault(value = 15, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
 		if (StringUtils.isEmpty(name)) {
-			return chinaCollegesAndUniversitiesService.findAllLocation();
+			return chinaCollegesAndUniversitiesService.findAll(pageable);
 		}
-		return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%");
+		return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%", pageable);
 	}
 
 	@ApiOperation("批量增加/更新中国高校")
