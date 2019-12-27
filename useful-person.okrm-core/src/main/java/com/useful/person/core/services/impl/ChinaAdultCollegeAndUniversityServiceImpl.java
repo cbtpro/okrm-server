@@ -6,6 +6,8 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,17 +23,20 @@ import com.useful.person.core.services.ChinaAdultCollegeAndUniversityService;
  *
  */
 @Service("chinaAdultCollegeAndUniversityService")
+@CacheConfig(cacheNames = "chinaAdultCollegeAndUniversity")
 public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultCollegeAndUniversityService, BasicService<ChinaAdultCollegeAndUniversity> {
 
 	@Autowired
 	private ChinaAdultCollegeAndUniversityRepository chinaAdultCollegeAndUniversityRepository;
 
 	@Override
+	@Cacheable
 	public ChinaAdultCollegeAndUniversity findByUuid(String uuid) {
 		return chinaAdultCollegeAndUniversityRepository.findById(uuid).orElseThrow(() -> new ChinaAdultCollegeAndUniversityNotExistException(uuid));
 	}
 
 	@Override
+	@Cacheable
 	public Page<ChinaAdultCollegeAndUniversity> findByNameLike(String name, Pageable pageable) {
 		return chinaAdultCollegeAndUniversityRepository.findByNameLike(name, pageable);
 	}
@@ -57,11 +62,13 @@ public class ChinaAdultCollegeAndUniversityServiceImpl implements ChinaAdultColl
 	}
 
 	@Override
+	@Cacheable
 	public List<ChinaAdultCollegeAndUniversity> findAll() {
 		return chinaAdultCollegeAndUniversityRepository.findAll();
 	}
 
 	@Override
+	@Cacheable
 	public Page<ChinaAdultCollegeAndUniversity> findAll(Pageable pageable) {
 		return chinaAdultCollegeAndUniversityRepository.findAll(pageable);
 	}
