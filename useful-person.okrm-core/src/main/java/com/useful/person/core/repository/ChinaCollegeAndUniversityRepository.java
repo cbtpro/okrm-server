@@ -3,13 +3,11 @@
  */
 package com.useful.person.core.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
-import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 
 /**
  * @author peter
@@ -18,19 +16,17 @@ import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 public interface ChinaCollegeAndUniversityRepository extends JpaRepository<ChinaCollegeAndUniversity, String> {
 
 	/**
-	 * 查询所有高校的位置信息列表
+	 * 分页查询所有高校信息列表
 	 * 
 	 * @param userInfo
-	 * @return List<ChinaCollegeAndUniversityLocationVO> 高校信息位置列表
+	 * @return Page<ChinaCollegeAndUniversity> 带分页信息的高校信息列表
 	 */
-	@Query("select new com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO(uuid, number, name, province, longitude, latitude) from ChinaCollegeAndUniversity")
-	List<ChinaCollegeAndUniversityLocationVO> findAllLocation();
+	Page<ChinaCollegeAndUniversity> findAll(Pageable pageable);
 
 	/**
-	 * 根据名称查询大学的位置信息列表
+	 * 根据名称分页查询大学信息列表
 	 * @param name 高校名称
-	 * @return List<ChinaCollegeAndUniversityLocationVO> 高校信息位置列表
+	 * @return Page<ChinaCollegeAndUniversity> 带分页信息的高校信息列表
 	 */
-	@Query("select new com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO(uuid, number, name, province, longitude, latitude) from ChinaCollegeAndUniversity where name like :name")
-	List<ChinaCollegeAndUniversityLocationVO> findByNameLike(String name);
+	Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable);
 }

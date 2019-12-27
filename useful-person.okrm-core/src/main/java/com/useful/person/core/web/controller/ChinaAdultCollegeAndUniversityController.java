@@ -6,18 +6,23 @@ package com.useful.person.core.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaAdultCollegeAndUniversityServiceImpl;
-import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -33,15 +38,20 @@ public class ChinaAdultCollegeAndUniversityController {
 	public ChinaAdultCollegeAndUniversityServiceImpl chinaAdultCollegeAndUniversityService;
 
 	@ApiOperation("查询所有中国成人高校列表")
-	@GetMapping
+	@GetMapping("/all")
 	public List<ChinaAdultCollegeAndUniversity> queryAll() {
 		return chinaAdultCollegeAndUniversityService.findAll();
 	}
 
 	@ApiOperation("查询所有中国成人高校位置信息")
-	@GetMapping("/locations")
-	public List<ChinaAdultCollegeAndUniversityLocationVO> queryAllChinaAdultCollegesAndUniversityLocatio() {
-		return chinaAdultCollegeAndUniversityService.findAllLocation();
+	@GetMapping
+	public Page<ChinaAdultCollegeAndUniversity> queryAllChinaAdultCollegesAndUniversityByPageable(
+			@RequestParam(name = "name", required = false) String name,
+			@PageableDefault(value = 15, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
+		if (StringUtils.isEmpty(name)) {
+			return chinaAdultCollegeAndUniversityService.findAll(pageable);
+		}
+		return chinaAdultCollegeAndUniversityService.findByNameLike("%" + name + "%", pageable);
 	}
 	@ApiOperation("批量新增/更新中国成人高校信息")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

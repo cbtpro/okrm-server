@@ -3,9 +3,10 @@
  */
 package com.useful.person.core.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
+import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
 
 /**
  * @author peter
@@ -13,5 +14,7 @@ import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
  */
 public interface ChinaAdultCollegeAndUniversityService {
 
-	List<ChinaAdultCollegeAndUniversityLocationVO> findAllLocation();
+	Page<ChinaAdultCollegeAndUniversity> findAll(Pageable pageable);
+
+	Page<ChinaAdultCollegeAndUniversity> findByNameLike(String name, Pageable pageable);
 }

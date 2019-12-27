@@ -6,6 +6,8 @@ package com.useful.person.core.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
@@ -13,7 +15,6 @@ import com.useful.person.core.exception.ChinaCollegeAndUniversityNotExistExcepti
 import com.useful.person.core.repository.ChinaCollegeAndUniversityRepository;
 import com.useful.person.core.services.BasicService;
 import com.useful.person.core.services.ChinaCollegeAndUniversityService;
-import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 
 /**
  * @author peter
@@ -33,8 +34,8 @@ public class ChinaCollegeAndUniversityServiceImpl
 	}
 
 	@Override
-	public List<ChinaCollegeAndUniversityLocationVO> findByNameLike(String name) {
-		return chinaCollegesAndUniversitiesRepository.findByNameLike(name);
+	public Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable) {
+		return chinaCollegesAndUniversitiesRepository.findByNameLike(name, pageable);
 	}
 
 	@Override
@@ -63,8 +64,8 @@ public class ChinaCollegeAndUniversityServiceImpl
 	}
 
 	@Override
-	public List<ChinaCollegeAndUniversityLocationVO> findAllLocation() {
-		return chinaCollegesAndUniversitiesRepository.findAllLocation();
+	public Page<ChinaCollegeAndUniversity> findAll(Pageable pageable) {
+		return chinaCollegesAndUniversitiesRepository.findAll(pageable);
 	}
 
 	@Override

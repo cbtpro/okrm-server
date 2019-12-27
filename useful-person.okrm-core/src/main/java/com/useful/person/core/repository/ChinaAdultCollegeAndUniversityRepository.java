@@ -1,12 +1,10 @@
 package com.useful.person.core.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
-import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 
 /**
  * 
@@ -16,12 +14,19 @@ import com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO;
 public interface ChinaAdultCollegeAndUniversityRepository extends JpaRepository<ChinaAdultCollegeAndUniversity, String> {
 
 	/**
-	 * 查询所有成人高校的位置信息
+	 * 分页查询所有成人高校的信息
 	 * 
 	 * @param userInfo
-	 * @return List<ChinaCollegeAndUniversityLocationVO>
+	 * @return Page<ChinaAdultCollegeAndUniversity> 带分页信息的成人高校列表
 	 */
-	@Query("select new com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO(uuid, number, name, province, longitude, latitude) from ChinaAdultCollegeAndUniversity")
-	List<ChinaAdultCollegeAndUniversityLocationVO> findAllLocation();
+	Page<ChinaAdultCollegeAndUniversity> findAll(Pageable pageable);
+
+	/**
+	 * 根据名称分页查询成人高校信息
+	 * @param name
+	 * @param pageable
+	 * @return Page<ChinaAdultCollegeAndUniversity> 带分页信息的成人高校列表
+	 */
+	Page<ChinaAdultCollegeAndUniversity> findByNameLike(String name, Pageable pageable);
 
 }
