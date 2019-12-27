@@ -5,19 +5,21 @@ package com.useful.person.core.web.controller;
 
 import java.util.List;
 
-import com.useful.person.core.domain.ChinaCollegeAndUniversity;
-import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
-import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.useful.person.core.domain.ChinaCollegeAndUniversity;
+import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
+import com.useful.person.core.vo.ChinaCollegeAndUniversityLocationVO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -38,11 +40,15 @@ public class ChinaCollegeAndUniversityController {
 		return chinaCollegesAndUniversitiesService.findAll();
 	}
 
-	@ApiOperation("查询所有中国高校位置信息")
+	@ApiOperation("查询所有中国高校位置信息列表")
 	@GetMapping("/locations")
-	public List<ChinaCollegeAndUniversityLocationVO> queryAllChinaCollegesAndUniversityLocation() {
-		return chinaCollegesAndUniversitiesService.findAllLocation();
+	public List<ChinaCollegeAndUniversityLocationVO> queryAllChinaCollegesAndUniversityLocation(@RequestParam(name = "name", required = false) String name) {
+		if (StringUtils.isEmpty(name)) {
+			return chinaCollegesAndUniversitiesService.findAllLocation();
+		}
+		return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%");
 	}
+
 	@ApiOperation("批量增加/更新中国高校")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/batch")

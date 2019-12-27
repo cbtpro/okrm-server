@@ -21,7 +21,7 @@ public interface ChinaAdultCollegeAndUniversityRepository extends JpaRepository<
 	 * @param userInfo
 	 * @return List<ChinaCollegeAndUniversityLocationVO>
 	 */
-	@Query("select new com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO(uuid, number, name, longitude, latitude) from ChinaAdultCollegeAndUniversity")
+	@Query("select new com.useful.person.core.vo.ChinaAdultCollegeAndUniversityLocationVO(uuid, number, name, province, longitude, latitude) from ChinaAdultCollegeAndUniversity")
 	List<ChinaAdultCollegeAndUniversityLocationVO> findAllLocation();
 
 }
