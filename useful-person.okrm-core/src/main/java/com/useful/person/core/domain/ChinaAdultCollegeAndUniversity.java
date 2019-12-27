@@ -3,6 +3,7 @@
  */
 package com.useful.person.core.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,7 +29,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_china_adult_college_and_university")
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class ChinaAdultCollegeAndUniversity {
+public class ChinaAdultCollegeAndUniversity implements Serializable {
+
+	private static final long serialVersionUID = 9054042476294965487L;
 
 	/**
 	 * uuid，用来标志全局唯一性

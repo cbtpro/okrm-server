@@ -2,9 +2,8 @@ package com.useful.person;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 
@@ -13,16 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@RestController
+@EnableCaching(proxyTargetClass = true)
 public class OkrmServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OkrmServerApplication.class, args);
-	}
-	
-	@GetMapping("/hello")
-	public String hello() {
-		return "hello, world!";
 	}
 
 }
