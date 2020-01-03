@@ -55,22 +55,9 @@ public class ImageCodeGenerator implements ValidatorCodeGenerator {
 		base64Str = encoder.encodeToString(bytes);
 		return base64Str;
 	}
-	/**
-	 * 获取四个随机数
-	 * 
-	 * @return String
-	 */
-//	private String getRandomStr() {
-//		String str = "";
-//		for (int i = 0; i < 6; i++) {
-//			int temp = random.nextInt(10);
-//			str += temp;
-//		}
-//		return str;
-//	}
+
 	/**
 	 * get a random color
-	 * 
 	 * @return Color
 	 */
 	private Color getRandomColor() {

@@ -25,6 +25,5 @@ public interface LifeRoadMapRepository extends JpaRepository<LifeRoadMap, String
 	 * @return
 	 */
 	@Query("select new com.useful.person.core.vo.LifeRoadMapVO(lrm.uuid, lrm.sex, lrm.age, lrm.event, lrm.description, lrm.times, lrm.updateTime, lrm.createTime) from LifeRoadMap lrm where lrm.user = ?1")
-//	@Query(value = "select lrm.uuid, lrm.sex, lrm.age, lrm.event, lrm.description, lrm.times, lrm.updateTime, lrm.createTime from t_life_road_map lrm where lrm.user_uuid = ?1", nativeQuery = true)
 	List<LifeRoadMapVO> findByUser(UserInfo userInfo);
 }

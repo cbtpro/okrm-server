@@ -16,7 +16,7 @@ public interface ChinaAdultCollegeAndUniversityRepository extends JpaRepository<
 	/**
 	 * 分页查询所有成人高校的信息
 	 * 
-	 * @param userInfo
+	 * @param pageable
 	 * @return Page<ChinaAdultCollegeAndUniversity> 带分页信息的成人高校列表
 	 */
 	Page<ChinaAdultCollegeAndUniversity> findAll(Pageable pageable);

@@ -54,7 +54,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-//	@Bean("persistentTokenRepository")
 	public PersistentTokenRepository persistentTokenRepository() {
 		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
 		jdbcTokenRepositoryImpl.setDataSource(dataSource);
@@ -98,7 +97,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 //				.userDetailsService(userDetailsService)
 				// 不需要登录的接口
 				.and().authorizeRequests()
-				.antMatchers("/", "/hello", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+				.antMatchers("/", "/suggest", SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
 						browserProperties.getSigninPage(),
 						browserProperties.getSignupPage(),

@@ -16,6 +16,7 @@ public interface ChinaCollegeAndUniversityService {
 
 	/**
 	 * 分页查询所有大学的位置信息
+	 * @param pageable
 	 * @return List<ChinaCollegeAndUniversityLocationVO> 分页查询到的大学的位置信息列表
 	 */
 	Page<ChinaCollegeAndUniversity> findAll(Pageable pageable);
@@ -23,6 +24,7 @@ public interface ChinaCollegeAndUniversityService {
 	/**
 	 * 根据名称分页查询大学的位置信息
 	 * @param name 大学名称
+	 * @param pageable
 	 * @return List<ChinaCollegeAndUniversityLocationVO> 根据名称分页查询到的大学的位置信息列表
 	 */
 	Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable);
