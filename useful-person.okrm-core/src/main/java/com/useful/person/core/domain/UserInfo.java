@@ -67,6 +67,12 @@ public class UserInfo implements UserDetails  {
 	@JsonIgnore
 	private Set<LifeRoadMap> lifeRoadMapList;
 
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<Suggest> suggestList;
+
 	@Id
 	@JsonView(UserInfoSimpleView.class)
 	@Getter

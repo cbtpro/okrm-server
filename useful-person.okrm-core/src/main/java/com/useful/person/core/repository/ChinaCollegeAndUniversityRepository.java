@@ -18,7 +18,7 @@ public interface ChinaCollegeAndUniversityRepository extends JpaRepository<China
 	/**
 	 * 分页查询所有高校信息列表
 	 * 
-	 * @param userInfo
+	 * @param pageable
 	 * @return Page<ChinaCollegeAndUniversity> 带分页信息的高校信息列表
 	 */
 	Page<ChinaCollegeAndUniversity> findAll(Pageable pageable);
@@ -26,6 +26,7 @@ public interface ChinaCollegeAndUniversityRepository extends JpaRepository<China
 	/**
 	 * 根据名称分页查询大学信息列表
 	 * @param name 高校名称
+	 * @param pageable 分页对象
 	 * @return Page<ChinaCollegeAndUniversity> 带分页信息的高校信息列表
 	 */
 	Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable);

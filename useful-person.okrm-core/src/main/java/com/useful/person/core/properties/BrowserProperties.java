@@ -26,8 +26,9 @@ public class BrowserProperties {
 	@Setter
 	private SigninType signinType = SigninType.JSON;
 
+	// # 保留remenberMe 7天
 	@Getter
 	@Setter
-	private int rememberMeSeconds = 7 * 24 * 60 * 60; // # 保留remenberMe 7天
+	private int rememberMeSeconds = 7 * 24 * 60 * 60;
 
 }

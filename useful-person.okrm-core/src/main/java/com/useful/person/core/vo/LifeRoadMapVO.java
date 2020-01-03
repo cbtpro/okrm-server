@@ -5,6 +5,7 @@ package com.useful.person.core.vo;
 
 import java.util.Date;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
  * @author peter
  *
  */
+@Data
 public class LifeRoadMapVO {
 
 	@Getter
@@ -23,14 +25,14 @@ public class LifeRoadMapVO {
 	 */
 	@Getter
 	@Setter
-	private int sex;
+	private Integer sex;
 
 	/**
 	 * 事件发生年龄
 	 */
 	@Getter
 	@Setter
-	private int age;
+	private Integer age;
 
 	/**
 	 * 事件
@@ -51,7 +53,7 @@ public class LifeRoadMapVO {
 	 */
 	@Getter
 	@Setter
-	private int times;
+	private Integer times;
 
 	@Getter
 	@Setter

@@ -45,17 +45,6 @@ public class LoginController {
 	}
 
 	/**
-	 * 用户登出
-	 * 
-	 * @param user
-	 * @return boolean
-	 */
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public boolean logout(UserInfo userInfo) {
-//		return true;
-//	}
-
-	/**
 	 * 注册新用户
 	 * 
 	 * @param user
