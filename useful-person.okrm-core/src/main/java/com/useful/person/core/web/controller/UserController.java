@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
@@ -44,6 +43,12 @@ public class UserController {
 		return userService.isExistUsername(username);
 	}
 
+	@GetMapping(value = "/profile/detail")
+	@JsonView(UserInfo.UserInfoDetailView.class)
+	public UserInfo getUserDetail(Authentication user) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return userService.findByUuid(currentUser.getUuid());
+	}
 	/**
 	 * 获取用户详情
 	 * 
@@ -54,9 +59,6 @@ public class UserController {
 	@JsonView(UserInfo.UserInfoDetailView.class)
 	public UserInfo getUserInfo(@PathVariable(name = "uuid", required = true) String uuid) {
 		UserInfo user = userService.findByUuid(uuid);
-		if (user == null) {
-			throw new UserNotExistException(uuid);
-		}
 		return user;
 	}
 
