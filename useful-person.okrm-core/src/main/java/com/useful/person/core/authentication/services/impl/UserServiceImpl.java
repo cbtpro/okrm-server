@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.authentication.repository.UserRepository;
 import com.useful.person.core.authentication.services.IUserService;
@@ -44,7 +46,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public UserInfo findByUuid(String uuid) {
-		return userRepository.findById(uuid).orElse(null);
+		return userRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public boolean isExistUsername(String username) {
 		UserInfo users = userRepository.findByUsername(username);
-		return users != null;
+		return StringUtils.isEmpty(users);
 	}
 
 	private void encryptPassword(UserInfo user) {

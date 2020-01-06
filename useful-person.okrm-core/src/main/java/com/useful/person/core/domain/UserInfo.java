@@ -39,6 +39,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Builder.Default;
 
 /**
  * @author peter
@@ -100,6 +101,7 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoSimpleView.class)
 	private String mobile;
 
 	@Getter
@@ -109,6 +111,7 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoSimpleView.class)
 	@Past(message = "生日必须是过去的时间")
 	private Date birthday;
 	
@@ -118,11 +121,13 @@ public class UserInfo implements UserDetails  {
 	
 	@Getter
 	@Setter
+	@JsonView(UserInfoSimpleView.class)
 	@Email(message = "Email格式不正确")
 	private String email;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoSimpleView.class)
 	@Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmount", parameters = {
 			@org.hibernate.annotations.Parameter(name = "currencyCode", value = "CNY") })
 	private Money hourlyWage;
