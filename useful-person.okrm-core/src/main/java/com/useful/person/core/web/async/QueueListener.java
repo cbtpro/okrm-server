@@ -6,14 +6,14 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  * @author peter
  *
  */
-@Log4j2
+@Slf4j
 @Component
 public class QueueListener implements ApplicationListener<ContextRefreshedEvent> {
 

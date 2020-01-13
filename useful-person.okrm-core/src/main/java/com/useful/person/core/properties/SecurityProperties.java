@@ -15,28 +15,20 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "okrm.security")
 public class SecurityProperties {
 
+	@Getter
+	@Setter
 	private BrowserProperties browser = new BrowserProperties();
 
+	@Getter
+	@Setter
 	private ValidatorCodeProperties code = new ValidatorCodeProperties();
 
 	@Getter
 	@Setter
 	private MailProperties mail = new MailProperties();
 
-	public ValidatorCodeProperties getCode() {
-		return code;
-	}
-
-	public void setCode(ValidatorCodeProperties code) {
-		this.code = code;
-	}
-
-	public BrowserProperties getBrowser() {
-		return browser;
-	}
-
-	public void setBrowser(BrowserProperties browser) {
-		this.browser = browser;
-	}
+	@Getter
+	@Setter
+	private OSSProperties oss = new OSSProperties();
 
 }

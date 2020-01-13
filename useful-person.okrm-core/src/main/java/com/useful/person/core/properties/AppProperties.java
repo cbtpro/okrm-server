@@ -29,6 +29,10 @@ public class AppProperties {
 	@Setter
 	private String mail;
 
+	@Getter
+	@Setter
+	private FileProperties file = new FileProperties();
+
 	public String getOrigin() {
 		String origin = this.host;
 		String port = StringUtils.trim(String.valueOf(this.port));

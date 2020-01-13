@@ -21,14 +21,14 @@ import com.useful.person.core.properties.MailConfig;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.validator.mail.MailService;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  * @author peter
  *
  */
-@Log4j2
+@Slf4j
 @Service("mailService")
 public class MailServiceImpl implements MailService {
 

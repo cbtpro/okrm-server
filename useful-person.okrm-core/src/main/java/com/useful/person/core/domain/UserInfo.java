@@ -39,7 +39,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Builder.Default;
 
 /**
  * @author peter
@@ -97,7 +96,15 @@ public class UserInfo implements UserDetails  {
 	@Getter
 	@Setter
 	@JsonView(UserInfoSimpleView.class)
-	private String avatar;
+	private String avatar; // 头像完整url地址
+
+	@Getter
+	@Setter
+	private String avatarName; // 头像文件名称
+
+	@Getter
+	@Setter
+	private String avatarExtension; // 头像文件扩展名
 
 	@Getter
 	@Setter
