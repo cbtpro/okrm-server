@@ -18,21 +18,21 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.google.gson.Gson;
-import com.useful.person.core.properties.AppProperties;
 import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.properties.AppProperties;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.redis.impl.BasicRedisOperation;
 import com.useful.person.core.validator.mail.MailService;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  * @author peter
  *
  */
-@Log4j2
+@Slf4j
 @RestController
 @RequestMapping(SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX)
 public class UserActivationController {

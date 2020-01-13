@@ -16,14 +16,14 @@ import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.properties.SmsCodeProperties;
 import com.useful.person.core.validator.code.sms.SmsCodeSender;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  * @author peter
  *
  */
-@Log4j2
+@Slf4j
 public class DefaultSmsCodeSender implements SmsCodeSender {
 
 	@Value("${spring.application.name}")
