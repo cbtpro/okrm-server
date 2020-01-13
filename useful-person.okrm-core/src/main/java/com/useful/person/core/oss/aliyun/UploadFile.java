@@ -15,8 +15,6 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
-import com.aliyun.oss.model.Callback;
-import com.aliyun.oss.model.Callback.CalbackBodyType;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.useful.person.core.oss.IUploadFile;
 import com.useful.person.core.properties.OSSConfig;
@@ -80,18 +78,7 @@ public class UploadFile implements IUploadFile {
 		// 创建OSSClient实例
 		OSS ossClient = new OSSClient(endpoint, credentialsProvider, config);
 		PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, remotePath, new File(sourceFilePath));
-		// 设置回调
-		Callback callback = new Callback();
-		callback.setCallbackHost("https://api.useful-person.com");
-		callback.setCallbackUrl("/oss/callback");
-		// 设置发起回调时请求body的值。
-		callback.setCallbackBody("{\\\"mimeType\\\":${mimeType},\\\"size\\\":${size}}");
-		// 设置发起回调请求的Content-Type。
-		callback.setCalbackBodyType(CalbackBodyType.JSON);
-		// 设置发起回调请求的自定义参数，由Key和Value组成，Key必须以x:开始。
-		callback.addCallbackVar("x:var1", "value1");
-		callback.addCallbackVar("x:var2", "value2");
-		putObjectRequest.setCallback(callback);
+		
 		ossClient.putObject(putObjectRequest);
 	}
 
