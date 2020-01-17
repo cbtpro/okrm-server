@@ -5,6 +5,9 @@ package com.useful.person.core.services;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfoLog;
 
 /**
@@ -19,7 +22,7 @@ public interface UserInfoService {
 	 * @param userUuid
 	 * @param userInfoLog
 	 */
-	void updateAvatarImage(String avatar, String userUuid, UserInfoLog userInfoLog);
+	void updateAvatarImage(MultipartFile multipartFile, UserInfo curentUser);
 	
 
 	/**

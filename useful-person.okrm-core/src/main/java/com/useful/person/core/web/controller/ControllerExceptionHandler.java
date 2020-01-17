@@ -17,6 +17,7 @@ import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.exception.ChinaAdultCollegeAndUniversityNotExistException;
 import com.useful.person.core.exception.ChinaCollegeAndUniversityNotExistException;
 import com.useful.person.core.exception.EventNotExistException;
+import com.useful.person.core.exception.OSSException;
 
 /**
  * 
@@ -97,4 +98,12 @@ public class ControllerExceptionHandler {
 		return result;
 	}
 
+	@ExceptionHandler(OSSException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, String> handlerOSSException(OSSException e) {
+		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
+		return result;
+	}
 }

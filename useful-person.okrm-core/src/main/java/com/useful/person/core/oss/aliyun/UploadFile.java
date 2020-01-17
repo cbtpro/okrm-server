@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.PutObjectRequest;
@@ -38,7 +39,7 @@ public class UploadFile implements IUploadFile {
 		String accessKeyId = ossConfig.getAccessKeyId();
 		String accessKeySecret = ossConfig.getAccessKeySecret();
 		String bucketName = ossConfig.getBucketName();
-		
+
 		CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 		ClientConfiguration config = new ClientConfiguration();
 		// 创建OSSClient实例
@@ -55,7 +56,7 @@ public class UploadFile implements IUploadFile {
 		String accessKeyId = ossConfig.getAccessKeyId();
 		String accessKeySecret = ossConfig.getAccessKeySecret();
 		String bucketName = ossConfig.getBucketName();
-		
+
 		CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 		ClientConfiguration config = new ClientConfiguration();
 		// 创建OSSClient实例
@@ -72,14 +73,19 @@ public class UploadFile implements IUploadFile {
 		String accessKeyId = ossConfig.getAccessKeyId();
 		String accessKeySecret = ossConfig.getAccessKeySecret();
 		String bucketName = ossConfig.getBucketName();
-		
+
 		CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 		ClientConfiguration config = new ClientConfiguration();
 		// 创建OSSClient实例
 		OSS ossClient = new OSSClient(endpoint, credentialsProvider, config);
 		PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, remotePath, new File(sourceFilePath));
-		
-		ossClient.putObject(putObjectRequest);
+		try {
+			ossClient.putObject(putObjectRequest);
+		} catch (OSSException e) {
+			throw new com.useful.person.core.exception.OSSException("头像上传失败！");
+		} finally {
+			ossClient.shutdown();
+		}
 	}
 
 }
