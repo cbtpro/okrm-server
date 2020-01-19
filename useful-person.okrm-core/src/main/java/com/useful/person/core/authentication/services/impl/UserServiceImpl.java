@@ -15,6 +15,7 @@ import com.useful.person.core.constants.UserAction;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfoLog;
 import com.useful.person.core.repository.UserInfoLogRepository;
+import com.useful.person.core.repository.UserInfoRepository;
 
 /**
  * 
@@ -26,6 +27,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	UserInfoRepository userInfoRepository;
 
 	@Autowired
 	private UserInfoLogRepository userInfoLogRepository;
@@ -84,5 +88,16 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserInfo findByMobile(String mobile) {
 		return userRepository.findByMobile(mobile);
+	}
+
+	@Override
+	public UserInfo updateUserInfo(UserInfo userInfo) {
+		return userRepository.save(userInfo);
+	}
+
+	@Override
+	@Transactional
+	public void updateNicknameByUuid(String uuid, String nickname) {
+		userInfoRepository.updateNickname(nickname, uuid);
 	}
 }

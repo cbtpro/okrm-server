@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,4 +64,15 @@ public class UserController {
 		return user;
 	}
 
+	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+	public void updateUserInfo(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody UserInfo userInfo) {
+//		return userService.updateUserInfo(userInfo);
+		userService.updateNicknameByUuid(uuid, userInfo.getNickname());
+	}
+
+//	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+//	public UserInfo updateNickname(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody UserInfo userInfo) {
+//		return userService.updateNicknameByUuid(uuid, userInfo.getNickname());
+//		
+//	}
 }
