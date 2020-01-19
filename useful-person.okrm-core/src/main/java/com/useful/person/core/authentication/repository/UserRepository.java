@@ -3,6 +3,7 @@ package com.useful.person.core.authentication.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.useful.person.core.domain.UserInfo;
 

@@ -59,4 +59,13 @@ public interface IUserService {
 	 */
 	UserInfo findByMobile(String mobile);
 
+	/**
+	 * 更新用户
+	 * @param uuid
+	 * @param userInfo
+	 * @return
+	 */
+	UserInfo updateUserInfo(UserInfo userInfo);
+
+	void updateNicknameByUuid(String uuid, String nickname);
 }
