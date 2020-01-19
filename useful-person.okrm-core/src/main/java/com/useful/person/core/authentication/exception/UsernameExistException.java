@@ -16,9 +16,9 @@ public class UsernameExistException extends RuntimeException {
 	@Setter
 	private String username;
 
-	public UsernameExistException(String uuid) {
+	public UsernameExistException(String username) {
 		super("username exist");
-		this.username = uuid;
+		this.username = username;
 	}
 
 }

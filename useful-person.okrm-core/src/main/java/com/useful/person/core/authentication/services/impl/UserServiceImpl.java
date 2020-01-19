@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.authentication.repository.UserRepository;
 import com.useful.person.core.authentication.services.IUserService;
+import com.useful.person.core.constants.UserAction;
+import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.domain.UserInfoLog;
+import com.useful.person.core.repository.UserInfoLogRepository;
 
 /**
  * 
@@ -25,9 +28,13 @@ public class UserServiceImpl implements IUserService {
 	UserRepository userRepository;
 
 	@Autowired
+	private UserInfoLogRepository userInfoLogRepository;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
+	@Transactional
 	public UserInfo register(UserInfo userInfo) {
 		String username = userInfo.getUsername();
 		boolean isExistUsername = isExistUsername(username);
@@ -35,7 +42,10 @@ public class UserServiceImpl implements IUserService {
 			throw new UsernameExistException(username);
 		}
 		encryptPassword(userInfo);
-		return userRepository.save(userInfo);
+		UserInfo newUserInfo = userRepository.save(userInfo);
+		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
+		userInfoLogRepository.save(userInfoLog);
+		return newUserInfo;
 	}
 
 	@Override
@@ -61,8 +71,8 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public boolean isExistUsername(String username) {
-		UserInfo users = userRepository.findByUsername(username);
-		return StringUtils.isEmpty(users);
+		UserInfo userInfo = userRepository.findByUsername(username);
+		return userInfo != null;
 	}
 
 	private void encryptPassword(UserInfo user) {
