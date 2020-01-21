@@ -101,6 +101,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
 						SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL,
 						SecurityConstants.DEFAULT_SIGN_UP_URL,
+						SecurityConstants.DEFAULT_SIGN_UP_MOBILE_URL,
+						SecurityConstants.DEFAULT_SIGN_UP_EMAIL_URL,
 						browserProperties.getSigninPage(),
 						browserProperties.getSignupPage(),
 						signoutPage,
