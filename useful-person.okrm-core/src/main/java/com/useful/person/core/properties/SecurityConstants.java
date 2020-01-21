@@ -23,6 +23,10 @@ public interface SecurityConstants {
 
 	String DEFAULT_SIGN_UP_URL = "/signup";
 
+	String DEFAULT_SIGN_UP_MOBILE_URL = "/signup/mobile";
+
+	String DEFAULT_SIGN_UP_EMAIL_URL = "/signup/email";
+
 	String DEFAULT_SIGN_OUT_URL = "/logout";
 
 	String DEFAULT_ACTIVATE_URL_PREFIX = "/activate";

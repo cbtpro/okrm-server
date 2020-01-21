@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.domain.UserInfo.UserInfoMobileSignupView;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.properties.SecurityConstants;
@@ -83,6 +84,11 @@ public class LoginController {
 		return map;
 	}
 
+	@JsonView(UserInfoMobileSignupView.class)
+	@PostMapping(SecurityConstants.DEFAULT_SIGN_UP_MOBILE_URL)
+	public Map<String, Object> createUserByMobile() {
+		return null;
+	}
 	/**
 	 * 注销用户
 	 * 

@@ -55,11 +55,14 @@ public class UserInfo implements UserDetails  {
 
 	private static final long serialVersionUID = -2809225013056302802L;
 
-	public interface UserInfoSimpleView {};
+	public interface UserInfoMobileSignupView {}
+
+	public interface UserInfoSimpleView extends UserInfoMobileSignupView {};
 
 	public interface UserInfoDetailView extends UserInfoSimpleView {};
 
 	public interface UserInfoSecurityView extends UserInfoSimpleView {};
+
 
 	@Getter
 	@Setter
@@ -108,7 +111,7 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoSimpleView.class)
+	@JsonView(UserInfoMobileSignupView.class)
 	private String mobile;
 
 	@Getter
