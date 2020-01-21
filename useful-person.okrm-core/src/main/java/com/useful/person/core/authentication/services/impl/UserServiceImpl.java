@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.authentication.repository.UserRepository;
@@ -53,6 +54,20 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	public UserInfo registerByMobile(UserInfo userInfo) {
+		String mobile = userInfo.getMobile();
+		boolean isExistMobile = isExistMobile(mobile);
+		if (isExistMobile) {
+			throw new MobileExistException(mobile);
+		}
+		encryptPassword(userInfo);
+		UserInfo newUserInfo = userRepository.save(userInfo);
+		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
+		userInfoLogRepository.save(userInfoLog);
+		return newUserInfo;
+	}
+
+	@Override
 	public boolean delete(UserInfo userInfo) {
 		userRepository.delete(userInfo);
 		return true;
@@ -79,6 +94,11 @@ public class UserServiceImpl implements IUserService {
 		return userInfo != null;
 	}
 
+	@Override
+	public boolean isExistMobile(String mobile) {
+		UserInfo userInfo = userRepository.findByMobile(mobile);
+		return userInfo != null;
+	}
 	private void encryptPassword(UserInfo user) {
 		String password = user.getPassword();
 		password = passwordEncoder.encode(password);
@@ -100,4 +120,5 @@ public class UserServiceImpl implements IUserService {
 	public void updateNicknameByUuid(String uuid, String nickname) {
 		userInfoRepository.updateNickname(nickname, uuid);
 	}
+
 }
