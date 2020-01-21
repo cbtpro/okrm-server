@@ -17,7 +17,7 @@ public class UsernameExistException extends RuntimeException {
 	private String username;
 
 	public UsernameExistException(String username) {
-		super("username exist");
+		super("username already exist");
 		this.username = username;
 	}
 

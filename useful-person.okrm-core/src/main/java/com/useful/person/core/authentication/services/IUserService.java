@@ -11,11 +11,18 @@ import com.useful.person.core.domain.UserInfo;
 public interface IUserService {
 
 	/**
-	 * 注册用户
+	 * 通过用户名注册用户
 	 * @param userInfo
 	 * @return
 	 */
 	UserInfo register(UserInfo userInfo);
+
+	/**
+	 * 通过手机号注册用户
+	 * @param userInfo
+	 * @return
+	 */
+	UserInfo registerByMobile(UserInfo userInfo);
 
 	/**
 	 * 删除用户
@@ -32,11 +39,18 @@ public interface IUserService {
 	UserInfo findByUuid(String uuid);
 	
 	/**
-	 * 判断用户是否存在
+	 * 判断用户是否已经被注册
 	 * @param username
 	 * @return boolean
 	 */
 	boolean isExistUsername(String username);
+
+	/**
+	 * 判断手机号是否已经注册
+	 * @param mobile
+	 * @return
+	 */
+	boolean isExistMobile(String mobile);
 	
 	/**
 	 * 根据用户名查找用户

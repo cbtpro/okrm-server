@@ -67,7 +67,8 @@ public class UserController {
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public void updateUserInfo(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody UserInfo userInfo) {
 //		return userService.updateUserInfo(userInfo);
-		userService.updateNicknameByUuid(uuid, userInfo.getNickname());
+//		userService.updateNicknameByUuid(uuid, userInfo.getNickname());
+		userService.updateUserInfo(userInfo);
 	}
 
 //	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)

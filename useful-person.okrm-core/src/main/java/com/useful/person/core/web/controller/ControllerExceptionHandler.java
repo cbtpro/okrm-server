@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.MobileNotRegisteredException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
@@ -44,6 +45,16 @@ public class ControllerExceptionHandler {
 		Map<String, String> result = new HashMap<>(2);
 		result.put("username", usernameExistException.getUsername());
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, usernameExistException.getMessage());
+		return result;
+	}
+
+	@ExceptionHandler(MobileExistException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, String> handlerMobileExistException(MobileExistException mobileExistException) {
+		Map<String, String> result = new HashMap<>(2);
+		result.put("mobile", mobileExistException.getMobile());
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, mobileExistException.getMessage());
 		return result;
 	}
 
