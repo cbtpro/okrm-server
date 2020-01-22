@@ -62,6 +62,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	@Query("update UserInfo u set u.mobile = ?1 where u.uuid = ?2")
 	void updateMobile(String mobile, String uuid);
 
+	@Modifying
+	@Query("update UserInfo u set u.email = ?1 where u.uuid = ?2")
+	void updateEmail(String email, String uuid);
+
 	/**
 	 * 更新用户生日
 	 * @param birthday
