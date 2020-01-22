@@ -1,5 +1,6 @@
 package com.useful.person.core.authentication.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.useful.person.core.authentication.exception.EmailExistException;
 import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
@@ -54,6 +56,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional
 	public UserInfo registerByMobile(UserInfo userInfo) {
 		String mobile = userInfo.getMobile();
 		boolean isExistMobile = isExistMobile(mobile);
@@ -68,6 +71,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional
 	public boolean delete(UserInfo userInfo) {
 		userRepository.delete(userInfo);
 		return true;
@@ -111,8 +115,20 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional
 	public UserInfo updateUserInfo(UserInfo userInfo) {
 		return userRepository.save(userInfo);
+	}
+
+	@Override
+	@Transactional
+	public void updateUsernameByUuid(String uuid, String username) {
+		UserInfo userInfo = userRepository.findByUsername(username);
+		if (userInfo == null) {
+			userInfoRepository.updateUsername(username, uuid);
+		} else {
+			throw new UsernameExistException(username);
+		}
 	}
 
 	@Override
@@ -120,5 +136,34 @@ public class UserServiceImpl implements IUserService {
 	public void updateNicknameByUuid(String uuid, String nickname) {
 		userInfoRepository.updateNickname(nickname, uuid);
 	}
+
+	@Override
+	@Transactional
+	public void updateMobileByUuid(String uuid, String mobile) {
+		UserInfo userInfo = userRepository.findByMobile(mobile);
+		if (userInfo == null) {
+			userInfoRepository.updateMobile(mobile, uuid);
+		} else {
+			throw new MobileExistException(mobile);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateEmailByUuid(String uuid, String email) {
+		UserInfo userInfo = userRepository.findByEmail(email);
+		if (userInfo == null) {
+			userInfoRepository.updateEmail(email, uuid);
+		} else {
+			throw new EmailExistException(email);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateBirthdayByUuid(String uuid, Date birthday) {
+		userInfoRepository.updateBirthday(birthday, uuid);
+	}
+
 
 }

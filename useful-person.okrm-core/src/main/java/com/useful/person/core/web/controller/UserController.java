@@ -15,6 +15,8 @@ import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 
  * @author peter
@@ -29,9 +31,9 @@ public class UserController {
 
 	@GetMapping("/me")
 	@JsonView(UserInfoDetailView.class)
-	public Object getCurrentUser(Authentication user) {
+	public UserInfo getCurrentUser(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return currentUser;
+		return userService.findByUuid(currentUser.getUuid());
 	}
 	/**
 	 * 查询用户名是否存在
@@ -64,16 +66,38 @@ public class UserController {
 		return user;
 	}
 
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void updateUserInfo(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody UserInfo userInfo) {
-//		return userService.updateUserInfo(userInfo);
-//		userService.updateNicknameByUuid(uuid, userInfo.getNickname());
-		userService.updateUserInfo(userInfo);
+	@ApiOperation("更新用户名称")
+	@PutMapping("/username")
+	public void updateUsername(Authentication user, @RequestBody UserInfo userInfo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateUsernameByUuid(currentUser.getUuid(), userInfo.getUsername());
 	}
 
-//	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-//	public UserInfo updateNickname(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody UserInfo userInfo) {
-//		return userService.updateNicknameByUuid(uuid, userInfo.getNickname());
-//		
-//	}
+	@ApiOperation("更新用户昵称")
+	@PutMapping("/nickname")
+	public void updateNickname(Authentication user, @RequestBody UserInfo userInfo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateNicknameByUuid(currentUser.getUuid(), userInfo.getNickname());
+	}
+
+	@ApiOperation("更新用户手机")
+	@PutMapping("/mobile")
+	public void updateMobile(Authentication user, @RequestBody UserInfo userInfo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateMobileByUuid(currentUser.getUuid(), userInfo.getMobile());
+	}
+
+	@ApiOperation("更新用户邮箱")
+	@PutMapping("/email")
+	public void updateEmail(Authentication user, @RequestBody UserInfo userInfo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateEmailByUuid(currentUser.getUuid(), userInfo.getEmail());
+	}
+
+	@ApiOperation("更新用户生日")
+	@PutMapping("/birthday")
+	public void updateBirthday(Authentication user, @RequestBody UserInfo userInfo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateBirthdayByUuid(currentUser.getUuid(), userInfo.getBirthday());
+	}
 }
