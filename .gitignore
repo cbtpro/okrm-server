@@ -16,5 +16,6 @@ buildNumber.properties
 .settings
 .vscode
 */.factorypath
-*/logging.log*
+*/*.log
+*/*.log*
 useful-person.okrm-core/target
