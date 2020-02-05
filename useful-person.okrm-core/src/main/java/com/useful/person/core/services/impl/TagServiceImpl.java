@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.useful.person.core.domain.Tag;
@@ -30,7 +29,12 @@ public class TagServiceImpl implements TagService, BasicService<Tag> {
 
 	@Override
 	public List<Tag> findByTitle(String search, String nd, int rows, int page, String sidx, String sord) {
-		Sort sort = new Sort("DESC".equalsIgnoreCase(sord) ? Direction.DESC : Direction.ASC, sidx);
+		Sort sort = Sort.by(sidx);
+		if ("DESC".equalsIgnoreCase(sord)) {
+			sort = sort.descending();
+		} else {
+			sort = sort.ascending();
+		}
 		return tagRepository.findByTitle(search, sort);
 	}
 

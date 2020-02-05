@@ -59,6 +59,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		for(String url:urls) {
 			if (antPathMatcher.match(url, requestUri)) {
 				action = true;
+				break;
 			}
 		}
 		if (action) {
