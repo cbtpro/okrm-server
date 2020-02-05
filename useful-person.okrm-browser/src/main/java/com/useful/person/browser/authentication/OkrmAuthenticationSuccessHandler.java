@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.properties.SigninType;
 
@@ -39,7 +40,9 @@ public class OkrmAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
 		log.info("登录成功");
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-			response.getWriter().write(objectMapper.writeValueAsString(authentication));
+			UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+			userInfo.setPassword("******");
+			response.getWriter().write(objectMapper.writeValueAsString(userInfo));
 		} else {
 			super.onAuthenticationSuccess(request, response, authentication);
 		}
