@@ -59,6 +59,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		for(String url:urls) {
 			if (antPathMatcher.match(url, requestUri)) {
 				action = true;
+				break;
 			}
 		}
 		if (action) {

@@ -3,6 +3,7 @@
  */
 package com.useful.person.core.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -36,7 +37,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class LifeRoadMap {
+public class LifeRoadMap implements Serializable {
+
+	private static final long serialVersionUID = 9145399565539742425L;
 
 	@Getter
 	@Setter

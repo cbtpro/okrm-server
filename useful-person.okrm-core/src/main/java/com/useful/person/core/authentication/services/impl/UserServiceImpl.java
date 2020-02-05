@@ -103,6 +103,7 @@ public class UserServiceImpl implements IUserService {
 		UserInfo userInfo = userRepository.findByMobile(mobile);
 		return userInfo != null;
 	}
+
 	private void encryptPassword(UserInfo user) {
 		String password = user.getPassword();
 		password = passwordEncoder.encode(password);
@@ -164,6 +165,5 @@ public class UserServiceImpl implements IUserService {
 	public void updateBirthdayByUuid(String uuid, Date birthday) {
 		userInfoRepository.updateBirthday(birthday, uuid);
 	}
-
 
 }
