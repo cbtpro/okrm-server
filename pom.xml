@@ -42,7 +42,7 @@
 			</properties>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<resources>
 			<resource>
@@ -67,6 +67,11 @@
 					<target>11</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-maven-plugin</artifactId>
+				<version>3.0.2</version>
 			</plugin>
 		</plugins>
 	</build>
