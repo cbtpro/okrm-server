@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.MobileNotRegisteredException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
@@ -19,6 +20,7 @@ import com.useful.person.core.exception.ChinaAdultCollegeAndUniversityNotExistEx
 import com.useful.person.core.exception.ChinaCollegeAndUniversityNotExistException;
 import com.useful.person.core.exception.EventNotExistException;
 import com.useful.person.core.exception.OSSException;
+import com.useful.person.core.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -114,6 +116,29 @@ public class ControllerExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Map<String, String> handlerOSSException(OSSException e) {
 		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
+		return result;
+	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public Map<String, String> handlerResourceNotFoundException(ResourceNotFoundException e) {
+		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
+		return result;
+	}
+
+	/**
+	 * 处理通用异常
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler(GeneralException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, Object> handlerGeneralException(GeneralException e) {
+		Map<String, Object> result = new HashMap<>(1);
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
 		return result;
 	}

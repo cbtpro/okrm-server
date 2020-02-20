@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -48,7 +48,7 @@ public class ChinaCollegeAndUniversityController {
 	public Page<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversityByPageable(
 			@RequestParam(name = "name", required = false) String name,
 			@PageableDefault(value = 15, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
-		if (StringUtils.isEmpty(name)) {
+		if (StringUtils.isBlank(name)) {
 			return chinaCollegesAndUniversitiesService.findAll(pageable);
 		}
 		return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%", pageable);

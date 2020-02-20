@@ -1,8 +1,9 @@
 /**
- * 学科
+ * 省份地区
  */
 package com.useful.person.core.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,57 +12,59 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.domain.Persistable;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author peter
+ * @author cbtpro
  *
  */
 @Entity
-@Table(name = "t_subject")
+@Table(name = "t_province_area")
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Subject implements Persistable<String> {
+public class ProvinceArea implements Serializable {
 
-	@Id
+	private static final long serialVersionUID = 3669161463250183394L;
+
 	@Getter
 	@Setter
+	@Id
 	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	@Getter
 	@Setter
+	private String code;
+
+	@Getter
+	@Setter
 	private String name;
 
+	@Getter
+	@Setter
+	private String upperCode;
 
 	@Getter
 	@Setter
-	private String descirption;
+	private String description;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
 	private Date updateTime;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
-
-	@Override
-	public String getId() {
-		return this.uuid;
-	}
-
-	@Override
-	public boolean isNew() {
-		return StringUtils.isBlank(this.uuid);
-	}
 }

@@ -24,8 +24,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.constants.UserAction;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -35,6 +37,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_user_info_log")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class UserInfoLog implements Serializable {
 

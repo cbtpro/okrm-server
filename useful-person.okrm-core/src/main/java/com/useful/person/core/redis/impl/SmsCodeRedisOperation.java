@@ -10,6 +10,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.validator.code.sms.SmsCode;
 
+import io.micrometer.core.instrument.util.StringUtils;
+
 /**
  * 
  * @author peter
@@ -34,6 +36,7 @@ public class SmsCodeRedisOperation extends BasicRedisOperation {
 	}
 
 	private String getRedisSessionKey(ServletWebRequest request) {
-		return SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE + "_" + request.getSessionId();
+		String mobile = request.getParameter("mobile");
+		return SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE + "_" + request.getSessionId() + (StringUtils.isNotBlank(mobile) ? "_" + mobile : "");
 	}
 }

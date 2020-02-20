@@ -41,7 +41,6 @@ public class OkrmAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 			UserInfo userInfo = (UserInfo) authentication.getPrincipal();
-			userInfo.setPassword("******");
 			response.getWriter().write(objectMapper.writeValueAsString(userInfo));
 		} else {
 			super.onAuthenticationSuccess(request, response, authentication);

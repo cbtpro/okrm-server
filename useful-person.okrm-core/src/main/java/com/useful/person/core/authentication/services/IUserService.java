@@ -117,4 +117,11 @@ public interface IUserService {
 	 */
 	void updateBirthdayByUuid(String uuid, Date birthday);
 
+	/**
+	 * 验证旧的手机号码是否正确
+	 * @param uuid
+	 * @param mobile
+	 */
+	void unbindOldMobile(String uuid, String mobile);
+
 }
