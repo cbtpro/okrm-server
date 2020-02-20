@@ -1,9 +1,13 @@
 package com.useful.person.core.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
+import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.redis.impl.BasicRedisOperation;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -25,6 +31,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+	@Autowired
+	private BasicRedisOperation basicRedisOperation;
 
 	@Autowired
 	private IUserService userService;
@@ -51,7 +60,8 @@ public class UserController {
 	@JsonView(UserInfo.UserInfoDetailView.class)
 	public UserInfo getUserDetail(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return userService.findByUuid(currentUser.getUuid());
+		UserInfo detail = userService.findByUuid(currentUser.getUuid());
+		return detail;
 	}
 	/**
 	 * 获取用户详情
@@ -82,9 +92,9 @@ public class UserController {
 
 	@ApiOperation("更新用户手机")
 	@PutMapping("/mobile")
-	public void updateMobile(Authentication user, @RequestBody UserInfo userInfo) {
+	public void updateMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		userService.updateMobileByUuid(currentUser.getUuid(), userInfo.getMobile());
+		userService.updateMobileByUuid(currentUser.getUuid(), mobile);
 	}
 
 	@ApiOperation("更新用户邮箱")
@@ -99,5 +109,15 @@ public class UserController {
 	public void updateBirthday(Authentication user, @RequestBody UserInfo userInfo) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateBirthdayByUuid(currentUser.getUuid(), userInfo.getBirthday());
+	}
+
+	@ApiOperation("解绑 旧手机号")
+	@PostMapping("/mobile/unbindOldMobile")
+	public Map<String, String> unbindOldMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.unbindOldMobile(currentUser.getUuid(), mobile);
+		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "手机号解绑成功！");
+		return result;
 	}
 }

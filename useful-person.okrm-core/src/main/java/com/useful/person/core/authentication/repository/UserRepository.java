@@ -28,6 +28,14 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
 	UserInfo findByMobile(String mobile);
 
 	/**
+	 * 查询非当前用户是否使用了这个手机号
+	 * @param uuid
+	 * @param mobile
+	 * @return
+	 */
+	UserInfo findByUuidNotAndMobile(String uuid, String mobile);
+
+	/**
 	 * 根据昵称模糊查询用户
 	 * @param nickname
 	 * @return 用户列表
@@ -54,4 +62,12 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
 	 * @return 用户信息
 	 */
 	UserInfo findByEmail(String email);
+
+	/**
+	 * 根据uuid和mobile查询用户
+	 * @param uuid
+	 * @param mobile
+	 * @return UserInfo 用户信息
+	 */
+	UserInfo findByUuidAndMobile(String uuid, String mobile);
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.useful.person.core.authentication.exception.EmailExistException;
+import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
@@ -141,9 +142,11 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	@Transactional
 	public void updateMobileByUuid(String uuid, String mobile) {
-		UserInfo userInfo = userRepository.findByMobile(mobile);
+		UserInfo userInfo = userRepository.findByUuidNotAndMobile(uuid, mobile);
 		if (userInfo == null) {
 			userInfoRepository.updateMobile(mobile, uuid);
+			UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_MOBILE).oldValue(null).actionValue(mobile).build();
+			userInfoLogRepository.save(userInfoLog);
 		} else {
 			throw new MobileExistException(mobile);
 		}
@@ -164,6 +167,20 @@ public class UserServiceImpl implements IUserService {
 	@Transactional
 	public void updateBirthdayByUuid(String uuid, Date birthday) {
 		userInfoRepository.updateBirthday(birthday, uuid);
+	}
+
+	@Override
+	@Transactional
+	public void unbindOldMobile(String uuid, String mobile) {
+		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new GeneralException("", "手机号解绑失败"));
+		if (userInfo != null && uuid.equalsIgnoreCase(userInfo.getUuid()) && mobile.equals(userInfo.getMobile())) {
+			// 解绑手机
+			userInfoRepository.updateMobile(null, uuid);
+			UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_MOBILE).actionValue(null).oldValue(mobile).build();
+			userInfoLogRepository.save(userInfoLog);
+		} else {
+			throw new GeneralException(userInfo.getMobile(), "绑定的手机号不正确");
+		}
 	}
 
 }

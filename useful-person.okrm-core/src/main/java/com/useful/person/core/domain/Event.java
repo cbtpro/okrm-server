@@ -89,7 +89,7 @@ public class Event implements Persistable<String> {
 
 	@Override
 	public boolean isNew() {
-		return StringUtils.isEmpty(this.uuid);
+		return StringUtils.isBlank(this.uuid);
 	}
 
 }

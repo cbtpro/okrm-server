@@ -27,6 +27,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.useful.person.core.annotation.SensitiveInfo;
+import com.useful.person.core.sensitive.SensitiveType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -107,11 +109,13 @@ public class UserInfo implements UserDetails  {
 	@Getter
 	@Setter
 	@JsonView(UserInfoMobileSignupView.class)
+	@SensitiveInfo(SensitiveType.MOBILE)
 	private String mobile;
 
 	@Getter
 	@Setter
 	@NotNull(message = "密码不能为空")
+	@SensitiveInfo(SensitiveType.PASSWORD)
 	private String password;
 
 	@Getter
