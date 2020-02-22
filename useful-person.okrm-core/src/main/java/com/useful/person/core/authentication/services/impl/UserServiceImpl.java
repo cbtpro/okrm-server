@@ -145,7 +145,8 @@ public class UserServiceImpl implements IUserService {
 		UserInfo userInfo = userRepository.findByUuidNotAndMobile(uuid, mobile);
 		if (userInfo == null) {
 			userInfoRepository.updateMobile(mobile, uuid);
-			UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_MOBILE).oldValue(null).actionValue(mobile).build();
+			UserInfo currentUser = UserInfo.builder().uuid(uuid).build();
+			UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_MOBILE).oldValue(null).actionValue(mobile).build();
 			userInfoLogRepository.save(userInfoLog);
 		} else {
 			throw new MobileExistException(mobile);
@@ -155,9 +156,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	@Transactional
 	public void updateEmailByUuid(String uuid, String email) {
-		UserInfo userInfo = userRepository.findByEmail(email);
+		UserInfo userInfo = userRepository.findByUuidNotAndEmail(uuid, email);
 		if (userInfo == null) {
 			userInfoRepository.updateEmail(email, uuid);
+			UserInfo currentUser = UserInfo.builder().uuid(uuid).build();
+			UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_EMAIL).oldValue(null).actionValue(email).build();
+			userInfoLogRepository.save(userInfoLog);
 		} else {
 			throw new EmailExistException(email);
 		}
@@ -172,14 +176,28 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	@Transactional
 	public void unbindOldMobile(String uuid, String mobile) {
-		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new GeneralException("", "手机号解绑失败"));
+		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new GeneralException(mobile, "手机号解绑失败"));
 		if (userInfo != null && uuid.equalsIgnoreCase(userInfo.getUuid()) && mobile.equals(userInfo.getMobile())) {
 			// 解绑手机
 			userInfoRepository.updateMobile(null, uuid);
 			UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_MOBILE).actionValue(null).oldValue(mobile).build();
 			userInfoLogRepository.save(userInfoLog);
 		} else {
-			throw new GeneralException(userInfo.getMobile(), "绑定的手机号不正确");
+			throw new GeneralException(mobile, "绑定的手机号不正确");
+		}
+	}
+
+	@Override
+	@Transactional
+	public void unbindOldEmail(String uuid, String email) {
+		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new GeneralException(email, "邮箱解绑失败"));
+		if (userInfo != null && uuid.equalsIgnoreCase(userInfo.getUuid()) && email.equals(userInfo.getEmail())) {
+			// 解绑邮箱
+			userInfoRepository.updateEmail(null, uuid);
+			UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_EMAIL).actionValue(null).oldValue(email).build();
+			userInfoLogRepository.save(userInfoLog);
+		} else {
+			throw new GeneralException(email, "绑定的邮箱不正确");
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.useful.person.core.web.controller;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -69,17 +71,28 @@ public class MailController {
 		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				Map<String, String> result = new HashMap<String, String>(2);
-				String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(1111, 9999));
+				Map<String, Object> result = new HashMap<String, Object>(2);
 				MailCodeProperties mailCodeProperties = securityProperties.getMail().getCode();
 				int expireIn = mailCodeProperties.getExpireIn();
-				SmsCode mailCode = new SmsCode(randomCode, expireIn);
-				Context verificationCodeContext = new Context();
-				verificationCodeContext.setVariable("verificationCode", randomCode);
-				String verificationCodeMailContent = templateEngine.process("verification-code-template", verificationCodeContext);
-				mailService.sendHtmlMail(to, "验证码" + randomCode, verificationCodeMailContent);
-				smsCodeRedisOperation.save(new ServletWebRequest(request), mailCode, expireIn, TimeUnit.SECONDS);
-				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+				// 判断验证码是否过期
+				SmsCode smsCodeInRedis = smsCodeRedisOperation.get(new ServletWebRequest(request));
+				if (smsCodeInRedis == null || smsCodeInRedis.isExpired()) {
+					String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(1111, 9999));
+					SmsCode mailCode = new SmsCode(randomCode, expireIn);
+					Context verificationCodeContext = new Context();
+					verificationCodeContext.setVariable("verificationCode", randomCode);
+					String verificationCodeMailContent = templateEngine.process("verification-code-template",
+							verificationCodeContext);
+					mailService.sendHtmlMail(to, "验证码" + randomCode, verificationCodeMailContent);
+					smsCodeRedisOperation.save(new ServletWebRequest(request), mailCode, expireIn, TimeUnit.SECONDS);
+					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+				} else {
+					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮箱验证码未过期");
+					LocalDateTime expireTime = smsCodeInRedis.getExpireTime();
+					LocalDateTime now = LocalDateTime.now();
+					Duration duration = Duration.between(now, expireTime);
+					result.put("expireIn", duration.toSeconds());
+				}
 				Gson gson = new Gson();
 				return gson.toJson(result);
 			}

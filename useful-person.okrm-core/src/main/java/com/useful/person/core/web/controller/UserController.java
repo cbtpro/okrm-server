@@ -32,8 +32,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private BasicRedisOperation basicRedisOperation;
+//	@Autowired
+//	private BasicRedisOperation basicRedisOperation;
 
 	@Autowired
 	private IUserService userService;
@@ -99,9 +99,9 @@ public class UserController {
 
 	@ApiOperation("更新用户邮箱")
 	@PutMapping("/email")
-	public void updateEmail(Authentication user, @RequestBody UserInfo userInfo) {
+	public void updateEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		userService.updateEmailByUuid(currentUser.getUuid(), userInfo.getEmail());
+		userService.updateEmailByUuid(currentUser.getUuid(), email);
 	}
 
 	@ApiOperation("更新用户生日")
@@ -118,6 +118,16 @@ public class UserController {
 		userService.unbindOldMobile(currentUser.getUuid(), mobile);
 		Map<String, String> result = new HashMap<>(1);
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "手机号解绑成功！");
+		return result;
+	}
+
+	@ApiOperation("解绑旧邮箱地址")
+	@PostMapping("/email/unbindOldEmail")
+	public Map<String, String> unbindOldEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.unbindOldEmail(currentUser.getUuid(), email);
+		Map<String, String> result = new HashMap<>(1);
+		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "Email解绑成功！");
 		return result;
 	}
 }

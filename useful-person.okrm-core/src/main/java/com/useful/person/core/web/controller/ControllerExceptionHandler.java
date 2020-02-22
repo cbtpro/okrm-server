@@ -113,7 +113,7 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(OSSException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Map<String, String> handlerOSSException(OSSException e) {
 		Map<String, String> result = new HashMap<>(1);
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());
@@ -136,7 +136,7 @@ public class ControllerExceptionHandler {
 	 */
 	@ExceptionHandler(GeneralException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Map<String, Object> handlerGeneralException(GeneralException e) {
 		Map<String, Object> result = new HashMap<>(1);
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, e.getMessage());

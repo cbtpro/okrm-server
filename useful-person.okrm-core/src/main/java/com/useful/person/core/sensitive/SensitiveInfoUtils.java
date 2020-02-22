@@ -35,7 +35,7 @@ public class SensitiveInfoUtils {
 		if (StringUtils.isBlank(email)) {
 			return "";
 		}
-		return email;
+		return StringUtil.emailDataMask(email);
 	}
 	public static String identityCard(final String identityCard) {
 		return identityCard;

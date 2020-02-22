@@ -132,6 +132,7 @@ public class UserInfo implements UserDetails  {
 	@Setter
 	@JsonView(UserInfoSimpleView.class)
 	@Email(message = "Email格式不正确")
+	@SensitiveInfo(SensitiveType.EMAIL)
 	private String email;
 
 	@Getter

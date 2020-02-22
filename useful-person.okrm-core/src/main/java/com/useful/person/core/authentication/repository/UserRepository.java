@@ -64,6 +64,14 @@ public interface UserRepository extends JpaRepository<UserInfo, String> {
 	UserInfo findByEmail(String email);
 
 	/**
+	 * 根据邮箱地址查询除当前用户外的其他用户
+	 * @param uuid
+	 * @param email
+	 * @return UserInfo 用户信息
+	 */
+	UserInfo findByUuidNotAndEmail(String uuid, String email);
+
+	/**
 	 * 根据uuid和mobile查询用户
 	 * @param uuid
 	 * @param mobile
