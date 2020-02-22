@@ -26,7 +26,7 @@ public class SmsCodeRedisOperation extends BasicRedisOperation {
 	public void save(ServletWebRequest request, SmsCode smsCode, long timeout, TimeUnit unit) {
 		redisTemplate.opsForValue().set(getRedisSessionKey(request), smsCode, timeout, unit);
 	}
-	
+
 	public SmsCode get(ServletWebRequest request) {
 		return (SmsCode) redisTemplate.opsForValue().get(getRedisSessionKey(request));
 	}
@@ -37,6 +37,9 @@ public class SmsCodeRedisOperation extends BasicRedisOperation {
 
 	private String getRedisSessionKey(ServletWebRequest request) {
 		String mobile = request.getParameter("mobile");
-		return SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE + "_" + request.getSessionId() + (StringUtils.isNotBlank(mobile) ? "_" + mobile : "");
+		String email = request.getParameter("to");
+		return SecurityConstants.DEFAULT_SESSION_KEY_SMS_CODE + "_" + request.getSessionId()
+				+ (StringUtils.isNotBlank(mobile) ? "_" + mobile : "")
+				+ (StringUtils.isNotBlank(email) ? "_" + email : "");
 	}
 }

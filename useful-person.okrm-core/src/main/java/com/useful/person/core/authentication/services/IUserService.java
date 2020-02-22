@@ -118,10 +118,17 @@ public interface IUserService {
 	void updateBirthdayByUuid(String uuid, Date birthday);
 
 	/**
-	 * 验证旧的手机号码是否正确
+	 * 解绑旧的手机号码
 	 * @param uuid
 	 * @param mobile
 	 */
 	void unbindOldMobile(String uuid, String mobile);
+
+	/**
+	 * 解绑旧的邮箱地址
+	 * @param uuid
+	 * @param email
+	 */
+	void unbindOldEmail(String uuid, String email);
 
 }
