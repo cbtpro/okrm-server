@@ -21,11 +21,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.google.gson.Gson;
-import com.useful.person.core.properties.MailCodeProperties;
 import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.properties.MailCodeProperties;
 import com.useful.person.core.properties.SecurityProperties;
-import com.useful.person.core.redis.impl.SmsCodeRedisOperation;
-import com.useful.person.core.validator.code.sms.SmsCode;
+import com.useful.person.core.redis.impl.EmailCodeRedisOperation;
+import com.useful.person.core.validator.mail.EmailCode;
 import com.useful.person.core.validator.mail.MailService;
 
 /**
@@ -44,21 +44,21 @@ public class MailController {
 	private TemplateEngine templateEngine;
 
 	@Autowired
-	private SmsCodeRedisOperation smsCodeRedisOperation;
+	private EmailCodeRedisOperation emailCodeRedisOperation;
 
 	@Autowired
 	private SecurityProperties securityProperties;
 //
 //	@GetMapping("/testmail")
 //	public Callable<String> testMail(HttpServletRequest request, HttpServletResponse response,
-//			@RequestParam(name = "to", required = true) String to) {
+//			@RequestParam(name = "email", required = true) String email) {
 //		Callable<String> callable = new Callable<String>() {
 //			@Override
 //			public String call() throws Exception {
-//				mailService.sendHtmlMail(to, "测试邮件", "这是一封测试邮件，如有打扰，请见谅。感谢您对生而不庸的支持，希望每一天的您都比昨天的您优秀！这是一封自动产生的邮件，请勿尝试回复。");
+//				mailService.sendHtmlMail(email, "测试邮件", "这是一封测试邮件，如有打扰，请见谅。感谢您对生而不庸的支持，希望每一天的您都比昨天的您优秀！这是一封自动产生的邮件，请勿尝试回复。");
 //				Gson gson = new Gson();
 //				Map<String, String> result = new HashMap<String, String>();
-//				result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "邮件发送到 " + to + " 成功");
+//				result.put(OkrmConstants.DEFAULT_RETURN_MESSAGE, "邮件发送到 " + email + " 成功");
 //				return gson.toJson(result);
 //			}
 //		};
@@ -67,7 +67,7 @@ public class MailController {
 
 	@GetMapping("/mail")
 	public Callable<String> sendMailCode(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(name = "to", required = true) String to) {
+			@RequestParam(name = "email", required = true) String email) {
 		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
@@ -75,20 +75,20 @@ public class MailController {
 				MailCodeProperties mailCodeProperties = securityProperties.getMail().getCode();
 				int expireIn = mailCodeProperties.getExpireIn();
 				// 判断验证码是否过期
-				SmsCode smsCodeInRedis = smsCodeRedisOperation.get(new ServletWebRequest(request));
-				if (smsCodeInRedis == null || smsCodeInRedis.isExpired()) {
+				EmailCode emailCodeInRedis = emailCodeRedisOperation.get(new ServletWebRequest(request));
+				if (emailCodeInRedis == null || emailCodeInRedis.isExpired()) {
 					String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(1111, 9999));
-					SmsCode mailCode = new SmsCode(randomCode, expireIn);
+					EmailCode emailCode = new EmailCode(randomCode, expireIn);
 					Context verificationCodeContext = new Context();
 					verificationCodeContext.setVariable("verificationCode", randomCode);
 					String verificationCodeMailContent = templateEngine.process("verification-code-template",
 							verificationCodeContext);
-					mailService.sendHtmlMail(to, "验证码" + randomCode, verificationCodeMailContent);
-					smsCodeRedisOperation.save(new ServletWebRequest(request), mailCode, expireIn, TimeUnit.SECONDS);
+					mailService.sendHtmlMail(email, "验证码" + randomCode, verificationCodeMailContent);
+					emailCodeRedisOperation.save(new ServletWebRequest(request), emailCode, expireIn, TimeUnit.SECONDS);
 					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
 				} else {
 					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮箱验证码未过期");
-					LocalDateTime expireTime = smsCodeInRedis.getExpireTime();
+					LocalDateTime expireTime = emailCodeInRedis.getExpireTime();
 					LocalDateTime now = LocalDateTime.now();
 					Duration duration = Duration.between(now, expireTime);
 					result.put("expireIn", duration.toSeconds());

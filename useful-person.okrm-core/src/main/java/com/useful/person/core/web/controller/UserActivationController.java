@@ -54,20 +54,20 @@ public class UserActivationController {
 
 	@RequestMapping("/email")
 	public Callable<String> sendActivateEmail(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(name = "to", required = true) String to) {
+			@RequestParam(name = "email", required = true) String email) {
 		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				Map<String, String> result = new HashMap<String, String>(2);
 				Context context = new Context();
 				context.setVariable("host", appProperties.getOrigin());
-				context.setVariable("email", to);
+				context.setVariable("email", email);
 				String activationUuid = UUID.randomUUID().toString();
 				context.setVariable("uuid", activationUuid);
 				String emailContent = templateEngine.process("signin-template", context);
-				mailService.sendHtmlMail(to, "生而不庸激活邮件", emailContent);
+				mailService.sendHtmlMail(email, "生而不庸激活邮件", emailContent);
 				int expireIn = securityProperties.getMail().getVerification().getExpireIn();
-				basicRedisOperation.save(to, activationUuid, expireIn, TimeUnit.SECONDS);
+				basicRedisOperation.save(email, activationUuid, expireIn, TimeUnit.SECONDS);
 				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件发送成功，请在" + (expireIn / 60 / 60 ) + "小时内使用。");
 				Gson gson = new Gson();
 				return gson.toJson(result);

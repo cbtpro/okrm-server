@@ -14,4 +14,8 @@ public class MailCodeProperties {
 	@Setter
 	private int expireIn = 60 * 30;
 
+	@Getter
+	@Setter
+	private String url = "";
+
 }

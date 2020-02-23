@@ -18,9 +18,11 @@ import com.useful.person.core.authentication.mobile.SmsCodeAuthenticationSecurit
 import com.useful.person.core.properties.BrowserProperties;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.properties.SecurityProperties;
+import com.useful.person.core.redis.impl.EmailCodeRedisOperation;
 import com.useful.person.core.redis.impl.SmsCodeRedisOperation;
 import com.useful.person.core.validator.code.ValidatorCodeFilter;
 import com.useful.person.core.validator.code.sms.SmsCodeFilter;
+import com.useful.person.core.validator.mail.EmailCodeFilter;
 
 /**
  * 
@@ -35,6 +37,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private SmsCodeRedisOperation smsCodeRedisOperation;
+
+	@Autowired
+	private EmailCodeRedisOperation emailCodeRedisOperation;
 
 	@Autowired
 	OkrmAuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
@@ -78,10 +83,17 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		smsCodeFilter.setSmsCodeRedisOperation(smsCodeRedisOperation);
 		smsCodeFilter.afterPropertiesSet();
 
+		EmailCodeFilter emailCodeFilter = new EmailCodeFilter();
+		emailCodeFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
+		emailCodeFilter.setSecurityProperties(securityProperties);
+		emailCodeFilter.setEmailCodeRedisOperation(emailCodeRedisOperation);
+		emailCodeFilter.afterPropertiesSet();
+
 		BrowserProperties browserProperties = securityProperties.getBrowser();
 		String signoutPage = browserProperties.getSignoutPage();
-		http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(validatorCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
+		http.addFilterBefore(emailCodeFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(validatorCodeFilter, EmailCodeFilter.class).formLogin()
 				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
 				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)

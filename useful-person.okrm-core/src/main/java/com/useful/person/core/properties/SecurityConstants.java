@@ -11,6 +11,8 @@ public interface SecurityConstants {
 
 	String DEFAULT_SESSION_KEY_SMS_CODE = "SESSION_KEY_SMS_CODE";
 
+	String DEFAULT_SESSION_KEY_EMAIL_CODE = "SESSION_KEY_EMAIL_CODE";
+
 	String DEFAULT_VALIDATOR_CODE_URL_PREFIX = "/code";
 
 	String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";
@@ -40,6 +42,8 @@ public interface SecurityConstants {
 	String DEFAULT_PARAMETER_NAME_CODE_IMAGE = "imageCode";
 
 	String DEFAULT_PARAMETER_NAME_CODE_SMS = "smsCode";
+
+	String DEFAULT_PARAMETER_NAME_CODE_EMAIL = "emailCode";
 
 	String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
 
