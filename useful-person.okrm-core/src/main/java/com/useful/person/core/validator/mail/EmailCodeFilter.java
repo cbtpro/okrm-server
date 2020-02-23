@@ -1,4 +1,7 @@
-package com.useful.person.core.validator.code.sms;
+/**
+ * 
+ */
+package com.useful.person.core.validator.mail;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -20,17 +23,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.properties.SecurityProperties;
-import com.useful.person.core.redis.impl.SmsCodeRedisOperation;
+import com.useful.person.core.redis.impl.EmailCodeRedisOperation;
 import com.useful.person.core.validator.code.ValidatorCodeException;
 
 /**
- * 
- * @author peter
+ * @author cbtpro
  *
  */
-public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class EmailCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	private SmsCodeRedisOperation smsCodeRedisOperation;
+	private EmailCodeRedisOperation emailCodeRedisOperation;
 
 	private AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -43,12 +45,11 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	@Override
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
-		String needCodeUrls = securityProperties.getCode().getSms().getUrl();
+		String needCodeUrls = securityProperties.getMail().getCode().getUrl();
 		String[] configUrls = needCodeUrls.split(",");
 		for (String configUrl : configUrls) {
 			urls.add(configUrl);
 		}
-		urls.add(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE);
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 			throws ServletException, IOException {
 		boolean action = false;
 		String requestUri = request.getRequestURI();
-		for(String url:urls) {
+		for (String url : urls) {
 			if (antPathMatcher.match(url, requestUri)) {
 				action = true;
 				break;
@@ -71,6 +72,24 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 			}
 		}
 		filterChain.doFilter(request, response);
+	}
+
+	public void validate(ServletWebRequest request) throws ServletRequestBindingException {
+		String emailCodeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_EMAIL);
+		if (StringUtils.isBlank(emailCodeInRequest)) {
+			throw new ValidatorCodeException("邮箱验证码不能为空！");
+		}
+		EmailCode emailCodeInRedis = (EmailCode) emailCodeRedisOperation.get(request);
+		if (emailCodeInRedis == null) {
+			throw new ValidatorCodeException("邮箱验证码不存在");
+		}
+		if (emailCodeInRedis.isExpired()) {
+			throw new ValidatorCodeException("邮箱验证码已过期");
+		}
+		if (!StringUtils.equalsIgnoreCase(emailCodeInRedis.getCode(), emailCodeInRequest)) {
+			throw new ValidatorCodeException("邮箱验证码不匹配");
+		}
+		emailCodeRedisOperation.remove(request);
 	}
 
 	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
@@ -97,30 +116,12 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		this.urls = urls;
 	}
 
-	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-		String smsCodeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_SMS);
-		if (StringUtils.isBlank(smsCodeInRequest)) {
-			throw new ValidatorCodeException("短信验证码不能为空！");
-		}
-		SmsCode codeImageInSession = (SmsCode) smsCodeRedisOperation.get(request);
-		if (codeImageInSession == null) {
-			throw new ValidatorCodeException("验证码不存在");
-		}
-		if (codeImageInSession.isExpired()) {
-			throw new ValidatorCodeException("验证码已过期");
-		}
-		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), smsCodeInRequest)) {
-			throw new ValidatorCodeException("验证码不匹配");
-		}
-		smsCodeRedisOperation.remove(request);
+	public EmailCodeRedisOperation getEmailCodeRedisOperation() {
+		return emailCodeRedisOperation;
 	}
 
-	public SmsCodeRedisOperation getSmsCodeRedisOperation() {
-		return smsCodeRedisOperation;
-	}
-
-	public void setSmsCodeRedisOperation(SmsCodeRedisOperation smsCodeRedisOperation) {
-		this.smsCodeRedisOperation = smsCodeRedisOperation;
+	public void setEmailCodeRedisOperation(EmailCodeRedisOperation emailCodeRedisOperation) {
+		this.emailCodeRedisOperation = emailCodeRedisOperation;
 	}
 
 }

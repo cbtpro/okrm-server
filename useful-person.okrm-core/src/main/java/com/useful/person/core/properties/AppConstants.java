@@ -7,5 +7,5 @@ package com.useful.person.core.properties;
  */
 public interface AppConstants {
 
-	String DEFAULT_RETURN_MESSAGE = "msg";
+	String DEFAULT_RETURN_MESSAGE = "content";
 }

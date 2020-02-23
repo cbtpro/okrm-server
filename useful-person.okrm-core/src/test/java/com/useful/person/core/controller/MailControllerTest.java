@@ -29,7 +29,7 @@ public class MailControllerTest {
 
 	private MockMvc mockMvc;
 
-	private String to = "peter.chen@useful-person.com";
+	private String email = "peter.chen@useful-person.com";
 
 	@Before
 	public void steup() {
@@ -38,13 +38,13 @@ public class MailControllerTest {
 
 	@Test
 	public void whenSendMailCodeSucess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("to", to).contentType(MediaType.APPLICATION_JSON_UTF8))
+		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk());
 	};
 
 	@Test
 	public void whenSendMailCodeFail() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("to", to).contentType(MediaType.APPLICATION_JSON_UTF8))
+		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().is5xxServerError());
 	};
 }

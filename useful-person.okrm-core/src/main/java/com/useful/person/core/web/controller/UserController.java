@@ -19,7 +19,6 @@ import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 import com.useful.person.core.properties.AppConstants;
-import com.useful.person.core.redis.impl.BasicRedisOperation;
 
 import io.swagger.annotations.ApiOperation;
 
