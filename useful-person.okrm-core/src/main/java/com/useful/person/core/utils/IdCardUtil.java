@@ -1,7 +1,20 @@
 /**
  * @see https://blog.csdn.net/u011665991/article/details/102727485
+ * @see https://blog.csdn.net/weixin_39256533/article/details/80222077 身份证发展及验证方法简史(人证同一性)
  */
 package com.useful.person.core.utils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+
+import com.alibaba.fastjson.JSON;
+import com.useful.person.core.aliyun.api.gateway.Client;
+import com.useful.person.core.aliyun.api.gateway.Request;
+import com.useful.person.core.aliyun.api.gateway.Response;
+import com.useful.person.core.aliyun.api.gateway.constant.Constants;
+import com.useful.person.core.aliyun.api.gateway.enums.Method;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class IdCardUtil {
 	/**
-	 * 校验是否为身份证号码
+	 * 校验是否为身份证号码 这个方法只能校验身份证是否合法，实名制需结合姓名另外调用接口
 	 * 
 	 * @param IdCardNo
 	 * @return
@@ -80,5 +93,37 @@ public class IdCardUtil {
 		}
 
 		return mask;
+	}
+
+	public static void main(String[] args) {
+		String host = "https://idcard.market.alicloudapi.com";
+		String path = "/lianzhuo/idcard";
+		String APP_KEY = "203762486";
+		String APP_SECRET = "q34eufpf5i4pz8itnsvbgqs4i4hph8bs";
+		Map<String, String> querys = new HashMap<String, String>();
+		querys.put("cardno", "43068219900920405X");
+		querys.put("name", "陈碧涛");
+
+		try {
+			/**
+			 * 重要提示如下: HttpUtils请从
+			 * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+			 * 下载
+			 *
+			 * 相应的依赖请参照
+			 * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+			 */
+			Request request = new Request(Method.GET, host, path, APP_KEY, APP_SECRET, Constants.DEFAULT_TIMEOUT);
+			request.setQuerys(querys);
+			Response response = Client.execute(request);
+			int statusCode = response.getStatusCode();
+			if (HttpStatus.FORBIDDEN.value() == statusCode) {
+				System.out.println("实名认证接口余额不足！");
+			} else {
+				System.out.println(JSON.toJSONString(response.getBody()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -16,19 +16,19 @@ import com.useful.person.core.utils.StringUtil;
  */
 public class StringUtilTest {
 
-	String mobile = "+86-18922886300";
+	private String mobile = "+86-18922886300";
 
-	String chineseName = "陈躺躺";
+	private String chineseName = "陈躺躺";
 
-	String email = "peter.chen@useful-person.com";
-	String email1 = "cbtpro@163.com";
-	String email2 = "cbtpro@gmail.com";
-	String email3 = "361751277@qq.com";
-	String email4  = "peter@chenbitao.com";
+	private String email = "peter.chen@useful-person.com";
+	private String email1 = "cbtpro@163.com";
+	private String email2 = "cbtpro@gmail.com";
+	private String email3 = "361751277@qq.com";
+	private String email4  = "peter@chenbitao.com";
 
-	String identityCard = "43068219900920405X";
+	private String identityCard = "43068219900920405X";
 
-	String bankCard = "6226097551656748";
+	private String bankCard = "6226097551656748";
 
 	@Test public void testChineseNameDataMask() {
 		String mask = StringUtil.chineseNameDataMask(chineseName);
