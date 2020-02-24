@@ -135,5 +135,11 @@
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.62</version>
+		</dependency>
 	</dependencies>
 </project>
