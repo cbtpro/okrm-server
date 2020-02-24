@@ -12,6 +12,7 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.google.gson.Gson;
+import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.properties.SmsCodeProperties;
 import com.useful.person.core.validator.code.sms.SmsCodeSender;
@@ -61,7 +62,8 @@ public class DefaultSmsCodeSender implements SmsCodeSender {
 			log.info("向手机：" + mobile + " 发送验证码：" + code + ", response：" + responseMessage);
 			boolean isSuccess = smsResponse.getSendStatus();
 			if (!isSuccess) {
-				log.info(gson.toJson(smsCodeProperties));
+				log.info("向手机：{} 发送验证码：{}, errMsg：{}", mobile, code, smsResponse.getMessage());
+				throw new GeneralException(mobile, "短信验证码发送失败！");
 			}
 			return isSuccess;
 		} catch (ServerException e) {
