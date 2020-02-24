@@ -35,7 +35,7 @@ public class ValidatorCodeBeanConfig {
 	 * 使用@ConditionalOnMissingBean(SmsCodeSender.class)也可以
 	 */
 	@Bean("smsCodeSender")
-	@Profile({"prod", "test"})
+//	@Profile({"prod", "test"})
 	@ConditionalOnMissingBean(name = "smsCodeSender")
 	public SmsCodeSender smsCodeSender() {
 		return new DefaultSmsCodeSender();
@@ -45,10 +45,10 @@ public class ValidatorCodeBeanConfig {
 	 * 测试环境使用模拟发送短信
 	 * @return
 	 */
-	@Bean("smsCodeSender")
-	@Profile({"dev"})
-	@ConditionalOnMissingBean(name = "smsCodeSender")
-	public SmsCodeSender mockSmsCodeSender() {
-		return new MockSmsCodeSender();
-	}
+//	@Bean("smsCodeSender")
+//	@Profile({"dev"})
+//	@ConditionalOnMissingBean(name = "smsCodeSender")
+//	public SmsCodeSender mockSmsCodeSender() {
+//		return new MockSmsCodeSender();
+//	}
 }

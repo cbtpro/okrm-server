@@ -36,6 +36,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author peter
@@ -47,6 +48,7 @@ import lombok.Setter;
 @Table(name = "t_user")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class UserInfo implements UserDetails  {
 
@@ -77,11 +79,13 @@ public class UserInfo implements UserDetails  {
 	@JsonView(UserInfoSimpleView.class)
 	@Getter
 	@Setter
+	@ToString.Include(rank = 0)
 	@GeneratedValue(generator = "uuid2")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@ToString.Include(rank = 1)
 	@NotNull(message = "用户名不能为空")
 	@Length(min = 6, max = 12)
 	@JsonView(UserInfoDetailView.class)
@@ -89,6 +93,7 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@ToString.Include(rank = 2)
 	@NotNull(message = "用户昵称不能为空")
 	@JsonView(UserInfoSimpleView.class)
 	private String nickname;
@@ -114,6 +119,7 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@ToString.Exclude
 	@NotNull(message = "密码不能为空")
 	@SensitiveInfo(SensitiveType.PASSWORD)
 	private String password;
@@ -130,6 +136,7 @@ public class UserInfo implements UserDetails  {
 	
 	@Getter
 	@Setter
+	@ToString.Include(rank = 3)
 	@JsonView(UserInfoSimpleView.class)
 	@Email(message = "Email格式不正确")
 	@SensitiveInfo(SensitiveType.EMAIL)
