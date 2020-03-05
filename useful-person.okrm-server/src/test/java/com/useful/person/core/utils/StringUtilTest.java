@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.useful.person.core.controller.utils;
+package com.useful.person.core.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

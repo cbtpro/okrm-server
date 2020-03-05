@@ -1,4 +1,4 @@
-package com.useful.person.core.controller;
+package com.useful.person.core.web.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
