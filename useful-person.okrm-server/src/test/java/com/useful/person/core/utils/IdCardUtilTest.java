@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.useful.person.core.controller.utils;
+package com.useful.person.core.utils;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,7 +17,7 @@ public class IdCardUtilTest {
 
 	private String idCard = "370703198111300338";
 
-	private String name = "郭德昌";
+//	private String name = "郭德昌";
 
 	@Test
 	public void testCheckIdCardNo() {
