@@ -19,6 +19,7 @@ import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.vo.Address;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -128,5 +129,18 @@ public class UserController {
 		Map<String, String> result = new HashMap<>(1);
 		result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "Email解绑成功！");
 		return result;
+	}
+
+	@ApiOperation("获取用户位置信息")
+	@GetMapping("/address")
+	public Address getUserAddress(Authentication user) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return userService.getUserAddress(currentUser.getUuid());
+	}
+	@ApiOperation("更新用户位置信息")
+	@PutMapping("/address")
+	public void updateAddress(Authentication user, @RequestBody Address address) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateAddressByUuid(currentUser.getUuid(), address);
 	}
 }

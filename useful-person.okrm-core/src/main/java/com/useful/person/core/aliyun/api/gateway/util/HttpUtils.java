@@ -32,6 +32,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import io.micrometer.core.instrument.util.StringUtils;
 
+@SuppressWarnings("deprecation")
 public class HttpUtils {
 	
 	/**

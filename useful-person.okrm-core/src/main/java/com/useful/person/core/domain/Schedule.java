@@ -86,14 +86,14 @@ public class Schedule {
 	 */
 	@Getter
 	@Setter
-	private float longitude;
+	private Double longitude;
 
 	/**
 	 * 纬度
 	 */
 	@Getter
 	@Setter
-	private float latitude;
+	private Double latitude;
 	/**
 	 * 描述
 	 */

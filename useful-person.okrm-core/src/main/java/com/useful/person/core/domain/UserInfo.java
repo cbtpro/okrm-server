@@ -75,6 +75,7 @@ public class UserInfo implements UserDetails  {
 //	@JsonIgnore
 //	private Set<Suggest> suggests;
 
+
 	@Id
 	@JsonView(UserInfoSimpleView.class)
 	@Getter
@@ -141,6 +142,14 @@ public class UserInfo implements UserDetails  {
 	@Email(message = "Email格式不正确")
 	@SensitiveInfo(SensitiveType.EMAIL)
 	private String email;
+
+	@Getter
+	@Setter
+	private Double longitude;
+
+	@Getter
+	@Setter
+	private Double latitude;
 
 	@Getter
 	@Setter
