@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.vo.Address;
 
 /**
  * @author peter
@@ -131,4 +132,18 @@ public interface IUserService {
 	 */
 	void unbindOldEmail(String uuid, String email);
 
+	/**
+	 * 获取用户位置信息
+	 * @param uuid
+	 * @return Address 位置信息
+	 */
+	Address getUserAddress(String uuid);
+
+	/**
+	 * 更新用户位置信息
+	 * @param uuid 用户uuid
+	 * @param address 用户位置信息
+	 */
+	int updateAddressByUuid(String uuid, Address address);
+	
 }

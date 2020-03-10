@@ -20,6 +20,7 @@ import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfoLog;
 import com.useful.person.core.repository.UserInfoLogRepository;
 import com.useful.person.core.repository.UserInfoRepository;
+import com.useful.person.core.vo.Address;
 
 /**
  * 
@@ -199,6 +200,17 @@ public class UserServiceImpl implements IUserService {
 		} else {
 			throw new GeneralException(email, "绑定的邮箱不正确");
 		}
+	}
+
+	@Override
+	public Address getUserAddress(String uuid) {
+		return userInfoRepository.findByUuid(uuid);
+	}
+
+	@Override
+	@Transactional
+	public int updateAddressByUuid(String uuid, Address address) {
+		return userInfoRepository.updateAddress(address.getLongitude(), address.getLatitude(), uuid);
 	}
 
 }

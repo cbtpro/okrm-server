@@ -72,6 +72,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 /**
  * Http工具类
  */
+@SuppressWarnings("deprecation")
 public class HttpUtil {
     /**
      * HTTP GET

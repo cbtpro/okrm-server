@@ -8,8 +8,10 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.vo.Address;
 
 /**
  * @author peter
@@ -74,4 +76,15 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	@Modifying
 	@Query("update UserInfo u set u.birthday = ?1 where u.uuid = ?2")
 	void updateBirthday(Date birthday, String uuid);
+
+	/**
+	 * 查询用户地址信息
+	 * @return Address 用户地址信息
+	 */
+	@Query("select new com.useful.person.core.vo.Address(u.longitude, u.latitude) from UserInfo u where u.uuid = :uuid")
+	Address findByUuid(@Param("uuid") String uuid);
+
+	@Modifying
+	@Query("update UserInfo u set u.longitude = :longitude, u.latitude = :latitude where u.uuid = :uuid")
+	int updateAddress(@Param("longitude") Double longitude, @Param("latitude") Double latitude, @Param("uuid") String uuid);
 }

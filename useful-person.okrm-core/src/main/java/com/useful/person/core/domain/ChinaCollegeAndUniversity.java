@@ -89,14 +89,14 @@ public class ChinaCollegeAndUniversity implements Serializable {
 	 */
 	@Getter
 	@Setter
-	private float longitude;
+	private Double longitude;
 
 	/**
 	 * 纬度
 	 */
 	@Getter
 	@Setter
-	private float latitude;
+	private Double latitude;
 
 	/**
 	 * 办学层次
