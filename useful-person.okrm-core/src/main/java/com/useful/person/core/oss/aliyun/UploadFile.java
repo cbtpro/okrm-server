@@ -21,12 +21,15 @@ import com.useful.person.core.oss.IUploadFile;
 import com.useful.person.core.properties.OSSConfig;
 import com.useful.person.core.properties.SecurityProperties;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author peter
  *
  */
 @Order(1)
 @Component("ossUploadFile")
+@Slf4j
 public class UploadFile implements IUploadFile {
 
 	@Autowired
@@ -82,6 +85,7 @@ public class UploadFile implements IUploadFile {
 		try {
 			ossClient.putObject(putObjectRequest);
 		} catch (OSSException e) {
+			log.error("头像上传失败：" + e.getMessage());
 			throw new com.useful.person.core.exception.OSSException("头像上传失败！");
 		} finally {
 			ossClient.shutdown();
