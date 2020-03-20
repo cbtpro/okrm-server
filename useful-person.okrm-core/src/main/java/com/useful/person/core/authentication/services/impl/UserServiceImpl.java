@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.useful.person.core.authentication.exception.EmailExistException;
 import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
@@ -157,6 +156,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	@Transactional
 	public void updateEmailByUuid(String uuid, String email) {
+		// 查询除自身外是手机号是否已被使用
 		UserInfo userInfo = userRepository.findByUuidNotAndEmail(uuid, email);
 		if (userInfo == null) {
 			userInfoRepository.updateEmail(email, uuid);
@@ -164,7 +164,7 @@ public class UserServiceImpl implements IUserService {
 			UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_EMAIL).oldValue(null).actionValue(email).build();
 			userInfoLogRepository.save(userInfoLog);
 		} else {
-			throw new EmailExistException(email);
+			throw new MobileExistException(email);
 		}
 	}
 
@@ -204,13 +204,52 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public Address getUserAddress(String uuid) {
-		return userInfoRepository.findByUuid(uuid);
+		return userInfoRepository.findAddressByUuid(uuid);
 	}
 
 	@Override
 	@Transactional
 	public int updateAddressByUuid(String uuid, Address address) {
 		return userInfoRepository.updateAddress(address.getLongitude(), address.getLatitude(), uuid);
+	}
+
+	@Override
+	public List<Address> getUserNearbyUserAddress(String uuid, Double longitude0, Double latitude0, Double longitude1, Double latitude1, Double longitude, Double latitude) {
+		/**
+		 * 1、根据用户id查询用户的位置信息，
+		 * 2、如果有位置信息就继续根据位置信息范围查找附近的人
+		 * 或者直接返回异常
+		 */
+//		Address address = userInfoRepository.findAddressByUuid(uuid);
+//		Double longitude = address.getLongitude();
+//		Double latitude = address.getLatitude();
+//		if (StringUtils.isEmpty(longitude) || StringUtils.isEmpty(latitude)) {
+//			throw new GeneralException("address", "请设置常用位置信息！");
+//		}
+		Double minLongitude = longitude0;
+		Double maxLongitude = longitude1;
+		Double minLatitude = latitude0;
+		Double maxLatitude = latitude1;
+		if (minLatitude > maxLatitude) {
+			Double temp = minLatitude;
+			minLatitude = maxLatitude;
+			maxLatitude = temp;
+		}
+		/**
+		 * 判断是否需要拆分区域
+		 * 经度170 -> 180 -> (-170)需要拆分成 170 -> 180/ (-180) -> (-170)
+		 * 纬度在高德、腾讯等地图上不会出现跨区间，不需要拆分。但是如果前端采用了3D地图，需要另外考虑方案。
+		 */
+		if (minLongitude > maxLongitude) {
+			// 第一个区间
+			Double range0MinLongitude = longitude0;
+			Double range0MaxLongitude = 180d;
+			// 第二个区间
+			Double range1MinLongitude = -180d;
+			Double range1MaxLongitude = longitude1;
+			return userInfoRepository.queryUserNearByUserAddressRange(range0MinLongitude, range0MaxLongitude, range1MinLongitude, range1MaxLongitude, minLatitude, maxLatitude);
+		}
+		return userInfoRepository.queryUserNearbyUserAddress(minLongitude, maxLongitude, minLatitude, maxLatitude);
 	}
 
 }

@@ -146,4 +146,11 @@ public interface IUserService {
 	 */
 	int updateAddressByUuid(String uuid, Address address);
 	
+	/**
+	 * 获取用户周围的用户位置信息
+	 * @param uuid
+	 * @return
+	 */
+	List<Address> getUserNearbyUserAddress(String uuid, Double longitude0, Double latitude0, Double longitude1, Double latitude1, Double longitude, Double latitude);
+
 }

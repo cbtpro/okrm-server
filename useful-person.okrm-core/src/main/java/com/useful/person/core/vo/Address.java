@@ -16,6 +16,18 @@ public class Address {
 
 	@Getter
 	@Setter
+	private String uuid;
+
+	@Getter
+	@Setter
+	private String nickname;
+
+	@Getter
+	@Setter
+	private String avatar;
+
+	@Getter
+	@Setter
 	private Double longitude;
 
 	@Getter
