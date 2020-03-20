@@ -35,7 +35,7 @@ public class ValidatorCodeBeanConfig {
 	 * 使用@ConditionalOnMissingBean(SmsCodeSender.class)也可以
 	 */
 	@Bean("smsCodeSender")
-//	@Profile({"prod", "test"})
+	@Profile({"prod", "test"})
 	@ConditionalOnMissingBean(name = "smsCodeSender")
 	public SmsCodeSender smsCodeSender() {
 		return new DefaultSmsCodeSender();

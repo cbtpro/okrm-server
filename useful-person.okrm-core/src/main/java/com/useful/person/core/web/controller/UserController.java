@@ -1,6 +1,7 @@
 package com.useful.person.core.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,4 +144,16 @@ public class UserController {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateAddressByUuid(currentUser.getUuid(), address);
 	}
+	@ApiOperation("获取附近用户的位置信息")
+	@PostMapping("/nearby/address")
+	public List<Address> queryUserNearbyUserAddress(Authentication user,
+			@RequestParam(name = "longitude0", required = true) Double longitude0,
+			@RequestParam(name = "latitude0", required = true) Double latitude0,
+			@RequestParam(name = "longitude1", required = true) Double longitude1,
+			@RequestParam(name = "latitude1", required = true) Double latitude1,
+			@RequestParam(name = "longitude", required = true) Double longitude,
+			@RequestParam(name = "latitude", required = true) Double latitude) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return userService.getUserNearbyUserAddress(currentUser.getUuid(), longitude0, latitude0, longitude1, latitude1, longitude, latitude);
+	} 
 }
