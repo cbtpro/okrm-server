@@ -4,7 +4,6 @@
 package com.useful.person.core.sensitive;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import org.springframework.util.ObjectUtils;
 
@@ -20,7 +19,7 @@ import com.useful.person.core.annotation.SensitiveInfo;
  * @author cbtpro
  *
  */
-public class SensitiveInfoSerialize extends JsonSerializer<String> implements ContextualSerializer {
+public class SensitiveInfoSerialize extends JsonSerializer<Object> implements ContextualSerializer {
 
 	private SensitiveType type;
 
@@ -37,47 +36,53 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 		if (ObjectUtils.isEmpty(property)) {
 			return prov.findNullValueSerializer(property);
 		}
-		if (Objects.equals(property.getType().getRawClass(), String.class)) {
-			SensitiveInfo sensitiveInfo = property.getAnnotation(SensitiveInfo.class);
-			if (ObjectUtils.isEmpty(sensitiveInfo)) {
-				sensitiveInfo = property.getContextAnnotation(SensitiveInfo.class);
-			}
-			if (!ObjectUtils.isEmpty(sensitiveInfo)) {
-				return new SensitiveInfoSerialize(sensitiveInfo.value());
-			}
+		SensitiveInfo sensitiveInfo = property.getAnnotation(SensitiveInfo.class);
+		if (ObjectUtils.isEmpty(sensitiveInfo)) {
+			sensitiveInfo = property.getContextAnnotation(SensitiveInfo.class);
+		}
+		if (!ObjectUtils.isEmpty(sensitiveInfo)) {
+			return new SensitiveInfoSerialize(sensitiveInfo.value());
 		}
 		return prov.findValueSerializer(property.getType(), property);
 	}
 
 	@Override
-	public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+	public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 		switch (this.type) {
 			case CHINESE_NAME: {
-				gen.writeString(SensitiveInfoUtils.chineseName(value));
+				gen.writeString(SensitiveInfoUtils.chineseName(String.valueOf(value)));
 				break;
 			}
 			case MOBILE: {
-				gen.writeString(SensitiveInfoUtils.mobile(value));
+				gen.writeString(SensitiveInfoUtils.mobile(String.valueOf(value)));
 				break;
 			}
 			case PASSWORD: {
-				gen.writeString(SensitiveInfoUtils.password(value));
+				gen.writeString(SensitiveInfoUtils.password(String.valueOf(value)));
 				break;
 			}
 			case EMAIL: {
-				gen.writeString(SensitiveInfoUtils.email(value));
+				gen.writeString(SensitiveInfoUtils.email(String.valueOf(value)));
 				break;
 			}
 			case ID_CARD: {
-				gen.writeString(SensitiveInfoUtils.identityCard(value));
+				gen.writeString(SensitiveInfoUtils.identityCard(String.valueOf(value)));
 				break;
 			}
 			case BANK_CARD: {
-				gen.writeString(SensitiveInfoUtils.bankCard(value));
+				gen.writeString(SensitiveInfoUtils.bankCard(String.valueOf(value)));
+				break;
+			}
+			case LONGITUDE: {
+				gen.writeNumber(SensitiveInfoUtils.longitude(Double.valueOf(String.valueOf(value))));
+				break;
+			}
+			case LATITUDE: {
+				gen.writeNumber(SensitiveInfoUtils.latitude(Double.valueOf(String.valueOf(value))));
 				break;
 			}
 			default:
-				gen.writeString(value);
+				gen.writeString(String.valueOf(value));
 				break;
 			}
 	}

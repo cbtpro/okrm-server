@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
+import com.useful.person.core.domain.UserInfo.UserInfoSimpleView;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.vo.Address;
 
@@ -52,13 +53,13 @@ public class UserController {
 	 * @return users
 	 */
 	@GetMapping
-	@JsonView(UserInfo.UserInfoSimpleView.class)
+	@JsonView(UserInfoSimpleView.class)
 	public boolean query(@RequestParam(name = "username", required = true) String username) {
 		return userService.isExistUsername(username);
 	}
 
 	@GetMapping(value = "/profile/detail")
-	@JsonView(UserInfo.UserInfoDetailView.class)
+	@JsonView(UserInfoDetailView.class)
 	public UserInfo getUserDetail(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		UserInfo detail = userService.findByUuid(currentUser.getUuid());
@@ -71,7 +72,7 @@ public class UserController {
 	 * @return user
 	 */
 	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	@JsonView(UserInfo.UserInfoDetailView.class)
+	@JsonView(UserInfoDetailView.class)
 	public UserInfo getUserInfo(@PathVariable(name = "uuid", required = true) String uuid) {
 		UserInfo user = userService.findByUuid(uuid);
 		return user;
@@ -145,6 +146,7 @@ public class UserController {
 		userService.updateAddressByUuid(currentUser.getUuid(), address);
 	}
 	@ApiOperation("获取附近用户的位置信息")
+//	@JsonView(AddressView.class)
 	@PostMapping("/nearby/address")
 	public List<Address> queryUserNearbyUserAddress(Authentication user,
 			@RequestParam(name = "longitude0", required = true) Double longitude0,

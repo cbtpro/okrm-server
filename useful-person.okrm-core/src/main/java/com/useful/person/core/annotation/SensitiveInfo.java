@@ -1,6 +1,3 @@
-/**
- * 标注敏感信息的注解
- */
 package com.useful.person.core.annotation;
 
 import java.lang.annotation.Retention;
