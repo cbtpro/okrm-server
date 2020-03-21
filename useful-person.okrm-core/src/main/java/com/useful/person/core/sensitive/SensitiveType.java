@@ -37,5 +37,15 @@ public enum SensitiveType {
 	/**
 	 * 银行卡号
 	 */
-	BANK_CARD
+	BANK_CARD,
+
+	/**
+	 * 经度
+	 */
+	LONGITUDE,
+
+	/**
+	 * 纬度
+	 */
+	LATITUDE,
 }
