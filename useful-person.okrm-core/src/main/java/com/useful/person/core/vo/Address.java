@@ -17,32 +17,25 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Address {
 
-//	public interface AddressView {}
-
 	@Getter
 	@Setter
-//	@JsonView(AddressView.class)
 	private String uuid;
 
 	@Getter
 	@Setter
-//	@JsonView(AddressView.class)
 	private String nickname;
 
 	@Getter
 	@Setter
-//	@JsonView(AddressView.class)
 	private String avatar;
 
 	@Getter
 	@Setter
-//	@JsonView(AddressView.class)
 	@SensitiveInfo(SensitiveType.LONGITUDE)
 	private Double longitude;
 
 	@Getter
 	@Setter
-//	@JsonView(AddressView.class)
 	@SensitiveInfo(SensitiveType.LATITUDE)
 	private Double latitude;
 
