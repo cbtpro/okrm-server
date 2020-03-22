@@ -215,17 +215,6 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<Address> getUserNearbyUserAddress(String uuid, Double longitude0, Double latitude0, Double longitude1, Double latitude1, Double longitude, Double latitude) {
-		/**
-		 * 1、根据用户id查询用户的位置信息，
-		 * 2、如果有位置信息就继续根据位置信息范围查找附近的人
-		 * 或者直接返回异常
-		 */
-//		Address address = userInfoRepository.findAddressByUuid(uuid);
-//		Double longitude = address.getLongitude();
-//		Double latitude = address.getLatitude();
-//		if (StringUtils.isEmpty(longitude) || StringUtils.isEmpty(latitude)) {
-//			throw new GeneralException("address", "请设置常用位置信息！");
-//		}
 		Double minLongitude = longitude0;
 		Double maxLongitude = longitude1;
 		Double minLatitude = latitude0;
