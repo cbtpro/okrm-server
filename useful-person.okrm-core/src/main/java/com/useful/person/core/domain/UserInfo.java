@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.annotation.SensitiveInfo;
 import com.useful.person.core.sensitive.SensitiveType;
+import com.useful.person.core.vo.GeneralViews;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,7 +55,7 @@ public class UserInfo implements UserDetails  {
 
 	private static final long serialVersionUID = -2809225013056302802L;
 
-	public interface UserInfoMobileSignupView {}
+	public interface UserInfoMobileSignupView extends GeneralViews.INormalView {}
 
 	public interface UserInfoSimpleView extends UserInfoMobileSignupView {};
 
@@ -133,6 +134,7 @@ public class UserInfo implements UserDetails  {
 	
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	private String identityCard;
 	
 	@Getter
@@ -145,10 +147,12 @@ public class UserInfo implements UserDetails  {
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	private Double longitude;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	private Double latitude;
 
 	@Getter
@@ -159,6 +163,7 @@ public class UserInfo implements UserDetails  {
 	private Money hourlyWage;
 
 	@Override
+	@JsonView(UserInfoDetailView.class)
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
 		return authorities;

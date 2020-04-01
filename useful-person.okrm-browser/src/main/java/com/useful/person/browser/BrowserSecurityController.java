@@ -13,6 +13,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,7 @@ public class BrowserSecurityController {
 	@Autowired
 	private SecurityProperties securityProperties;
 
+	@CrossOrigin // 允许302后的接口跨域访问，解决前端跨域访问的问题
 	@RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
