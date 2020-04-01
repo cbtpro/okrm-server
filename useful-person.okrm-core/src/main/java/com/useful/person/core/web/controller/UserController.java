@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.authentication.services.IUserService;
+import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 import com.useful.person.core.domain.UserInfo.UserInfoSimpleView;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.vo.Address;
+import com.useful.person.core.vo.ResponseData;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,10 +43,12 @@ public class UserController {
 	private IUserService userService;
 
 	@GetMapping("/me")
-	@JsonView(UserInfoDetailView.class)
-	public UserInfo getCurrentUser(Authentication user) {
+	@JsonView({UserInfoDetailView.class})
+	public ResponseData<UserInfo> getCurrentUser(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return userService.findByUuid(currentUser.getUuid());
+		UserInfo userInfo = userService.findByUuid(currentUser.getUuid());
+		ResponseData<UserInfo> responseData = new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "", userInfo);
+		return responseData;
 	}
 	/**
 	 * 查询用户名是否存在
@@ -60,10 +64,10 @@ public class UserController {
 
 	@GetMapping(value = "/profile/detail")
 	@JsonView(UserInfoDetailView.class)
-	public UserInfo getUserDetail(Authentication user) {
+	public ResponseData<UserInfo> getUserDetail(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		UserInfo detail = userService.findByUuid(currentUser.getUuid());
-		return detail;
+		UserInfo userInfo = userService.findByUuid(currentUser.getUuid());
+		return new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "", userInfo);
 	}
 	/**
 	 * 获取用户详情
