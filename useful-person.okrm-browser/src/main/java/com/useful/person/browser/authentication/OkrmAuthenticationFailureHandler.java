@@ -52,7 +52,7 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 			}
 			logSb.append(parameterName + ": " + parameterValue);
 		}
-		log.info("验证失败，参数：" + logSb);
+		log.info("登陆失败，参数：" + logSb);
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
