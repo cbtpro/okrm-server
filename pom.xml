@@ -54,7 +54,6 @@
 					<!-- 态资源打包 -->
 					<include>static/*</include>
 					<include>templates/*</include>
-					<include>sql/*</include>
 				</includes>
 			</resource>
 		</resources>
