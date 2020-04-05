@@ -95,18 +95,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(validatorCodeFilter, EmailCodeFilter.class).formLogin()
 				.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
 				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)
 				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler)
-				// 登出功能
-//				.and().logout().logoutUrl(SecurityConstants.DEFAULT_SIGN_OUT_URL).logoutSuccessHandler(okrmLogoutSuccess)
-//				.logoutSuccessUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-//				.invalidateHttpSession(true).deleteCookies("SESSION")
-//				.invalidateHttpSession(true).deleteCookies("remember-me")
 				// 记住我功能
 				.and().rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(browserProperties.getRememberMeSeconds())
-//				.userDetailsService(userDetailsService)
 				// 不需要登录的接口
 				.and().authorizeRequests()
 				.antMatchers("/", "/suggest", "/error",
@@ -124,6 +117,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll().anyRequest().authenticated()
 				// 禁用csrf
 				.and().csrf().disable()
+				// 修改未登录时重定向为直接返回401状态码
+				.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+				.and()
 				// 应用短信验证配置
 				.apply(smsCodeAuthenticationSecurityConfig);
 	}
