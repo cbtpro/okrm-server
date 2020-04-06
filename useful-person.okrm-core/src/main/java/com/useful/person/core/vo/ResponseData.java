@@ -44,6 +44,6 @@ public class ResponseData<T> implements Serializable {
 	@Getter
 	@Setter
 	@JsonView(GeneralViews.INormalView.class)
-	private T result;
+	private T data;
 
 }

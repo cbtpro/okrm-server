@@ -15,15 +15,18 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.authentication.services.IUserService;
+import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfo.UserInfoMobileSignupView;
 import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.utils.ShortID;
+import com.useful.person.core.vo.ResponseData;
 
 /**
  * 
@@ -55,22 +58,20 @@ public class LoginController {
 	 */
 	@JsonView(UserInfo.UserInfoDetailView.class)
 	@PostMapping(SecurityConstants.DEFAULT_SIGN_UP_URL)
-	public Map<String, Object> createUser(HttpServletRequest request, HttpServletResponse response, @Valid UserInfo user, BindingResult errors) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>(2);
+	public ResponseData<UserInfo> createUser(HttpServletRequest request, HttpServletResponse response, @Valid UserInfo user, BindingResult errors) throws Exception {
+		ResponseData<UserInfo> responseData;
 		if (errors.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<String, String>(5);
+			StringBuilder content = new StringBuilder();
 			errors.getAllErrors().stream().forEach(error -> {
-				FieldError fieldError = (FieldError) error;
-				errorMap.put(fieldError.getField(), error.getDefaultMessage());
+				content.append(error.getDefaultMessage());
 			});
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
-			map.put(AppConstants.DEFAULT_RETURN_MESSAGE, errorMap);
-			return map;
+			responseData = new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), content.toString(), null);
+			return responseData;
 		}
 		UserInfo newUser = userService.register(user);
-		map.put(AppConstants.DEFAULT_RETURN_MESSAGE, "用户注册成功！");
-		map.put("user", newUser);
-		return map;
+		responseData = new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "用户注册成功！", newUser);
+		return responseData;
 	}
 
 	@JsonView(UserInfoMobileSignupView.class)
