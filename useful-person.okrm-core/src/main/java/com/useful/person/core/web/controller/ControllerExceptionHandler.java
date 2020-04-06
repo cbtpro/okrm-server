@@ -16,13 +16,13 @@ import com.useful.person.core.authentication.exception.MobileNotRegisteredExcept
 import com.useful.person.core.authentication.exception.UserNotExistException;
 import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.constants.ReturnCode;
-import com.useful.person.core.exception.SenderMailException;
-import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.exception.ChinaAdultCollegeAndUniversityNotExistException;
 import com.useful.person.core.exception.ChinaCollegeAndUniversityNotExistException;
 import com.useful.person.core.exception.EventNotExistException;
 import com.useful.person.core.exception.OSSException;
 import com.useful.person.core.exception.ResourceNotFoundException;
+import com.useful.person.core.exception.SenderMailException;
+import com.useful.person.core.properties.AppConstants;
 
 /**
  * 
@@ -158,4 +158,5 @@ public class ControllerExceptionHandler {
 		result.put(AppConstants.DEFAULT_RETURN_CODE, ReturnCode.ERROR.getCode());
 		return result;
 	}
+
 }
