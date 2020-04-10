@@ -2,8 +2,6 @@ package com.useful.person.core.web.controller;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -20,13 +18,13 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.google.gson.Gson;
-import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.properties.MailCodeProperties;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.redis.impl.EmailCodeRedisOperation;
 import com.useful.person.core.validator.mail.EmailCode;
 import com.useful.person.core.validator.mail.MailService;
+import com.useful.person.core.vo.ResponseData;
 
 /**
  * 
@@ -66,12 +64,12 @@ public class MailController {
 //	}
 
 	@GetMapping("/mail")
-	public Callable<String> sendMailCode(HttpServletRequest request, HttpServletResponse response,
+	public Callable<ResponseData<String>> sendMailCode(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(name = "email", required = true) String email) {
-		Callable<String> callable = new Callable<String>() {
+		Callable<ResponseData<String>> callable = new Callable<ResponseData<String>>() {
 			@Override
-			public String call() throws Exception {
-				Map<String, Object> result = new HashMap<String, Object>(2);
+			public ResponseData<String> call() throws Exception {
+				ResponseData<String> responseData = null;
 				MailCodeProperties mailCodeProperties = securityProperties.getMail().getCode();
 				int expireIn = mailCodeProperties.getExpireIn();
 				// 判断验证码是否过期
@@ -85,16 +83,14 @@ public class MailController {
 							verificationCodeContext);
 					mailService.sendHtmlMail(email, "验证码" + randomCode, verificationCodeMailContent);
 					emailCodeRedisOperation.save(new ServletWebRequest(request), emailCode, expireIn, TimeUnit.SECONDS);
-					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。");
+					responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(), "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。", null);
 				} else {
-					result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "邮箱验证码未过期");
 					LocalDateTime expireTime = emailCodeInRedis.getExpireTime();
 					LocalDateTime now = LocalDateTime.now();
 					Duration duration = Duration.between(now, expireTime);
-					result.put("expireIn", duration.toSeconds());
+					responseData = new ResponseData<String>(ReturnCode.ERROR.getCode(), "邮箱验证码还有" + duration.toSeconds() + "秒过期！", null);
 				}
-				Gson gson = new Gson();
-				return gson.toJson(result);
+				return responseData;
 			}
 		};
 		return callable;

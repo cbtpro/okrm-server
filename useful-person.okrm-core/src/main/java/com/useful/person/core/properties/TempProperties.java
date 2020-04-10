@@ -15,4 +15,8 @@ public class TempProperties {
 	@Getter
 	@Setter
 	private String dir;
+
+	@Getter
+	@Setter
+	private int expireIn = 86400;
 }

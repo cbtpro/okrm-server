@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import com.google.gson.Gson;
-import com.useful.person.core.properties.ImageCodeProperties;
 import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.properties.ImageCodeProperties;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.properties.SmsCodeProperties;
@@ -42,6 +42,7 @@ import net.bytebuddy.utility.RandomString;
  * @author peter
  *
  */
+//@Slf4j
 @RestController
 public class ValidatorCodeController {
 
@@ -71,6 +72,14 @@ public class ValidatorCodeController {
 				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE,
 						imageCode);
 				ImageIO.write(buferedImage, "jpeg", response.getOutputStream());
+//				Thread currentThread = Thread.currentThread();
+//				String currentThreadName = currentThread.getName();
+//				long currentThreadId = currentThread.getId();
+//				int priority = currentThread.getPriority();
+//				State currentThreadState = currentThread.getState();
+//				ThreadGroup threadGroup = currentThread.getThreadGroup();
+//				String threadGroupName = threadGroup.getName();
+//				log.info("生成验证码 Thread: id = " + currentThreadId + ", name = " + currentThreadName + ", priority = " + priority + ", state = " + currentThreadState + ", groupName = " + threadGroupName);
 				return null;
 			}
 		};

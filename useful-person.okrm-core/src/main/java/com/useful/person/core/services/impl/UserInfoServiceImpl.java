@@ -54,8 +54,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public void updateAvatarImage(MultipartFile multipartFile, UserInfo currentUser) {
 		String userUuid = currentUser.getUuid();
 		OSSConfig ossConfig = securityProperties.getOss().getConfig();
-		UUID uuid = UUID.randomUUID();
-		String fileName = uuid.toString();
+		String fileName = UUID.randomUUID().toString();
 		String originalfileName = multipartFile.getOriginalFilename();
 		String avatarExtension = originalfileName.substring(originalfileName.lastIndexOf(".") + 1,
 				originalfileName.length());
