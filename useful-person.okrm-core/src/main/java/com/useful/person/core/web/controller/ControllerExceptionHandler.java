@@ -23,6 +23,8 @@ import com.useful.person.core.exception.OSSException;
 import com.useful.person.core.exception.ResourceNotFoundException;
 import com.useful.person.core.exception.SenderMailException;
 import com.useful.person.core.properties.AppConstants;
+import com.useful.person.core.validator.code.ValidatorCodeException;
+import com.useful.person.core.vo.ResponseData;
 
 /**
  * 
@@ -159,4 +161,10 @@ public class ControllerExceptionHandler {
 		return result;
 	}
 
+	@ExceptionHandler(ValidatorCodeException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ResponseData<String> handlerValidatorCodeException(ValidatorCodeException e) {
+		return new ResponseData<String>(ReturnCode.ERROR.getCode(), e.getMessage(), null);
+	}
 }

@@ -105,9 +105,10 @@ public class UserController {
 
 	@ApiOperation("更新用户邮箱")
 	@PutMapping("/email")
-	public void updateEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
+	public ResponseData<String> updateEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateEmailByUuid(currentUser.getUuid(), email);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "邮箱地址更新成功！", email);
 	}
 
 	@ApiOperation("更新用户生日")
