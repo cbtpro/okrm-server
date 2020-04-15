@@ -1,11 +1,12 @@
 package com.useful.person.core.authentication.services.impl;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.useful.person.core.authentication.exception.GeneralException;
@@ -170,7 +171,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public void updateBirthdayByUuid(String uuid, Date birthday) {
+	public void updateBirthdayByUuid(String uuid, Timestamp birthday) {
 		userInfoRepository.updateBirthday(birthday, uuid);
 	}
 
@@ -203,6 +204,14 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.DEFAULT)
+	public void updateRealname(String uuid, String identityCardName, String identityCardNo) {
+		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new GeneralException(null, "实名制失败"));
+		userInfoRepository.updateIdentityCard(identityCardName, identityCardNo, uuid);
+		UserInfoLog userInfoLog = UserInfoLog.builder().user(userInfo).actionType(UserAction.UPDATE_IDENTITY_CARD).oldValue(null).actionValue(userInfo.getIdentityCardName() + "," + userInfo.getIdentityCardNo()).build();
+		userInfoLogRepository.save(userInfoLog);
+	}
+	@Override
 	public Address getUserAddress(String uuid) {
 		return userInfoRepository.findAddressByUuid(uuid);
 	}
@@ -227,7 +236,7 @@ public class UserServiceImpl implements IUserService {
 		/**
 		 * 判断是否需要拆分区域
 		 * 经度170 -> 180 -> (-170)需要拆分成 170 -> 180/ (-180) -> (-170)
-		 * 纬度在高德、腾讯等地图上不会出现跨区间，不需要拆分。但是如果前端采用了3D地图，需要另外考虑方案。
+		 * 纬度在高德、腾讯等地图上不会出现跨区间，不需要拆分。但是如果前端采用了3D地球，需要另外考虑方案。
 		 */
 		if (minLongitude > maxLongitude) {
 			// 第一个区间
@@ -239,6 +248,23 @@ public class UserServiceImpl implements IUserService {
 			return userInfoRepository.queryUserNearByUserAddressRange(range0MinLongitude, range0MaxLongitude, range1MinLongitude, range1MaxLongitude, minLatitude, maxLatitude);
 		}
 		return userInfoRepository.queryUserNearbyUserAddress(minLongitude, maxLongitude, minLatitude, maxLatitude);
+	}
+
+	@Override
+	@Transactional
+	public UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday) {
+		UserInfo userInfo = userInfoRepository.findById(uuid).orElseThrow(() -> new GeneralException("", "更新信息失败！"));
+		int count = userInfoRepository.updateUserInfo(uuid, avatar, username, nickname, birthday);
+		if (count > 0) {
+			UserInfoLog.builder().actionType(UserAction.UPDATE_AVATAR).actionValue(avatar).oldValue(userInfo.getAvatar()).build();
+			UserInfoLog.builder().actionType(UserAction.UPDATE_USERNAME).actionValue(username).oldValue(userInfo.getUsername()).build();
+			UserInfoLog.builder().actionType(UserAction.UPDATE_NICKNAME).actionValue(nickname).oldValue(userInfo.getNickname()).build();
+			Timestamp oldBirthday = userInfo.getBirthday();
+			String oldBirthDayStr = oldBirthday != null ? oldBirthday.toString() : null;
+			UserInfoLog.builder().actionType(UserAction.UPDATE_BIRTHDAY).actionValue(birthday.toString()).oldValue(oldBirthDayStr).build();
+			return userInfoRepository.findById(uuid).orElseThrow(() -> new GeneralException("", "更新信息失败！"));
+		}
+		throw new GeneralException("", "更新信息失败");
 	}
 
 }

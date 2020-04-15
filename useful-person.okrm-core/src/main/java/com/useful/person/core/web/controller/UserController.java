@@ -98,9 +98,10 @@ public class UserController {
 
 	@ApiOperation("更新用户手机")
 	@PutMapping("/mobile")
-	public void updateMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
+	public ResponseData<String> updateMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateMobileByUuid(currentUser.getUuid(), mobile);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "手机号更新成功！", mobile);
 	}
 
 	@ApiOperation("更新用户邮箱")
@@ -118,7 +119,7 @@ public class UserController {
 		userService.updateBirthdayByUuid(currentUser.getUuid(), userInfo.getBirthday());
 	}
 
-	@ApiOperation("解绑 旧手机号")
+	@ApiOperation("解绑旧手机号")
 	@PostMapping("/mobile/unbindOldMobile")
 	public Map<String, String> unbindOldMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
@@ -138,6 +139,13 @@ public class UserController {
 		return result;
 	}
 
+	@ApiOperation("更新用户实名制信息")
+	@PutMapping("/realname")
+	public ResponseData<String> updateRealname(Authentication user, @RequestParam(name = "idcardname", required = true) String identityCardName, @RequestParam(name = "idcardno", required = true) String identityCardNo) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateRealname(currentUser.getUuid(), identityCardName, identityCardNo);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "实名制成功！", "");
+	}
 	@ApiOperation("获取用户位置信息")
 	@GetMapping("/address")
 	public Address getUserAddress(Authentication user) {
@@ -149,6 +157,13 @@ public class UserController {
 	public void updateAddress(Authentication user, @RequestBody Address address) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateAddressByUuid(currentUser.getUuid(), address);
+	}
+
+	@ApiOperation("更新用户信息")
+	@PutMapping
+	public UserInfo updateUserInfo(Authentication user, @RequestBody(required = true) UserInfo userInfo ) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		return userService.updateUserInfo(currentUser.getUuid(), userInfo.getAvatar(), userInfo.getUsername(), userInfo.getNickname(), userInfo.getBirthday());
 	}
 	@ApiOperation("获取附近用户的位置信息")
 //	@JsonView(AddressView.class)

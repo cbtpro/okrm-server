@@ -3,7 +3,7 @@
  */
 package com.useful.person.core.services;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,5 +63,5 @@ public interface UserInfoService {
 	 * @param userUuid
 	 * @param userInfoLog
 	 */
-	void updateBirthday(Date birthday, String userUuid, UserInfoLog userInfoLog);
+	void updateBirthday(Timestamp birthday, String userUuid, UserInfoLog userInfoLog);
 }

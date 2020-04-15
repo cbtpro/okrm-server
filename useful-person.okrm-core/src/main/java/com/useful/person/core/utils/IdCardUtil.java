@@ -80,6 +80,15 @@ public class IdCardUtil {
 		return IdCardflag;
 	}
 
+	public static String IdCardNameMask(String idCardName) {
+		String mask = idCardName;
+		if (StringUtils.isNotBlank(mask) && mask.length() >= 2) {
+			StringBuilder sb = new StringBuilder(idCardName);
+			sb.replace(0, mask.length() - 1, "*");
+			mask = sb.toString();
+		}
+		return mask;
+	}
 	/**
 	 * 身份证号码脱敏 只脱敏月日四位
 	 */

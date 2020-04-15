@@ -3,8 +3,8 @@
  */
 package com.useful.person.core.domain;
 
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -130,12 +130,19 @@ public class UserInfo implements UserDetails  {
 	@Setter
 	@JsonView(UserInfoSimpleView.class)
 	@Past(message = "生日必须是过去的时间")
-	private Date birthday;
-	
+	private Timestamp birthday;
+
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)
-	private String identityCard;
+	@SensitiveInfo(SensitiveType.ID_CARD_NAME)
+	private String identityCardName;
+
+	@Getter
+	@Setter
+	@JsonView(UserInfoDetailView.class)
+	@SensitiveInfo(SensitiveType.ID_CARD)
+	private String identityCardNo;
 	
 	@Getter
 	@Setter
@@ -193,12 +200,12 @@ public class UserInfo implements UserDetails  {
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
-	private Date updateTime;
+	private Timestamp updateTime;
 
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
-	private Date createTime;
+	private Timestamp createTime;
 }
