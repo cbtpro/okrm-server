@@ -65,6 +65,10 @@ public class SensitiveInfoSerialize extends JsonSerializer<Object> implements Co
 				gen.writeString(SensitiveInfoUtils.email(String.valueOf(value)));
 				break;
 			}
+			case ID_CARD_NAME: {
+				gen.writeString(SensitiveInfoUtils.identityCardName(String.valueOf(value)));
+				break;
+			}
 			case ID_CARD: {
 				gen.writeString(SensitiveInfoUtils.identityCard(String.valueOf(value)));
 				break;

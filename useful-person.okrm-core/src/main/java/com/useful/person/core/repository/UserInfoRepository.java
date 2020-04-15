@@ -3,7 +3,7 @@
  */
 package com.useful.person.core.repository;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -82,8 +82,21 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	 */
 	@Modifying
 	@Query("update UserInfo u set u.birthday = ?1 where u.uuid = ?2")
-	void updateBirthday(Date birthday, String uuid);
+	void updateBirthday(Timestamp birthday, String uuid);
 
+	/**
+	 * 更新用户身份证信息
+	 * @param identityCardName
+	 * @param identityCardNo
+	 * @param uuid
+	 */
+	@Modifying
+	@Query("update UserInfo u set u.identityCardName = :identityCardName, u.identityCardNo = :identityCardNo where u.uuid = :uuid")
+	void updateIdentityCard(String identityCardName, String identityCardNo, String uuid);
+
+	@Modifying
+	@Query("update UserInfo u set u.avatar = :avatar, u.username = :username, u.nickname = :nickname, u.birthday = :birthday where u.uuid = :uuid")
+	int updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday);
 	/**
 	 * 查询用户地址信息
 	 * 

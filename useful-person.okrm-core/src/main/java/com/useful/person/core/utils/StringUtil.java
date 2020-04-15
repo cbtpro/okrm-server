@@ -85,6 +85,9 @@ public class StringUtil {
 		return email;
 	}
 
+	public static final String idCardNameMask(String idcardName) {
+		return IdCardUtil.IdCardNameMask(idcardName);
+	}
 	/**
 	 * 身份证脱敏处理
 	 * @param idcard

@@ -39,8 +39,17 @@ public class SensitiveInfoUtils {
 		}
 		return StringUtil.emailDataMask(email);
 	}
+	public static String identityCardName(final String identityCardName) {
+		if (StringUtils.isBlank(identityCardName)) {
+			return "";
+		}
+		return StringUtil.chineseNameDataMask(identityCardName);
+	}
 	public static String identityCard(final String identityCard) {
-		return identityCard;
+		if (StringUtils.isBlank(identityCard)) {
+			return "";
+		}
+		return StringUtil.idCardDataMask(identityCard);
 	}
 	public static String bankCard(final String bankCard) {
 		return bankCard;

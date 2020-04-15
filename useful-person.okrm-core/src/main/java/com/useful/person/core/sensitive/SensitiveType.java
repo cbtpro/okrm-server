@@ -30,6 +30,10 @@ public enum SensitiveType {
 	EMAIL,
 
 	/**
+	 * 身份证姓名
+	 */
+	ID_CARD_NAME,
+	/**
 	 * 身份证
 	 */
 	ID_CARD,

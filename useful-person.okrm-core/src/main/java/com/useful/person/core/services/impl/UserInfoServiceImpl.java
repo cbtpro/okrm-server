@@ -4,7 +4,7 @@
 package com.useful.person.core.services.impl;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +107,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	@Transactional
-	public void updateBirthday(Date birthday, String userUuid, UserInfoLog userInfoLog) {
+	public void updateBirthday(Timestamp birthday, String userUuid, UserInfoLog userInfoLog) {
 		userInfoRepository.updateBirthday(birthday, userUuid);
 		userInfoLogRepository.save(userInfoLog);
 	}

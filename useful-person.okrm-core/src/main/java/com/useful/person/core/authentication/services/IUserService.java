@@ -1,6 +1,6 @@
 package com.useful.person.core.authentication.services;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.useful.person.core.domain.UserInfo;
@@ -84,6 +84,17 @@ public interface IUserService {
 	UserInfo updateUserInfo(UserInfo userInfo);
 
 	/**
+	 * 更新用户
+	 * @param uuid
+	 * @param avatar
+	 * @param username
+	 * @param nickname
+	 * @param birthday
+	 * @return 更新后的用户信息
+	 */
+	UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday);
+
+	/**
 	 * 更改用户名
 	 * @param uuid 用户uuid
 	 * @param username 用户名
@@ -116,7 +127,7 @@ public interface IUserService {
 	 * @param uuid 用户uuid
 	 * @param birthday 生日
 	 */
-	void updateBirthdayByUuid(String uuid, Date birthday);
+	void updateBirthdayByUuid(String uuid, Timestamp birthday);
 
 	/**
 	 * 解绑旧的手机号码
@@ -132,6 +143,13 @@ public interface IUserService {
 	 */
 	void unbindOldEmail(String uuid, String email);
 
+	/** 
+	 * 更新用户实名制信息
+	 * @param uuid
+	 * @param identityCardName
+	 * @param identityCardNo
+	 */
+	void updateRealname(String uuid, String identityCardName, String identityCardNo);
 	/**
 	 * 获取用户位置信息
 	 * @param uuid
