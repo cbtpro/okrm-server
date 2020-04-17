@@ -4,6 +4,7 @@
 package com.useful.person.core.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,4 +57,6 @@ public interface UserInfoService {
 	 * @param userInfoLog
 	 */
 	void updateBirthday(Timestamp birthday, String userUuid, UserInfoLog userInfoLog);
+
+	List<UserInfo> queryUsers();
 }
