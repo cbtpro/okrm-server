@@ -22,7 +22,7 @@ public interface UserInfoService {
 	 * @param userUuid
 	 * @param userInfoLog
 	 */
-	void updateAvatarImage(MultipartFile multipartFile, UserInfo curentUser);
+	String updateAvatarImage(MultipartFile multipartFile, UserInfo curentUser);
 	
 
 	/**
@@ -32,14 +32,6 @@ public interface UserInfoService {
 	 * @param userInfoLog
 	 */
 	void updateUsername(String username, String userUuid, UserInfoLog userInfoLog);
-
-	/**
-	 * 更新用户密码
-	 * @param password
-	 * @param userUuid
-	 * @param userInfoLog
-	 */
-	void updatePassword(String password, String userUuid, UserInfoLog userInfoLog);
 
 	/**
 	 * 更新用户昵称

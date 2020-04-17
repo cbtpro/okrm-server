@@ -51,7 +51,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	@Transactional
-	public void updateAvatarImage(MultipartFile multipartFile, UserInfo currentUser) {
+	public String updateAvatarImage(MultipartFile multipartFile, UserInfo currentUser) {
 		String userUuid = currentUser.getUuid();
 		OSSConfig ossConfig = securityProperties.getOss().getConfig();
 		String fileName = UUID.randomUUID().toString();
@@ -75,19 +75,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfoRepository.updateAvatarImage(avatarUrl, userUuid);
 		userInfoLogRepository.save(userInfoLog);
 		FileUtil.deleteFile(outFile);
+		return avatarUrl;
 	}
 
 	@Override
 	@Transactional
 	public void updateUsername(String username, String userUuid, UserInfoLog userInfoLog) {
 		userInfoRepository.updateUsername(username, userUuid);
-		userInfoLogRepository.save(userInfoLog);
-	}
-
-	@Override
-	@Transactional
-	public void updatePassword(String password, String userUuid, UserInfoLog userInfoLog) {
-		userInfoRepository.updatePassword(password, userUuid);
 		userInfoLogRepository.save(userInfoLog);
 	}
 

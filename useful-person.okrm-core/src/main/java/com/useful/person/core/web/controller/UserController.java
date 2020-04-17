@@ -159,6 +159,13 @@ public class UserController {
 		userService.updateAddressByUuid(currentUser.getUuid(), address);
 	}
 
+	@ApiOperation("更新用户密码")
+	@PutMapping("/passwd")
+	public ResponseData<String> updateUserPassword(Authentication user, @RequestParam(name = "oldPassword", required = true) String oldPassword, @RequestParam(name = "password", required = true) String password) {
+		UserInfo currentUser = (UserInfo) user.getPrincipal();
+		userService.updateUserPassword(currentUser.getUuid(), oldPassword, password);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "密码修改成功！", null);
+	}
 	@ApiOperation("更新用户信息")
 	@PutMapping
 	public UserInfo updateUserInfo(Authentication user, @RequestBody(required = true) UserInfo userInfo ) {

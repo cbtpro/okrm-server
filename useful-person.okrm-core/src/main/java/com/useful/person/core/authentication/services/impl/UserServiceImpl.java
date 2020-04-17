@@ -72,6 +72,23 @@ public class UserServiceImpl implements IUserService {
 		return newUserInfo;
 	}
 
+	@Transactional
+	@Override
+	public void updateUserPassword(String uuid, String oldPassword, String newPassword) {
+		UserInfo userInfo = userRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
+		if (passwordEncoder.matches(oldPassword, userInfo.getPassword())) {
+			String enPassowrd = passwordEncoder.encode(newPassword);
+			int count = userInfoRepository.updateUserPassword(enPassowrd, uuid);
+			if (count == 0) {
+				throw new GeneralException("", "密码修改失败！");
+			}
+			UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.UPDATE_PASSWORD).user(userInfo).build();
+			userInfoLogRepository.save(userInfoLog);
+		} else {
+			throw new GeneralException("", "旧密码错误！");
+		}
+	}
+
 	@Override
 	@Transactional
 	public boolean delete(UserInfo userInfo) {

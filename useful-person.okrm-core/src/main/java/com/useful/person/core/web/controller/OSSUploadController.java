@@ -3,9 +3,7 @@
  */
 package com.useful.person.core.web.controller;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.domain.TempFile;
 import com.useful.person.core.domain.UserInfo;
-import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.services.TempFileService;
 import com.useful.person.core.services.UserInfoService;
 import com.useful.person.core.vo.ResponseData;
@@ -45,21 +42,21 @@ public class OSSUploadController {
 
 	@ApiOperation("前台将头像进行编辑后直接上传头像")
 	@PostMapping("/avatar")
-	public Callable<Map<String, String>> uploadImage(Authentication user, @RequestParam MultipartFile file,
+	public Callable<ResponseData<String>> uploadImage(Authentication user, @RequestParam MultipartFile file,
 			MultipartHttpServletRequest request, HttpServletResponse response) {
-		Callable<Map<String, String>> callable = new Callable<Map<String, String>>() {
+		Callable<ResponseData<String>> callable = new Callable<>() {
 			@Override
-			public Map<String, String> call() throws Exception {
+			public ResponseData<String> call() throws Exception {
 				UserInfo currentUser = (UserInfo) user.getPrincipal();
-				Map<String, String> returnMap = new HashMap<>();
+				ResponseData<String> responseData = null;
 				for (Iterator<String> iterator = request.getFileNames(); iterator.hasNext();) {
 					String imageName = iterator.next();
 					MultipartFile mpf = request.getFile(imageName);
-					userInfoService.updateAvatarImage(mpf, currentUser);
-					returnMap.put(AppConstants.DEFAULT_RETURN_MESSAGE, "头像上传成功！");
+					String avatarUrl = userInfoService.updateAvatarImage(mpf, currentUser);
+					responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(), "头像上传成功！", avatarUrl);
 					break;
 				}
-				return returnMap;
+				return responseData;
 			}
 		};
 		return callable;

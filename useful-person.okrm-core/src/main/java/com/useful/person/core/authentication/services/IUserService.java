@@ -150,6 +150,15 @@ public interface IUserService {
 	 * @param identityCardNo
 	 */
 	void updateRealname(String uuid, String identityCardName, String identityCardNo);
+
+	/**
+	 * 修改密码
+	 * @param uuid
+	 * @param oldPassword
+	 * @param newPassword
+	 */
+	void updateUserPassword(String uuid, String oldPassword, String newPassword);
+
 	/**
 	 * 获取用户位置信息
 	 * @param uuid
