@@ -3,13 +3,10 @@
  */
 package com.useful.person.core.web.controller;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,10 +60,6 @@ public class LifeRoadMapController {
 	@DeleteMapping
 	public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
 		lifeRoadMapService.deleteByUuid(uuid);
-	}
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
-		return authorities;
 	}
 
 }

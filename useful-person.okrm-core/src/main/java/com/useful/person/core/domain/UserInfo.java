@@ -31,6 +31,7 @@ import com.useful.person.core.annotation.SensitiveInfo;
 import com.useful.person.core.sensitive.SensitiveType;
 import com.useful.person.core.vo.GeneralViews;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,18 +52,21 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class UserInfo implements UserDetails  {
+public class UserInfo implements UserDetails {
 
 	private static final long serialVersionUID = -2809225013056302802L;
 
-	public interface UserInfoMobileSignupView extends GeneralViews.INormalView {}
+	public interface UserInfoMobileSignupView extends GeneralViews.INormalView {
+	}
 
-	public interface UserInfoSimpleView extends UserInfoMobileSignupView {};
+	public interface UserInfoSimpleView extends UserInfoMobileSignupView {
+	};
 
-	public interface UserInfoDetailView extends UserInfoSimpleView {};
+	public interface UserInfoDetailView extends UserInfoSimpleView {
+	};
 
-	public interface UserInfoSecurityView extends UserInfoSimpleView {};
-
+	public interface UserInfoSecurityView extends UserInfoSimpleView {
+	};
 
 //	@Getter
 //	@Setter
@@ -75,7 +79,6 @@ public class UserInfo implements UserDetails  {
 //	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
 //	@JsonIgnore
 //	private Set<Suggest> suggests;
-
 
 	@Id
 	@JsonView(UserInfoSimpleView.class)
@@ -143,7 +146,7 @@ public class UserInfo implements UserDetails  {
 	@JsonView(UserInfoDetailView.class)
 	@SensitiveInfo(SensitiveType.ID_CARD)
 	private String identityCardNo;
-	
+
 	@Getter
 	@Setter
 	@ToString.Include(rank = 3)
@@ -169,10 +172,17 @@ public class UserInfo implements UserDetails  {
 			@org.hibernate.annotations.Parameter(name = "currencyCode", value = "CNY") })
 	private Money hourlyWage;
 
-	@Override
+	@Getter
+	@Setter
 	@JsonView(UserInfoDetailView.class)
+	private String roles;
+
+	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("normal");
+		if (StringUtils.isEmpty(this.roles)) {
+			return null;
+		}
+		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(this.roles);
 		return authorities;
 	}
 

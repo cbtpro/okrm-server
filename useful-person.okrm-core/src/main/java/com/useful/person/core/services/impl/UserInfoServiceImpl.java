@@ -5,6 +5,7 @@ package com.useful.person.core.services.impl;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public void updateBirthday(Timestamp birthday, String userUuid, UserInfoLog userInfoLog) {
 		userInfoRepository.updateBirthday(birthday, userUuid);
 		userInfoLogRepository.save(userInfoLog);
+	}
+
+	@Override
+	public List<UserInfo> queryUsers() {
+		return userInfoRepository.findAll();
 	}
 
 }

@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * @author peter
  *
  */
-@RestController
+@RestController("userController")
 @RequestMapping("/user")
 public class UserController {
 
