@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.useful.person.core.authentication.exception.EmailExistException;
 import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.authentication.exception.MobileExistException;
 import com.useful.person.core.authentication.exception.UserNotExistException;
@@ -182,7 +183,7 @@ public class UserServiceImpl implements IUserService {
 			UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_EMAIL).oldValue(null).actionValue(email).build();
 			userInfoLogRepository.save(userInfoLog);
 		} else {
-			throw new MobileExistException(email);
+			throw new EmailExistException(email);
 		}
 	}
 

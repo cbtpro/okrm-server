@@ -176,7 +176,7 @@ public class UserInfo implements UserDetails {
 	@Setter
 	@Builder.Default
 	@JsonView(UserInfoDetailView.class)
-	private String roles = "normal";
+	private String roles = "ROLE_NORMAL";
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
