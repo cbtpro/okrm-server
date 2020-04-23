@@ -5,10 +5,21 @@ package com.useful.person.core.services.impl;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -112,4 +123,50 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return userInfoRepository.findAll();
 	}
 
+	@Override
+	public Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled) {
+		Specification<UserInfo> specification = new Specification<>() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (StringUtils.isNotBlank(username)) {
+					Predicate equalsUsername = cb.equal(root.get("username").as(String.class), username);
+					predicates.add(equalsUsername);
+				}
+				if (StringUtils.isNotBlank(nickname)) {
+					Predicate likeNickname = cb.like(root.get("nickname").as(String.class), "%" + nickname + "%");
+					predicates.add(likeNickname);
+				}
+				if (StringUtils.isNotBlank(mobile)) {
+					Predicate equalsMobile = cb.equal(root.get("mobile").as(String.class), mobile);
+					predicates.add(equalsMobile);
+				}
+				if (StringUtils.isNotBlank(email)) {
+					Predicate equalsEmail = cb.equal(root.get("email").as(String.class), email);
+					predicates.add(equalsEmail);
+				}
+				if (startTime != null && endTime != null) {
+					Predicate betweenCreateTime = cb.between(root.<Timestamp>get("createTime"), startTime, endTime);
+					predicates.add(betweenCreateTime);
+				}
+				if (startTime != null && endTime == null) {
+					Predicate greaterThanCreateTime = cb.greaterThanOrEqualTo(root.<Timestamp>get("createTime"), startTime);
+					predicates.add(greaterThanCreateTime);
+				}
+				if (startTime == null && endTime != null) {
+					Predicate greaterThanCreateTime = cb.lessThanOrEqualTo(root.<Timestamp>get("createTime"), endTime);
+					predicates.add(greaterThanCreateTime);
+				}
+				if (enabled != null) {
+					Predicate equalsEnabled = cb.equal(root.get("enabled").as(Boolean.class), enabled.booleanValue());
+					predicates.add(equalsEnabled);
+				}
+				return cb.and(predicates.toArray(new Predicate[0])); // 使用and链接
+			}
+		};
+		return userInfoRepository.findAll(specification, pageable);
+	}
 }
