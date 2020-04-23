@@ -4,8 +4,11 @@
 package com.useful.person.core.services;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.useful.person.core.domain.UserInfo;
@@ -58,5 +61,17 @@ public interface UserInfoService {
 	 */
 	void updateBirthday(Timestamp birthday, String userUuid, UserInfoLog userInfoLog);
 
+	/**
+	 * 查询所有用户信息
+	 * @return
+	 */
 	List<UserInfo> queryUsers();
+
+	/**
+	 * 分页查询所有用户信息
+	 * @param pageable
+	 * @param username
+	 * @return
+	 */
+	Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled);
 }

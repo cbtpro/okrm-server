@@ -6,6 +6,9 @@ package com.useful.person.core.repository;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -136,4 +139,12 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	 */
 	@Query("select new com.useful.person.core.vo.Address(u.uuid, u.nickname, u.avatar, u.longitude, u.latitude) from UserInfo u where u.longitude between :minLongitude and :maxLongitude and u.latitude between :minLatitude and :maxLatitude")
 	List<Address> queryUserNearbyUserAddress(Double minLongitude, Double maxLongitude, Double minLatitude, Double maxLatitude);
+
+	/**
+	 * 根据条件分页查询所有用户
+	 * @param spec
+	 * @param pageable
+	 * @return
+	 */
+	Page<UserInfo> findAll(Specification<UserInfo> spec, Pageable pageable);
 }

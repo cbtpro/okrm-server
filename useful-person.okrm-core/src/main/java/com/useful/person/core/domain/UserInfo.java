@@ -22,6 +22,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.joda.money.Money;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -178,6 +179,13 @@ public class UserInfo implements UserDetails {
 	@JsonView(UserInfoDetailView.class)
 	private String roles = "ROLE_NORMAL";
 
+	@Getter
+	@Setter
+	@Builder.Default
+	@JsonView(UserInfoDetailView.class)
+	@Type(type = "boolean")
+	private Boolean enabled = true;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		if (StringUtils.isEmpty(this.roles)) {
@@ -217,6 +225,7 @@ public class UserInfo implements UserDetails {
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreationTimestamp
 	private Timestamp createTime;
 }
