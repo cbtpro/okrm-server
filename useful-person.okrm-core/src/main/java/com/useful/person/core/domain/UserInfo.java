@@ -4,13 +4,21 @@
 package com.useful.person.core.domain;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -24,15 +32,14 @@ import org.hibernate.validator.constraints.Length;
 import org.joda.money.Money;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.annotation.SensitiveInfo;
+import com.useful.person.core.constants.UserRole;
 import com.useful.person.core.sensitive.SensitiveType;
 import com.useful.person.core.vo.GeneralViews;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -69,6 +76,10 @@ public class UserInfo implements UserDetails {
 	public interface UserInfoSecurityView extends UserInfoSimpleView {
 	};
 
+	private static Set<Role> defaultRoles = new HashSet<>();
+	static {
+		defaultRoles.add(Role.builder().rolename(UserRole.NORMAL.getName()).build());
+	}
 //	@Getter
 //	@Setter
 //	@OneToMany(mappedBy = "user", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
@@ -177,7 +188,13 @@ public class UserInfo implements UserDetails {
 	@Setter
 	@Builder.Default
 	@JsonView(UserInfoDetailView.class)
-	private String roles = "ROLE_NORMAL";
+	@OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "t_user_role", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "uuid")
+	}, inverseJoinColumns = {
+			@JoinColumn(name = "role_id", referencedColumnName = "uuid")
+	})
+	private Set<Role> roles = defaultRoles;
 
 	@Getter
 	@Setter
@@ -188,10 +205,15 @@ public class UserInfo implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		if (StringUtils.isEmpty(this.roles)) {
-			return null;
-		}
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(this.roles);
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new GrantedAuthority() {
+			private static final long serialVersionUID = 8273750940438029660L;
+
+			@Override
+			public String getAuthority() {
+				return "ROLE_ADMIN";
+			}
+		});
 		return authorities;
 	}
 

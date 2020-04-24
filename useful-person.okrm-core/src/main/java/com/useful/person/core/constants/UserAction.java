@@ -23,6 +23,11 @@ public enum UserAction {
 	UPDATE_EMAIL(9, "更新电子邮箱"),
 	UPDATE_BIRTHDAY(10, "更新生日"),
 	UPDATE_IDENTITY_CARD(11, "更新身份证信息"),
+
+	ADD_ROLE(12, "添加角色"),
+	UPDATE_ROLE(13, "修改角色"),
+	DEL_ROLE(14, "删除角色"),
+
 	LOGOFF(0, "注销用户"); // 彻底注销用户
 
 	@Getter
