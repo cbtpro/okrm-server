@@ -68,10 +68,10 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	@Transactional
-	public void delRole(String uuid, Role role) {
+	public void delRole(String uuid, String roleUuid) {
 		UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
-		roleRepository.delete(role);
-		UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.DEL_ROLE).oldValue(role.getUuid()).actionValue(null).build();
+		roleRepository.deleteById(roleUuid);;
+		UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.DEL_ROLE).oldValue(roleUuid).actionValue(null).build();
 		userInfoLogRepository.save(userInfoLog);
 	}
 
