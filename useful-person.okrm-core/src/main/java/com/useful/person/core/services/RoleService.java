@@ -45,7 +45,7 @@ public interface RoleService {
 	 * @param role
 	 * @return 删除的记录数
 	 */
-	void delRole(String uuid, Role role);
+	void delRole(String uuid, String roleUuid);
 
 	/**
 	 * 根据UUID查询角色

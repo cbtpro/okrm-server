@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.annotation.HasAdminRole;
@@ -57,9 +58,9 @@ public class RoleController {
 	@ApiOperation("删除角色")
 	@DeleteMapping("/role")
 	@HasAdminRole
-	public ResponseData<String> deleteRole(Authentication authentication, @RequestBody Role role) {
+	public ResponseData<String> deleteRole(Authentication authentication, @RequestParam(value = "uuid", required = true) String roleUuid) {
 		UserInfo user = (UserInfo) authentication.getPrincipal();
-		roleService.delRole(user.getUuid(), role);
+		roleService.delRole(user.getUuid(), roleUuid);
 		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "删除成功！", null);
 	}
 }
