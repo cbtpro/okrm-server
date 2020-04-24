@@ -125,9 +125,22 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled) {
+		Specification<UserInfo> specification = buildSpecification(username, nickname, mobile, email, startTime, endTime, enabled, null);
+		return userInfoRepository.findAll(specification, pageable);
+	}
+
+	@Override
+	public Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile,
+			String email, Date startTime, Date endTime, Boolean enabled, String[] roles) {
+		Specification<UserInfo> specification = buildSpecification(username, nickname, mobile, email, startTime, endTime, enabled, roles);
+		return userInfoRepository.findAll(specification, pageable);
+	}
+
+
+	private Specification<UserInfo> buildSpecification(String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, String[] roles) {
 		Specification<UserInfo> specification = new Specification<>() {
 
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 2751395428912835260L;
 
 			@Override
 			public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -164,9 +177,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 					Predicate equalsEnabled = cb.equal(root.get("enabled").as(Boolean.class), enabled.booleanValue());
 					predicates.add(equalsEnabled);
 				}
+				if (roles != null && roles.length > 0) {
+					Predicate equalsRoles = cb.equal(root.get("roles").as(String.class), roles.toString());
+					predicates.add(equalsRoles);
+				}
 				return cb.and(predicates.toArray(new Predicate[0])); // 使用and链接
 			}
 		};
-		return userInfoRepository.findAll(specification, pageable);
+		return specification;
 	}
 }

@@ -71,7 +71,28 @@ public interface UserInfoService {
 	 * 分页查询所有用户信息
 	 * @param pageable
 	 * @param username
-	 * @return
+	 * @param nickname
+	 * @param mobile
+	 * @param email
+	 * @param startTime
+	 * @param endTime
+	 * @param enabled
+	 * @return Page<UserInfo>
 	 */
 	Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled);
+
+	/**
+	 * 分页查询所有用户信息
+	 * @param pageable
+	 * @param username
+	 * @param nickname
+	 * @param mobile
+	 * @param email
+	 * @param startTime
+	 * @param endTime
+	 * @param enabled
+	 * @param roles
+	 * @return Page<UserInfo>
+	 */
+	Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, String[] roles);
 }
