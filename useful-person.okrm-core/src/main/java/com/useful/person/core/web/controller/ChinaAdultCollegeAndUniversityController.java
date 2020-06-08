@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.ChinaAdultCollegeAndUniversity;
+import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.services.impl.ChinaAdultCollegeAndUniversityServiceImpl;
 
 import io.micrometer.core.instrument.util.StringUtils;
@@ -54,7 +56,7 @@ public class ChinaAdultCollegeAndUniversityController {
 		return chinaAdultCollegeAndUniversityService.findByNameLike("%" + name + "%", pageable);
 	}
 	@ApiOperation("批量新增/更新中国成人高校信息")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PostMapping("/batch")
 	public List<ChinaAdultCollegeAndUniversity> addAll(@RequestBody List<ChinaAdultCollegeAndUniversity> entities) {
 		return chinaAdultCollegeAndUniversityService.saveAll(entities);
@@ -67,7 +69,7 @@ public class ChinaAdultCollegeAndUniversityController {
 	}
 
 	@ApiOperation("根据uuid更新中国成人高校信息")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaAdultCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody ChinaAdultCollegeAndUniversity entity) {
@@ -76,7 +78,7 @@ public class ChinaAdultCollegeAndUniversityController {
 	}
 	
 	@ApiOperation("新增中国成人高校信息")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PostMapping
 	public ChinaAdultCollegeAndUniversity addOne(@RequestBody ChinaAdultCollegeAndUniversity entity) {
 		return chinaAdultCollegeAndUniversityService.saveOne(entity);

@@ -33,14 +33,14 @@ public class DepartmentUniversityController {
 	private DepartmentUniversityServiceImpl departmentUniversityService;
 
 	@ApiOperation("查询所有大学的院系结构")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@GetMapping
 	public List<DepartmentUniversity> queryAll() {
 		return departmentUniversityService.findAll();
 	}
 
 	@ApiOperation("批量新增/更新大学的院系结构")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PostMapping("/batch")
 	public List<DepartmentUniversity> saveAll(@RequestBody List<DepartmentUniversity> list) {
 		return departmentUniversityService.saveAll(list);

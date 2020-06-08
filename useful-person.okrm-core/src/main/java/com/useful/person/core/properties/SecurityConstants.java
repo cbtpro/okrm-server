@@ -47,6 +47,8 @@ public interface SecurityConstants {
 
 	String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
 
+	String DEFAULT_ROLE_NAME_PREFIX = "ROLE_";
+
 	// 认证类型
 	String DEFAULT_AUTH_TYPE_USERNAME = "username";
 	String DEFAULT_AUTH_TYPE_MOBILE = "mobile";

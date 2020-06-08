@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.useful.person.core.properties.SecurityConstants;
+
 /**
  * 
  * @author peter
@@ -17,7 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "ADMIN')")
 public @interface HasAdminRole {
 
 }

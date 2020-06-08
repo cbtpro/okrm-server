@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +38,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.annotation.SensitiveInfo;
 import com.useful.person.core.constants.UserRole;
+import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.sensitive.SensitiveType;
 import com.useful.person.core.vo.GeneralViews;
 
@@ -206,14 +208,31 @@ public class UserInfo implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new GrantedAuthority() {
-			private static final long serialVersionUID = 8273750940438029660L;
+		Iterator<Role> it = roles.iterator();
+		while(it.hasNext()) {
+			Role role = it.next();
+			authorities.add(new GrantedAuthority() {
+				private static final long serialVersionUID = 8273750940438029660L;
+				@Override
+				public String getAuthority() {
+					String rolename = role.getRolename();
+					if (rolename == null) {
+						rolename = UserRole.NORMAL.getName();
+					}
+					return SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + rolename;
+				}
+			});
+		}
+		if (authorities.size() == 0) {
+			authorities.add(new GrantedAuthority() {
+				private static final long serialVersionUID = 8562597452607156013L;
 
-			@Override
-			public String getAuthority() {
-				return "ROLE_ADMIN";
-			}
-		});
+				@Override
+				public String getAuthority() {
+					return SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + UserRole.NORMAL.getName();
+				}
+			});
+		}
 		return authorities;
 	}
 

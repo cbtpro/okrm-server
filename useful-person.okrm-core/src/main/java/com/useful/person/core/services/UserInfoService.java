@@ -95,4 +95,6 @@ public interface UserInfoService {
 	 * @return Page<UserInfo>
 	 */
 	Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, String[] roles);
+
+	Page<UserInfo> queryUsersHasAdminPage(Pageable pageable);
 }

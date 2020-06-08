@@ -1,5 +1,6 @@
 package com.useful.person.core.domain;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -24,7 +25,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-public class Role {
+public class Role implements Serializable {
+
+	private static final long serialVersionUID = 68671604656999651L;
 
 	@Id
 	@Getter

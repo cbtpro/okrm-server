@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
 
@@ -55,7 +56,7 @@ public class ChinaCollegeAndUniversityController {
 	}
 
 	@ApiOperation("批量增加/更新中国高校")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PostMapping("/batch")
 	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
 		return chinaCollegesAndUniversitiesService.saveAll(list);
@@ -68,7 +69,7 @@ public class ChinaCollegeAndUniversityController {
 	}
 
 	@ApiOperation("根据uuid更新中国高校")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
 	public ChinaCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
 			@RequestBody ChinaCollegeAndUniversity entity) {
@@ -76,7 +77,7 @@ public class ChinaCollegeAndUniversityController {
 	}
 
 	@ApiOperation("新增中国高校")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@PostMapping
 	public ChinaCollegeAndUniversity add(@RequestBody ChinaCollegeAndUniversity entity) {
 		return chinaCollegesAndUniversitiesService.saveOne(entity);
