@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.Book;
+import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.services.impl.BookServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +37,7 @@ public class BookController {
 	private BookServiceImpl bookService;
 
 	@ApiOperation(value = "查询所有书籍信息")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@HasAdminRole
 	@GetMapping
 	public Page<Book> queryAll(
 			@PageableDefault(value = 15, sort = { "title" }, direction = Direction.DESC) Pageable pageable) {

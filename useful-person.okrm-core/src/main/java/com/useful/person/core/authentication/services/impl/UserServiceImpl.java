@@ -1,7 +1,9 @@
 package com.useful.person.core.authentication.services.impl;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,8 +19,11 @@ import com.useful.person.core.authentication.exception.UsernameExistException;
 import com.useful.person.core.authentication.repository.UserRepository;
 import com.useful.person.core.authentication.services.IUserService;
 import com.useful.person.core.constants.UserAction;
+import com.useful.person.core.constants.UserRole;
+import com.useful.person.core.domain.Role;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfoLog;
+import com.useful.person.core.repository.RoleRepository;
 import com.useful.person.core.repository.UserInfoLogRepository;
 import com.useful.person.core.repository.UserInfoRepository;
 import com.useful.person.core.vo.Address;
@@ -41,6 +46,9 @@ public class UserServiceImpl implements IUserService {
 	private UserInfoLogRepository userInfoLogRepository;
 
 	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
@@ -52,6 +60,10 @@ public class UserServiceImpl implements IUserService {
 			throw new UsernameExistException(username);
 		}
 		encryptPassword(userInfo);
+		Role role = roleRepository.findByRolename(UserRole.NORMAL.getName());
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
+		userInfo.setRoles(roles);
 		UserInfo newUserInfo = userRepository.save(userInfo);
 		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
 		userInfoLogRepository.save(userInfoLog);

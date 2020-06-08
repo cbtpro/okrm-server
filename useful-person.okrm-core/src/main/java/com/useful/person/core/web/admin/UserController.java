@@ -41,4 +41,14 @@ public class UserController {
 			startTime != null ? new Date(startTime) : null, endTime != null ? new Date(endTime) : null, request.getEnabled(), request.getRoles());
 		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
 	}
+
+	@PostMapping("/admins")
+	@ApiOperation("查询拥有管理权限的用户")
+	@HasAdminRole
+	public ResponseData<Page<UserInfo>> queryUsersHasAdmin() {
+		Sort sort = new Sort(Direction.ASC, "username");
+		Pageable pageable = PageRequest.of(0, 10, sort);
+		Page<UserInfo> users = userInfoService.queryUsersHasAdminPage(pageable);
+		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
+	}
 }

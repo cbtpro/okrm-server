@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.useful.person.core.constants.UserAction;
+import com.useful.person.core.constants.UserRole;
+import com.useful.person.core.domain.Role;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.domain.UserInfoLog;
 import com.useful.person.core.exception.OSSException;
@@ -132,12 +135,25 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile,
 			String email, Date startTime, Date endTime, Boolean enabled, String[] roles) {
-		Specification<UserInfo> specification = buildSpecification(username, nickname, mobile, email, startTime, endTime, enabled, roles);
+		List<Role> roleList = new ArrayList<>();
+		if (roles != null && roles.length > 0) {
+			for (int i = 0; i < roles.length; i++) {
+				roleList.add(Role.builder().rolename(roles[i]).build());
+			}
+		}
+		Specification<UserInfo> specification = buildSpecification(username, nickname, mobile, email, startTime, endTime, enabled, roleList);
 		return userInfoRepository.findAll(specification, pageable);
 	}
 
+	@Override
+	public Page<UserInfo> queryUsersHasAdminPage(Pageable pageable) {
+		List<Role> roleList = new ArrayList<>();
+		roleList.add(Role.builder().rolename(UserRole.ADMIN.getName()).build());
+		Specification<UserInfo> spec = buildSpecification(null, null, null, null, null, null, null, roleList);
+		return userInfoRepository.findAll(spec, pageable);
+	}
 
-	private Specification<UserInfo> buildSpecification(String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, String[] roles) {
+	private Specification<UserInfo> buildSpecification(String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, List<Role> roleList) {
 		Specification<UserInfo> specification = new Specification<>() {
 
 			private static final long serialVersionUID = 2751395428912835260L;
@@ -177,9 +193,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 					Predicate equalsEnabled = cb.equal(root.get("enabled").as(Boolean.class), enabled.booleanValue());
 					predicates.add(equalsEnabled);
 				}
-				if (roles != null && roles.length > 0) {
-					Predicate equalsRoles = cb.equal(root.get("roles").as(String.class), roles.toString());
-					predicates.add(equalsRoles);
+				int roleSize = roleList.size();
+				if (roleList != null && roleSize > 0) {
+					Join<UserInfo, Role> join = root.join("roles");
+					predicates.add(join.get("rolename").in(UserRole.ADMIN.getName()));
 				}
 				return cb.and(predicates.toArray(new Predicate[0])); // 使用and链接
 			}
