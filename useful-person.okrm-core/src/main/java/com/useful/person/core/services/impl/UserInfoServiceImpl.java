@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -37,6 +38,7 @@ import com.useful.person.core.properties.OSSConfig;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.repository.UserInfoLogRepository;
 import com.useful.person.core.repository.UserInfoRepository;
+import com.useful.person.core.services.RoleService;
 import com.useful.person.core.services.UserInfoService;
 import com.useful.person.core.utils.FileUtil;
 
@@ -63,6 +65,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Autowired
 	private UserInfoLogRepository userInfoLogRepository;
+
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	@Transactional
@@ -134,13 +139,15 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile,
-			String email, Date startTime, Date endTime, Boolean enabled, String[] roles) {
-		List<Role> roleList = new ArrayList<>();
-		if (roles != null && roles.length > 0) {
-			for (int i = 0; i < roles.length; i++) {
-				roleList.add(Role.builder().rolename(roles[i]).build());
-			}
-		}
+			String email, Date startTime, Date endTime, Boolean enabled, String[] rolenames) {
+		
+//		List<Role> roleList = new ArrayList<>();
+//		if (roles != null && roles.length > 0) {
+//			for (int i = 0; i < roles.length; i++) {
+//				roleList.add(Role.builder().rolename(roles[i]).build());
+//			}
+//		}
+		List<Role> roleList = roleService.findByRolenames(rolenames);
 		Specification<UserInfo> specification = buildSpecification(username, nickname, mobile, email, startTime, endTime, enabled, roleList);
 		return userInfoRepository.findAll(specification, pageable);
 	}
@@ -195,9 +202,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 				}
 				int roleSize = roleList.size();
 				if (roleList != null && roleSize > 0) {
-					Join<UserInfo, Role> join = root.join("roles");
-					predicates.add(join.get("rolename").in(UserRole.ADMIN.getName()));
+//					Join<UserInfo, Role> join = root.join("roles");
+//					predicates.add(join.get("rolename").in(roleList.stream().map(Role::getRolename).collect(Collectors.toList())));
+					
+					Join<UserInfo, Role> join = root.<UserInfo, Role>join("roles", JoinType.LEFT);
+					predicates.add(join.in(roleList));
 				}
+				query.groupBy(root.get("uuid"));
 				return cb.and(predicates.toArray(new Predicate[0])); // 使用and链接
 			}
 		};
