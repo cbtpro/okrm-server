@@ -3,11 +3,19 @@
  */
 package com.useful.person.core.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.In;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,5 +93,26 @@ public class RoleServiceImpl implements RoleService {
 		String sortField = request.getSortField();
 		Sort sort = new Sort("ascend".equalsIgnoreCase(request.getSortOrder()) ? Direction.ASC : Direction.DESC, StringUtils.isBlank(sortField) ? "uuid" : sortField);
 		return roleRepository.findAll(sort);
+	}
+
+	@Override
+	public List<Role> findByRolenames(String[] rolenames) {
+		Specification<Role> spec = new Specification<>() {
+
+			private static final long serialVersionUID = 1L;
+
+			public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (rolenames != null && rolenames.length > 0) {
+					In<String> in = criteriaBuilder.in(root.get("rolename"));
+					for (String rolename : rolenames) {
+						in.value(rolename);
+					}
+					predicates.add(in);
+				}
+				return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+			};
+		};
+		return roleRepository.findAll(spec);
 	}
 }

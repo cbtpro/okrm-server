@@ -53,4 +53,6 @@ public interface RoleService {
 	 * @return Role
 	 */
 	Role findByUuid(String uuid);
+
+	List<Role> findByRolenames(String[] rolenames);
 }
