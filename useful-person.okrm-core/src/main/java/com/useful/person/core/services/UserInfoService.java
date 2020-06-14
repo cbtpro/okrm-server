@@ -97,4 +97,8 @@ public interface UserInfoService {
 	Page<UserInfo> queryUsersPage(Pageable pageable, String username, String nickname, String mobile, String email, Date startTime, Date endTime, Boolean enabled, String[] roles);
 
 	Page<UserInfo> queryUsersHasAdminPage(Pageable pageable);
+
+	String addUsernamesToAdmin(List<String> usernames);
+
+	String removeUserFromAdmin(String uuid);
 }

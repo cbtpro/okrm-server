@@ -96,6 +96,11 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
+	public Role findByRolename(String rolename) {
+		return roleRepository.findByRolename(rolename);
+	}
+	
+	@Override
 	public List<Role> findByRolenames(String[] rolenames) {
 		Specification<Role> spec = new Specification<>() {
 

@@ -269,4 +269,22 @@ public class UserInfo implements UserDetails {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreationTimestamp
 	private Timestamp createTime;
+
+	/**
+	 * 判断是否拥有某个角色
+	 * @param role
+	 * @return
+	 */
+	public boolean hasRole(Role role) {
+		return roles.contains(role);
+	}
+	public void addRoles(List<Role> roles) {
+		roles.stream().forEach((role) -> roles.add(role));
+	}
+	public boolean addRole(Role role) {
+		return roles.add(role);
+	}
+	public boolean removeRole(Role role) {
+		return roles.remove(role);
+	}
 }

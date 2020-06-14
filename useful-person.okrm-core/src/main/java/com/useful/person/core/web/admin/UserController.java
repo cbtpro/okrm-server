@@ -1,6 +1,7 @@
 package com.useful.person.core.web.admin;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,9 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.annotation.HasAdminRole;
@@ -45,10 +49,26 @@ public class UserController {
 	@PostMapping("/admins")
 	@ApiOperation("查询拥有管理权限的用户")
 	@HasAdminRole
-	public ResponseData<Page<UserInfo>> queryUsersHasAdmin() {
-		Sort sort = new Sort(Direction.ASC, "username");
-		Pageable pageable = PageRequest.of(0, 10, sort);
+	public ResponseData<Page<UserInfo>> queryUsersHasAdmin(@RequestBody UsersRequestVO request) {
+		Sort sort = new Sort(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
+		Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
 		Page<UserInfo> users = userInfoService.queryUsersHasAdminPage(pageable);
 		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
+	}
+
+	@PutMapping("/admins")
+	@ApiOperation("批量将用户添加进管理员角色")
+	@HasAdminRole
+	public ResponseData<String> addUsersToAdmin(@RequestBody List<String> usernames) {
+		String msg = userInfoService.addUsernamesToAdmin(usernames);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
+	}
+
+	@DeleteMapping("/admins")
+	@ApiOperation("批量删除用户的管理员角色")
+	@HasAdminRole
+	public ResponseData<String> removeUsersFromAdmin(@RequestParam(required = true) String uuid) {
+		String msg = userInfoService.removeUserFromAdmin(uuid);
+		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
 	}
 }
