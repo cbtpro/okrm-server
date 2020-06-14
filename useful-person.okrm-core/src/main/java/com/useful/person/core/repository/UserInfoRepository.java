@@ -147,4 +147,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	 * @return
 	 */
 	Page<UserInfo> findAll(Specification<UserInfo> spec, Pageable pageable);
+
+	UserInfo findByUsername(String username);
+
+	@Query("select u from UserInfo u where u.username in :usernames")
+	List<UserInfo> findByUsernames(@Param("usernames") List<String> usernames);
 }
