@@ -1,17 +1,198 @@
 # okrm-server
 
-#### 介绍
-#### 软件架构
-软件架构说明
+## 介绍
+
+okrm-server基于spring全家桶开发。
+
+## 软件架构
+
+```mermaid
+graph TD;
+	useful-person.com-->okrm-server;
+	okrm-server-->sms;
+	okrm-server-->mail;
+	okrm-server-->cache;
+	okrm-server-->mysql;
+	okrm-server-->oss;
+	sms-->redis;
+	mail-->redis;
+	cache-->redis;
+```
 
 
-#### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
 
-#### 使用说明
+
+
+## 安装教程
+
+### MySQL
+
+### Redis
+
+### 服务器目录结构
+
+```
+# okrm-server
+/home/okrm
+/home/okrm/goaloneService.sh
+/home/okrm/servicespace
+/home/okrm/okrm-server
+# useful-person.com
+/home/okrm/www/useful-person.com
+```
+
+### nginx配置
+
+```
+location / {
+    root /home/okrm/www/useful-person.com;
+    index index.html index.htm;
+}
+location /api/ {
+    proxy_pass http://127.0.0.1:8081/;
+    # 获取客户端真实ip $host 变量，Host 为变量名
+    proxy_set_header   Host             $host;
+    proxy_set_header   X-Real-IP        $remote_addr;
+    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+}
+```
+
+### 证书配置
+
+
+
+### 部署脚本
+
+这个脚本还有很大的修改空间，可以从文件中读取配置文件
+
+```shell
+#!/bin/sh
+username=okrm
+remote_id=121.40.244.200
+remote_dir=/home/okrm/servicespace/okrm-server
+fileName=useful-person.okrm-server-0.0.1-SNAPSHOT.jar
+time=$(date "+%Y-%m-%d_%H:%M:%S")
+logFile=deploy_${time}.log
+bakFile=${fileName}.${time}
+logFn() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S") $1" >> ${logFile}
+}
+# 构建
+logFn "构建"
+mvn clean install package -Dmaven.test.skip=true -Pprod
+logFn "备份"
+ssh ${username}@${remote_id} > /dev/null 2>&1 << EOF
+sh /home/okrm/goaloneService.sh okrm-server clean
+exit
+EOF
+
+# 拷贝文件
+logFn "发布"
+scp useful-person.okrm-server/target/${fileName} okrm@okrm:${remote_dir}/${fileName}
+
+logFn "启动"
+ssh ${username}@${remote_id} > /dev/null 2>&1 << EOF
+sh /home/okrm/goaloneService.sh okrm-server prod start
+exit
+EOF
+echo done!
+```
+
+### 启动脚本
+
+goaloneService.sh
+
+```shell
+#!/bin/sh
+## java env
+#export JRE_HOME=${JAVA_HOME}
+## exec shell name
+EXEC_SHELL_NAME=$1\.sh
+## service name
+SERVICE_NAME=$1
+ENV=$2
+SERVICE_DIR=/home/okrm
+JAR_NAME=useful-person.okrm-server-0.0.1-SNAPSHOT.jar
+TIME_STR=$(date +%Y%m%d%H%M%S)
+PID=pid/$SERVICE_NAME\.pid
+WORK_DIR=$SERVICE_DIR/servicespace/$1
+#function start
+start(){
+   cd $WORK_DIR
+   if [ ! -d "log" ]; then
+        mkdir log
+   fi
+   nohup /usr/java/jdk-13.0.1/bin/java -Xms256m -Xmx512m -jar $WORK_DIR/$JAR_NAME --spring.profiles.active=$ENV > log/$SERVICE_NAME.out 2>&1 &
+        echo $! > $PID
+        echo "**************** start $SERVICE_NAME success ****************"
+}
+# function stop
+stop() {
+    cd $WORK_DIR
+    if [ -f "$PID" ]; then
+        kill  `cat $PID`
+        rm -rf $PID
+    fi
+    echo "**************** stop $SERVICE_NAME ****************"
+    sleep 6
+    TEMP_PID=`ps -ef | grep -w "$SERVICE_NAME" | grep "java" | awk '{print $2}'`
+
+    if [ "$TEMP_PID" =  "" ]; then
+        echo "**************** $SERVICE_NAME process not exists or stop success ****************"
+    else
+        echo "**************** $SERVICE_NAME process pid is [$TEMP_PID] ****************"
+        kill -9 $TEMP_PID
+    fi
+    echo "**************** stop $SERVICE_NAME success ****************"
+}
+# function clean
+clean(){
+    cd $WORK_DIR
+    if [ ! -d "lastDeploy" ]; then
+        mkdir lastDeploy
+    fi
+    if [ -f "$JAR_NAME" ]; then
+        mv $JAR_NAME lastDeploy/$JAR_NAME$TIME_STR
+    fi
+}
+case "$2" in
+    start)
+        start
+    ;;
+
+    stop)
+        stop
+    ;;
+
+    restart)
+        stop
+        sleep 2
+        start
+        echo "**************** restart $SERVICE_NAME success ****************"
+    ;;
+
+    clean)
+        stop
+        sleep 2
+        clean
+        echo "**************** clean $SERVICE_NAME success ****************"
+    ;;
+
+    *)
+        ## restart
+        stop
+        sleep 2
+        start
+        ;;
+esac
+exit 0
+
+```
+
+
+
+## 使用说明
 
 安装IDE，修改IDE编码格式为UTF-8
 
