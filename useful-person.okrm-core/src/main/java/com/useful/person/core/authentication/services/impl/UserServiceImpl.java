@@ -79,6 +79,10 @@ public class UserServiceImpl implements IUserService {
 			throw new MobileExistException(mobile);
 		}
 		encryptPassword(userInfo);
+		Role role = roleRepository.findByRolename(UserRole.NORMAL.getName());
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
+		userInfo.setRoles(roles);
 		UserInfo newUserInfo = userRepository.save(userInfo);
 		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
 		userInfoLogRepository.save(userInfoLog);
