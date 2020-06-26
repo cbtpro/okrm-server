@@ -54,5 +54,7 @@ public interface SecurityConstants {
 	String DEFAULT_AUTH_TYPE_MOBILE = "mobile";
 	String DEFAULT_AUTH_TYPE_EMAIL = "email";
 
+	// 默认超级用户
+	String DEFAULT_SUPER_USER = "superuser";
 
 }
