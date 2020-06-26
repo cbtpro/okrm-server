@@ -1,5 +1,6 @@
 package com.useful.person.core.authentication.services.impl;
 
+import java.awt.image.BufferedImage;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.talanlabs.avatargenerator.Avatar;
+import com.talanlabs.avatargenerator.IdenticonAvatar;
 import com.useful.person.core.authentication.exception.EmailExistException;
 import com.useful.person.core.authentication.exception.GeneralException;
 import com.useful.person.core.authentication.exception.MobileExistException;
@@ -26,6 +29,7 @@ import com.useful.person.core.domain.UserInfoLog;
 import com.useful.person.core.repository.RoleRepository;
 import com.useful.person.core.repository.UserInfoLogRepository;
 import com.useful.person.core.repository.UserInfoRepository;
+import com.useful.person.core.services.UserInfoService;
 import com.useful.person.core.vo.Address;
 
 /**
@@ -44,6 +48,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserInfoLogRepository userInfoLogRepository;
+
+	@Autowired
+	private UserInfoService userInfoService;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -66,6 +73,10 @@ public class UserServiceImpl implements IUserService {
 		userInfo.setRoles(roles);
 		UserInfo newUserInfo = userRepository.save(userInfo);
 		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
+//		Avatar avatar = TriangleAvatar.newAvatarBuilder().build();
+		Avatar avatar = IdenticonAvatar.newAvatarBuilder().build();
+		BufferedImage avatarBufferedImage = avatar.create(System.currentTimeMillis());
+		userInfoService.updateAvatarImage(avatarBufferedImage, userInfo);
 		userInfoLogRepository.save(userInfoLog);
 		return newUserInfo;
 	}
