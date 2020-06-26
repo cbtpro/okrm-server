@@ -222,6 +222,16 @@ make test
 
 安装lombok
 
+maven构建
+
+maven构建
+
+```shell
+mvn clean install package -Dmaven.test.skip=true -Pprod
+```
+
+
+
 # jenkins
 
 ## jenkins升级（一般不需要操作）
