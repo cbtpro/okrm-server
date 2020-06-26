@@ -4,11 +4,13 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -99,10 +101,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_FAILURE_URL)
 				.successHandler(okrmAuthenticationSuccessHandler).failureHandler(okrmAuthenticationFailureHandler)
 				// 登出功能
-//				.and().logout().logoutUrl(SecurityConstants.DEFAULT_SIGN_OUT_URL).logoutSuccessHandler(okrmLogoutSuccess)
-//				.logoutSuccessUrl(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-//				.invalidateHttpSession(true).deleteCookies("SESSION")
-//				.invalidateHttpSession(true).deleteCookies("remember-me")
+				.and().logout().permitAll()
+				.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
 				// 记住我功能
 				.and().rememberMe().tokenRepository(persistentTokenRepository())
 				.tokenValiditySeconds(browserProperties.getRememberMeSeconds())
