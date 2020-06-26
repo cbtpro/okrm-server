@@ -47,6 +47,10 @@ public class InitSuperUser implements CommandLineRunner {
 			adminRole = Role.builder().rolename(UserRole.ADMIN.getName()).description("超级管理员用户").build();
 			roleRepository.save(adminRole);
 		}
+		if (!su.hasRole(adminRole)) {
+			su.addRole(adminRole);
+			userInfoRepository.save(su);
+		}
 		Role normalRole = roleRepository.findByRolename(UserRole.NORMAL.getName());
 		if (normalRole == null) {
 			normalRole = Role.builder().rolename(UserRole.NORMAL.getName()).description("普通用户").build();
