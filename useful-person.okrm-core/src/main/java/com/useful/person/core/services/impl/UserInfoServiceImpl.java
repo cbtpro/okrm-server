@@ -3,6 +3,8 @@
  */
 package com.useful.person.core.services.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -70,11 +73,34 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Autowired
 	private RoleService roleService;
 
+	public String saveAvatar(String avatarName, String outputfile, UserInfo userInfo) {
+		OSSConfig ossConfig = securityProperties.getOss().getConfig();
+		String path = ossConfig.getAvatarDir() + "/" + avatarName;
+		String avatarUrl = ossConfig.getResourceUrl() + "/" + path;
+		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.UPDATE_AVATAR)
+				.actionValue(avatarUrl).oldValue(userInfo.getAvatar()).user(userInfo).build();
+		ossUploadFile.uploadToOSS(outputfile, path);
+		userInfoRepository.updateAvatarImage(avatarUrl, userInfo.getUuid());
+		userInfoLogRepository.save(userInfoLog);
+		FileUtil.deleteFile(outputfile);
+		return avatarUrl;
+	}
+	@Override
+	@Transactional(rollbackFor = IOException.class)
+	public String updateAvatarImage(BufferedImage imageBufferedImage, UserInfo currentUser) {
+		String avatarName = currentUser.getUuid() + ".png";
+		File outputfile = new File(avatarName);
+		try {
+			ImageIO.write(imageBufferedImage, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new OSSException("上传头像失败！");
+		}
+		return saveAvatar(avatarName, avatarName, currentUser);
+	}
 	@Override
 	@Transactional(rollbackFor = IOException.class)
 	public String updateAvatarImage(MultipartFile multipartFile, UserInfo currentUser) {
-		String userUuid = currentUser.getUuid();
-		OSSConfig ossConfig = securityProperties.getOss().getConfig();
 		String fileName = UUID.randomUUID().toString();
 		String originalfileName = multipartFile.getOriginalFilename();
 		String avatarExtension = originalfileName.substring(originalfileName.lastIndexOf(".") + 1,
@@ -88,15 +114,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			e.printStackTrace();
 			throw new OSSException("上传头像失败！");
 		}
-		String path = ossConfig.getAvatarDir() + "/" + avatarName;
-		String avatarUrl = ossConfig.getResourceUrl() + "/" + path;
-		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.UPDATE_AVATAR)
-				.actionValue(avatarUrl).oldValue(currentUser.getAvatar()).user(currentUser).build();
-		ossUploadFile.uploadToOSS(outFile, path);
-		userInfoRepository.updateAvatarImage(avatarUrl, userUuid);
-		userInfoLogRepository.save(userInfoLog);
-		FileUtil.deleteFile(outFile);
-		return avatarUrl;
+		return saveAvatar(avatarName, outFile, currentUser);
 	}
 
 	@Override

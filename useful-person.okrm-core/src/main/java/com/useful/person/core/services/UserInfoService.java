@@ -3,6 +3,7 @@
  */
 package com.useful.person.core.services;
 
+import java.awt.image.BufferedImage;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.useful.person.core.domain.UserInfoLog;
  */
 public interface UserInfoService {
 
+	String updateAvatarImage(BufferedImage imageBufferedImage, UserInfo currentUser);
 	/**
 	 * 更新头像信息
 	 * @param avatar
