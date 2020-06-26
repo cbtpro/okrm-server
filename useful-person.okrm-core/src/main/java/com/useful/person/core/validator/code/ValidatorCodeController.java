@@ -60,7 +60,7 @@ public class ValidatorCodeController {
 	@Autowired
 	private SmsCodeSender smsCodeSender;
 
-	@GetMapping("/code/captcha.jpg")
+	@GetMapping(SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/captcha.jpg")
 	public Callable<String> getImageCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Callable<String> callable = new Callable<String>() {
 			@Override
@@ -86,7 +86,7 @@ public class ValidatorCodeController {
 		return callable;
 	}
 
-	@GetMapping("/code/captchabase64.jpg")
+	@GetMapping(SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/captchabase64.jpg")
 	public Callable<String> getImageCodeBase64(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Callable<String> callable = new Callable<String>() {
 			@Override

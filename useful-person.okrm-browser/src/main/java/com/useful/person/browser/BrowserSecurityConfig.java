@@ -118,8 +118,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 						browserProperties.getSigninPage(),
 						browserProperties.getSignupPage(),
 						signoutPage,
-						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*",
-						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*",
+						SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*", // 验证码
+						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*", // 激活
 						SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*", "/auth/qq/*", "/favicon.ico")
 				.permitAll().anyRequest().authenticated()
 				// 禁用csrf
