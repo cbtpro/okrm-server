@@ -27,12 +27,11 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 
 import com.useful.person.core.aliyun.api.gateway.constant.Constants;
 import com.useful.person.core.aliyun.api.gateway.constant.HttpHeader;
 import com.useful.person.core.aliyun.api.gateway.constant.SystemHeader;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 /**
  * 签名工具

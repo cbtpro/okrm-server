@@ -37,13 +37,13 @@ public class MailControllerTest {
 
 	@Test
 	public void whenSendMailCodeSucess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_UTF8))
+		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andExpect(status().isOk());
 	};
 
 	@Test
 	public void whenSendMailCodeFail() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_UTF8))
+		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andExpect(status().is5xxServerError());
 	};
 }

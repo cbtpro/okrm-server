@@ -14,6 +14,8 @@ import lombok.Setter;
  */
 public class RoleRequestVO extends Role {
 
+	private static final long serialVersionUID = -9140421128873346454L;
+
 	@Getter
 	@Setter
 	private int size = 10;

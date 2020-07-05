@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -30,8 +31,6 @@ import com.useful.person.core.repository.UserInfoLogRepository;
 import com.useful.person.core.repository.UserInfoRepository;
 import com.useful.person.core.services.RoleService;
 import com.useful.person.core.vo.RoleRequestVO;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 /**
  * @author peter
@@ -91,7 +90,8 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<Role> findAll(RoleRequestVO request) {
 		String sortField = request.getSortField();
-		Sort sort = new Sort("ascend".equalsIgnoreCase(request.getSortOrder()) ? Direction.ASC : Direction.DESC, StringUtils.isBlank(sortField) ? "uuid" : sortField);
+		String order = request.getSortOrder();
+		Sort sort = Sort.by("ascend".equalsIgnoreCase(order) ? Direction.ASC : Direction.DESC, StringUtils.isBlank(sortField) ? "uuid" : sortField);
 		return roleRepository.findAll(sort);
 	}
 

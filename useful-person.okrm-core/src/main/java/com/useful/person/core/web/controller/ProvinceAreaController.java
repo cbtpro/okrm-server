@@ -5,6 +5,7 @@ package com.useful.person.core.web.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.core.domain.ProvinceArea;
 import com.useful.person.core.services.ProvinceAreaService;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 /**
  * @author cbtpro

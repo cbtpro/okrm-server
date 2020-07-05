@@ -5,9 +5,9 @@ package com.useful.person.core.sensitive;
 
 import java.util.Random;
 
-import com.useful.person.core.utils.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
-import io.micrometer.core.instrument.util.StringUtils;
+import com.useful.person.core.utils.StringUtil;
 
 /**
  * @author cbtpro
