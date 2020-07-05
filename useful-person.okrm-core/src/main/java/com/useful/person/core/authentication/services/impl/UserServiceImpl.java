@@ -32,11 +32,14 @@ import com.useful.person.core.repository.UserInfoRepository;
 import com.useful.person.core.services.UserInfoService;
 import com.useful.person.core.vo.Address;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 
  * @author peter
  *
  */
+@Slf4j
 @Service("userServices")
 public class UserServiceImpl implements IUserService {
 
@@ -73,11 +76,25 @@ public class UserServiceImpl implements IUserService {
 		userInfo.setRoles(roles);
 		UserInfo newUserInfo = userRepository.save(userInfo);
 		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
-//		Avatar avatar = TriangleAvatar.newAvatarBuilder().build();
-		Avatar avatar = IdenticonAvatar.newAvatarBuilder().build();
-		BufferedImage avatarBufferedImage = avatar.create(System.currentTimeMillis());
-		userInfoService.updateAvatarImage(avatarBufferedImage, userInfo);
 		userInfoLogRepository.save(userInfoLog);
+
+		String threadName = userInfo.getUuid() + ", " + userInfo.getUsername() + ", " + userInfo.getNickname();
+		String description = threadName + "：生成头像！";
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Avatar avatar = IdenticonAvatar.newAvatarBuilder().size(512, 512).build();
+					BufferedImage avatarBufferedImage = avatar.create(System.currentTimeMillis());
+					userInfoService.updateAvatarImage(avatarBufferedImage, userInfo);
+					log.info(description);
+				} catch (Exception e) {
+					log.info(threadName + "：头像生成失败！");
+				}
+			}
+		});
+		thread.setName(threadName);
+		thread.start();
 		return newUserInfo;
 	}
 
@@ -97,6 +114,23 @@ public class UserServiceImpl implements IUserService {
 		UserInfo newUserInfo = userRepository.save(userInfo);
 		UserInfoLog userInfoLog = UserInfoLog.builder().actionType(UserAction.SIGNUP).user(newUserInfo).build();
 		userInfoLogRepository.save(userInfoLog);
+
+		String threadName = userInfo.getUuid() + ", " + userInfo.getUsername() + ", " + userInfo.getNickname();
+		String description = threadName + "：生成头像！";
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Avatar avatar = IdenticonAvatar.newAvatarBuilder().size(512, 512).build();
+					BufferedImage avatarBufferedImage = avatar.create(System.currentTimeMillis());
+					userInfoService.updateAvatarImage(avatarBufferedImage, newUserInfo);
+					log.info(description);
+				} catch (Exception e) {
+					log.info(threadName + "：头像生成失败！");
+				}}
+		});
+		thread.setName(threadName);
+		thread.start();
 		return newUserInfo;
 	}
 

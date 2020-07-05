@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +47,6 @@ public class ValidatorCodeController {
 	@Autowired
 	private SecurityProperties securityProperties;
 
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
 	@Autowired
 	private SmsCodeRedisOperation smsCodeRedisOperation;
 
@@ -69,17 +65,8 @@ public class ValidatorCodeController {
 				String randomStr = RandomString.make(imageCodeProperties.getLength());
 				BufferedImage buferedImage = imageCodeGenerator.buildImageCode(new ServletWebRequest(request), randomStr);
 				ImageCode imageCode = new ImageCode(randomStr, imageCodeProperties.getExpireIn());
-				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE,
-						imageCode);
+				request.getSession().setAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE, imageCode);
 				ImageIO.write(buferedImage, "jpeg", response.getOutputStream());
-//				Thread currentThread = Thread.currentThread();
-//				String currentThreadName = currentThread.getName();
-//				long currentThreadId = currentThread.getId();
-//				int priority = currentThread.getPriority();
-//				State currentThreadState = currentThread.getState();
-//				ThreadGroup threadGroup = currentThread.getThreadGroup();
-//				String threadGroupName = threadGroup.getName();
-//				log.info("生成验证码 Thread: id = " + currentThreadId + ", name = " + currentThreadName + ", priority = " + priority + ", state = " + currentThreadState + ", groupName = " + threadGroupName);
 				return null;
 			}
 		};
@@ -97,7 +84,7 @@ public class ValidatorCodeController {
 				String base64Str = "data:image/jepg;base64," + imageCodeGenerator.getRandomCodeBase64(new ServletWebRequest(request), randomStr);
 				int expireIn = imageCodeProperties.getExpireIn();
 				ImageCode imageCode = new ImageCode(randomStr, expireIn);
-				sessionStrategy.setAttribute(new ServletWebRequest(request), SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE, imageCode);
+				request.getSession().setAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE, imageCode);
 				result.put(AppConstants.DEFAULT_RETURN_MESSAGE, "验证码生成成功");
 				result.put("base64", base64Str);
 				LocalDateTime expireTime = imageCode.getExpireTime();

@@ -7,6 +7,7 @@ package com.useful.person.core.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 
 import com.alibaba.fastjson.JSON;
@@ -16,7 +17,6 @@ import com.useful.person.core.aliyun.api.gateway.Response;
 import com.useful.person.core.aliyun.api.gateway.constant.Constants;
 import com.useful.person.core.aliyun.api.gateway.enums.Method;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**

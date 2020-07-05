@@ -37,7 +37,7 @@ public class UserController {
 	@ApiOperation("查询用户列表")
 	@HasAdminRole
 	public ResponseData<Page<UserInfo>> queryUsers(@RequestBody UsersRequestVO request) {
-		Sort sort = new Sort(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
+		Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
 		Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
 		Long startTime = request.getRegisterTimeFrom();
 		Long endTime = request.getRegisterTimeTo();
@@ -50,7 +50,7 @@ public class UserController {
 	@ApiOperation("查询拥有管理权限的用户")
 	@HasAdminRole
 	public ResponseData<Page<UserInfo>> queryUsersHasAdmin(@RequestBody UsersRequestVO request) {
-		Sort sort = new Sort(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
+		Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
 		Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
 		Page<UserInfo> users = userInfoService.queryUsersHasAdminPage(pageable);
 		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);

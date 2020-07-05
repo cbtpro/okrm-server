@@ -1,6 +1,7 @@
 package com.useful.person.browser.authentication;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
@@ -55,7 +56,8 @@ public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		log.info("登陆失败，参数：" + logSb);
 		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
 		} else {
 			super.onAuthenticationFailure(request, response, exception);

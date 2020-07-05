@@ -41,6 +41,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -66,8 +67,6 @@ import com.useful.person.core.aliyun.api.gateway.constant.ContentType;
 import com.useful.person.core.aliyun.api.gateway.constant.HttpHeader;
 import com.useful.person.core.aliyun.api.gateway.constant.HttpMethod;
 import com.useful.person.core.aliyun.api.gateway.constant.SystemHeader;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 /**
  * Http工具类

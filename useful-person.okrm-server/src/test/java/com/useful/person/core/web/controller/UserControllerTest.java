@@ -36,7 +36,7 @@ public class UserControllerTest {
 	@Test
 	public void whenQueryUsersSuccess() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/user").param("username", "cbtpro")
-				.contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(MockMvcResultMatchers.status().isOk())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$").value(true));
 
 	}
@@ -44,13 +44,13 @@ public class UserControllerTest {
 	@Test
 	public void whenGetUserInfoSuccess() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/user/21d496b0-8120-4a62-9519-6518a7ae7058")
-				.contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(MockMvcResultMatchers.status().isOk())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("大反派🍄"));
 	}
 
 	@Test
 	public void whenGetUserInfoFail() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/user/-1").contentType(MediaType.APPLICATION_JSON_UTF8))
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/-1").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
 

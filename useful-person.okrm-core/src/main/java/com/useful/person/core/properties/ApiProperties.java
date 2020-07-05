@@ -11,17 +11,12 @@ import lombok.Setter;
  * @author peter
  *
  */
-@Order(1)
+@Order(0)
 @ConfigurationProperties(prefix = "okrm.api")
 public class ApiProperties {
 
 	@Getter
 	@Setter
 	private LianzhuoProperties lianzhuo = new LianzhuoProperties();
-
-	@Getter
-	@Setter
-	private TencentProperties tencent = new TencentProperties();
-
 
 }

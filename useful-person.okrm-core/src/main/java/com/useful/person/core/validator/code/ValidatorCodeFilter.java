@@ -12,12 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.useful.person.core.properties.SecurityConstants;
@@ -30,8 +26,6 @@ import com.useful.person.core.validator.code.captcha.ImageCode;
  *
  */
 public class ValidatorCodeFilter extends OncePerRequestFilter implements InitializingBean {
-
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
 	private AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -64,7 +58,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		}
 		if (action) {
 			try {
-				validate(new ServletWebRequest(request));
+				validate(request);
 			} catch (ValidatorCodeException e) {
 				authenticationFailureHandler.onAuthenticationFailure(request, response, e);
 				return;
@@ -81,10 +75,6 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		return securityProperties;
 	}
 
-	public SessionStrategy getSessionStrategy() {
-		return sessionStrategy;
-	}
-
 	public Set<String> getUrls() {
 		return urls;
 	}
@@ -97,20 +87,16 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		this.securityProperties = securityProperties;
 	}
 
-	public void setSessionStrategy(SessionStrategy sessionStrategy) {
-		this.sessionStrategy = sessionStrategy;
-	}
-
 	public void setUrls(Set<String> urls) {
 		this.urls = urls;
 	}
 
-	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
+	private void validate(HttpServletRequest request) throws ServletRequestBindingException {
+		String codeInRequest = (String) request.getParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
 		if (StringUtils.isBlank(codeInRequest)) {
 			throw new ValidatorCodeException("验证码不能为空");
 		}
-		ImageCode codeImageInSession = (ImageCode) sessionStrategy.getAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
+		ImageCode codeImageInSession = (ImageCode) request.getSession().getAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
 		if (codeImageInSession == null) {
 			throw new ValidatorCodeException("验证码不存在");
 		}
@@ -120,7 +106,7 @@ public class ValidatorCodeFilter extends OncePerRequestFilter implements Initial
 		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
 			throw new ValidatorCodeException("验证码不匹配");
 		}
-		sessionStrategy.removeAttribute(request, SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
+		request.getSession().removeAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
 	}
 
 }
