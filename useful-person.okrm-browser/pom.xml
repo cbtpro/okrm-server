@@ -8,7 +8,6 @@
 		<artifactId>useful-person.okrm</artifactId>
 		<version>${okrm.version}</version>
 	</parent>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.useful-person</groupId>

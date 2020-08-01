@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Order(0)
 @Component("okrmAuthenticationSuccessHandler")
 public class OkrmAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 

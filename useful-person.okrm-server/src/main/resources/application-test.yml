@@ -1,0 +1,61 @@
+logging:
+  file: logging.log
+  path: /Users/peter/Documents/okrm/
+okrm:
+  app:
+    host: //localhost
+    mail: service@useful-person.com
+    port: 8081
+  security:
+    code:
+      sms:
+        accessKeyId: LTAI4FdGoNveVpKk6UFcLhmN
+        domain: dysmsapi.aliyuncs.com
+        expire-in: 300
+        region-id: cn-hangzhou
+        regionId: cn-hangzhou
+        secret: ixv3q4iDT3A7AQaTjBLtCk76wVc20H
+        sign-name: 生而不庸
+        version: '2017-05-25'
+    mail:
+      code:
+        expire-in: 1800
+      verification:
+        expire-in: 172800
+    oss:
+      config:
+        accessKeyId: LTAI4Fobhx81DgtkwrvtxQXe
+        accessKeySecret: LfcyE6v9RXHulHoDI6hwTsG6XieNGu
+        bucketName: okrm
+        endpoint: oss-cn-hangzhou-internal.aliyuncs.com
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: okrm_password
+    url: jdbc:mysql://127.0.0.1:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: okrm
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+    default-encoding: UTF-8
+    host: smtp.useful-person.com
+    password: '}I;:OSNYs8r2NvRo''I0,'
+    port: 465
+    username: noreply@useful-person.com
+  redis:
+    database: 1
+    host: localhost
+    jedis:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 6000
+        min-idle: 0
+    password: srFhMRCB0PuRCT6MkGxCCv3VJOTFhDx
+    port: 6379
+    timeout: 5000

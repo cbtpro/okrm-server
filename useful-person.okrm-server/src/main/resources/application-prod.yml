@@ -1,0 +1,92 @@
+jasypt:
+  encryptor:
+    password: okrm@2020@secrt
+logging:
+  file: logging.log
+  path: /root/servicespace/okrm-server/log/
+okrm:
+  api:
+    lianzhuo:
+      idcard:
+        app-code: 74e27f9d5369415e8c289b9faed6d301
+        app-key: 203762486
+        app-secret: q34eufpf5i4pz8itnsvbgqs4i4hph8bs
+        host: https://idcard.market.alicloudapi.com
+        path: /lianzhuo/idcard
+    tencent:
+      weapp:
+        appId: wxf17aad204c28abe6
+        appSecret: d3da617a3c07fdb138cfd1687b1ddbc2
+  app:
+    file:
+      temp:
+        dir: /root/servicespace/okrm-server/temp
+        expire-in: 86400
+    host: http://121.40.244.200
+    mail: service@useful-person.com
+    port: 80
+  security:
+    code:
+      sms:
+        accessKeyId: LTAI4FdGoNveVpKk6UFcLhmN
+        domain: dysmsapi.aliyuncs.com
+        expire-in: 300
+        region-id: cn-hangzhou
+        regionId: cn-hangzhou
+        secret: ixv3q4iDT3A7AQaTjBLtCk76wVc20H
+        sign-name: 生而不庸
+        version: '2017-05-25'
+    mail:
+      config:
+        connectiontimeout: 10000
+        debug: true
+        default-encoding: UTF-8
+        host: smtp.useful-person.com
+        password: WcUWRPp7FqYgvQ87B5YJCKLbuapngEQ
+        port: 465
+        timeout: 120000
+        username: noreply@useful-person.com
+        writetimeout: 10000
+    oss:
+      config:
+        accessKeyId: LTAI4Fobhx81DgtkwrvtxQXe
+        accessKeySecret: LfcyE6v9RXHulHoDI6hwTsG6XieNGu
+        avatar-dir: avatar
+        bucketName: okrm
+        endpoint: oss-cn-hangzhou-internal.aliyuncs.com
+        resource-url: https://resources.useful-person.com
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 5
+      pool-name: DatebookHikariCP
+    password: ENC(uO36s6nRZvKkQtNuwhZwR0O8aigqsrWnKap3PTbHpqjuqlM3Qoz7HRKCqIWDDgVucxPgjxgmFSg6wNfF/K20BQ==)
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://rm-bp1jzjw8e8b3z2t17.mysql.rds.aliyuncs.com:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: okrm
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  redis:
+    database: 0
+    host: 192.168.0.119
+    jedis:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 6000
+        min-idle: 0
+    password: wzXRPGU9XAXUOjsmrGDGbOjk4tiAUAO
+    port: 6379
+    timeout: 5000

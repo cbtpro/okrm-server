@@ -1,6 +1,7 @@
 package com.useful.person.core.authentication.mobile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,12 +18,13 @@ import com.useful.person.core.authentication.services.impl.UserDetailsServiceImp
  * @author peter
  *
  */
+@Order(1)
 @Component
 public class SmsCodeAuthenticationSecurityConfig
 		extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
 	@Autowired
-	private AuthenticationSuccessHandler okrmAuthenticationSuccessHander;
+	private AuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
 
 	@Autowired
 	private AuthenticationFailureHandler okrmAuthenticationFailureHandler;
@@ -34,7 +36,7 @@ public class SmsCodeAuthenticationSecurityConfig
 	public void configure(HttpSecurity http) throws Exception {
 		SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
 		smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-		smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(okrmAuthenticationSuccessHander);
+		smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(okrmAuthenticationSuccessHandler);
 		smsCodeAuthenticationFilter.setAuthenticationFailureHandler(okrmAuthenticationFailureHandler);
 		SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
 		smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
