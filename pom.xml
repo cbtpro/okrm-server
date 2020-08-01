@@ -62,19 +62,14 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>io.spring.platform</groupId> 
-		<artifactId>platform-bom</artifactId> <version>Cairo-SR7</version> <type>pom</type> 
-		<scope>import</scope> </dependency> <dependency> <groupId>mysql</groupId> 
-		<artifactId>mysql-connector-java</artifactId> <version>8.0.20</version> </dependency> 
-		</dependencies> </dependencyManagement> -->
 	<build>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>application.properties</include>
-					<include>application-${env}.properties</include>
+					<include>application.yml</include>
+					<include>application-${env}.yml</include>
 					<!-- 态资源打包 -->
 					<include>static/*</include>
 					<include>templates/*</include>
@@ -92,6 +87,20 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.useful.person.OkrmServerApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.github.ulisesbocchio</groupId>
 				<artifactId>jasypt-maven-plugin</artifactId>
 				<version>3.0.2</version>
@@ -103,7 +112,7 @@
 	<modules>
 		<module>./useful-person.okrm-app</module>
 		<module>./useful-person.okrm-browser</module>
-		<module>./useful-person.okrm-security</module>
+		<!-- <module>./useful-person.okrm-security</module> -->
 		<module>./useful-person.okrm-core</module>
 		<module>./useful-person.okrm-server</module>
 	</modules>
