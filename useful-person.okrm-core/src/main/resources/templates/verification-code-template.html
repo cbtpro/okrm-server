@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>验证码邮件</title>
+</head>
+<body>
+	您好，您的验证码是！<span th:text="${verificationCode}" style="font-size: 36px;">这段文字会被替换成验证码</span> 请在30分钟内使用！
+	<br>
+	<div th:include="~{fragments :: content}"></div>
+	<br>
+	<div th:include="~{fragments :: surprise}"></div>
+	<br>
+	<div th:include="~{fragments :: copy}"></div>
+</body>
+</html>

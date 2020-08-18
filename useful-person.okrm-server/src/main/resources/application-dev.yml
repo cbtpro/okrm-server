@@ -1,0 +1,127 @@
+info:
+  contact:
+    email: service@useful-person.com
+    mobile: 18922886349
+jasypt:
+  encryptor:
+    password: okrm@2020@secrt
+logging:
+  file:
+    name: okrm.log
+    path: /Users/peter/Documents/okrm/
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans,env,metrics
+okrm:
+  api:
+    lianzhuo:
+      idcard:
+        app-code: 74e27f9d5369415e8c289b9faed6d301
+        app-key: 203762486
+        app-secret: q34eufpf5i4pz8itnsvbgqs4i4hph8bs
+        host: https://idcard.market.alicloudapi.com
+        path: /lianzhuo/idcard
+  app:
+    file:
+      temp:
+        dir: /Users/peter/Developer/temp
+        expire-in: 86400
+    host: //localhost
+    mail: service@useful-person.com
+    port: 8080
+  security:
+    code:
+      sms:
+        accessKeyId: LTAI4FdGoNveVpKk6UFcLhmN
+        domain: dysmsapi.aliyuncs.com
+        expire-in: 300
+        region-id: cn-hangzhou
+        regionId: cn-hangzhou
+        secret: ixv3q4iDT3A7AQaTjBLtCk76wVc20H
+        sign-name: 生而不庸
+        version: '2017-05-25'
+    mail:
+      config:
+        connectiontimeout: 10000
+        debug: true
+        default-encoding: UTF-8
+        host: smtp.useful-person.com
+        password: WcUWRPp7FqYgvQ87B5YJCKLbuapngEQ
+        port: 465
+        timeout: 120000
+        username: noreply@useful-person.com
+        writetimeout: 10000
+    oss:
+      config:
+        accessKeyId: LTAI4Fobhx81DgtkwrvtxQXe
+        accessKeySecret: LfcyE6v9RXHulHoDI6hwTsG6XieNGu
+        avatar-dir: avatar
+        bucketName: okrm
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+        resource-url: https://resources.useful-person.com
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 5
+      pool-name: DatebookHikariCP
+    password: ENC(5E6IyfMBYLID0kWxH6bCy9COmeUBes+jMD5em8phQOUam/sN0P7wQRcp9T5FYNjw)
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: okrm
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+  redis:
+    database: 1
+    host: localhost
+    jedis:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 6000
+        min-idle: 0
+    password: srFhMRCB0PuRCT6MkGxCCv3VJOTFhDx
+    port: 6379
+    timeout: 5000
+  security:
+    oauth2:
+      client:
+        provider:
+          qq:
+            authorization-uri: https://graph.qq.com/oauth2.0/authorize
+            token-uri: https://graph.qq.com/oauth2.0/token
+            user-info-uri: ''
+        registration:
+          github:
+            authorization-grant-type: authorization_code
+            client-id: b6217ed93def2c29ab0e
+            client-secret: 3cfb39ca477d8aadb773d2dfdc5d4dde525d15b6
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+          qq:
+            client-id: 123
+            client-secret: 123
+          wechat:
+            client-id: wxf17aad204c28abe6
+            client-secret: d3da617a3c07fdb138cfd1687b1ddbc2
+  session:
+    store-type: REDIS

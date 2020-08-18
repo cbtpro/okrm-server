@@ -1,0 +1,41 @@
+okrm:
+  security:
+    browser:
+      remember-me-seconds: 604800
+      signinType: JSON
+    code:
+      image:
+        expireIn: 300
+        length: 4
+        url: /code/sms,/code/mail,/signup,/activate/email
+        width: 100
+      sms:
+        length: 4
+        url: /user/mobile,/user/mobile/unbindOldMobile
+    mail:
+      code:
+        expire-in: 1800
+        url: /user/email,/user/email/unbindOldEmail
+      verification:
+        expire-in: 172800
+
+server:
+  port: 8081
+spring:
+  application:
+    name: 生而不庸
+  data:
+    redis:
+      repositories:
+        enabled: false
+  jpa:
+    open-in-view: false
+  mvc:
+    async:
+      request-timeout: 120000
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB

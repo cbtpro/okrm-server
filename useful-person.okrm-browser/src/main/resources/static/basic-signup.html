@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Sign up</title>
+</head>
+<body>
+	<h1>注册页面</h1>
+	<h3>用户名注册</h3>
+	<form action="/signup" method="post">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input type="text" name="username" /></td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="password" name="password" /></td>
+			</tr>
+			<tr>
+				<td>昵称：</td>
+				<td><input type="text" name="nickname" /></td>
+			</tr>
+			<tr>
+				<td>验证码：</td>
+				<td><input type="text" name="imageCode" /><img alt="验证码"
+					src="/code/captcha.jpg"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">Sign up</button></td>
+			</tr>
+		</table>
+	</form>
+	<h3>手机号注册</h3>
+	<form action="/signup/mobile" method="post">
+		<table>
+			<tr>
+				<td>手机号：</td>
+				<td><input type="text" name="mobile" /></td>
+			</tr>
+			<tr>
+				<td>验证码：</td>
+				<td><input type="text" name="imageCode" /><img alt="验证码"
+					src="/code/captcha.jpg"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">Sign up</button></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
