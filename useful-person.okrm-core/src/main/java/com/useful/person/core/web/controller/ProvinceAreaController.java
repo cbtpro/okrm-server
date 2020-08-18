@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.useful.person.core.annotation.HasAdminRole;
+import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.domain.ProvinceArea;
 import com.useful.person.core.services.ProvinceAreaService;
+import com.useful.person.core.vo.ResponseData;
 
 /**
  * @author cbtpro
@@ -29,15 +32,18 @@ public class ProvinceAreaController {
 	private ProvinceAreaService provinceAreaService;
 
 	@GetMapping
-	private List<ProvinceArea> findAll() {
-		return provinceAreaService.findAll();
+	private ResponseData<List<ProvinceArea>> findAll() {
+		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
+				provinceAreaService.findAll());
 	}
 
+	@HasAdminRole
 	@PutMapping("/batch")
 	private List<ProvinceArea> saveAll(@RequestBody List<ProvinceArea> provinceAreas) {
 		return provinceAreaService.saveAll(provinceAreas);
 	}
 
+	@HasAdminRole
 	@PutMapping
 	private ProvinceArea save(@RequestBody ProvinceArea provinceArea) {
 		return provinceAreaService.save(provinceArea);
@@ -54,7 +60,8 @@ public class ProvinceAreaController {
 	}
 
 	@GetMapping("/child")
-	private List<ProvinceArea> findChilds(@Param(value = "upperCode") String upperCode) {
-		return provinceAreaService.findChilds(StringUtils.isNotBlank(upperCode) ? upperCode : "86");
+	private ResponseData<List<ProvinceArea>> findChilds(@Param(value = "upperCode") String upperCode) {
+		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
+				provinceAreaService.findChilds(StringUtils.isNotBlank(upperCode) ? upperCode : "86"));
 	}
 }

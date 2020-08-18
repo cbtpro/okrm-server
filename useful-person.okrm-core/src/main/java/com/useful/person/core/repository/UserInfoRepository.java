@@ -97,9 +97,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 	@Query("update UserInfo u set u.identityCardName = :identityCardName, u.identityCardNo = :identityCardNo where u.uuid = :uuid")
 	void updateIdentityCard(String identityCardName, String identityCardNo, String uuid);
 
-	@Modifying
-	@Query("update UserInfo u set u.avatar = :avatar, u.username = :username, u.nickname = :nickname, u.birthday = :birthday where u.uuid = :uuid")
-	int updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday);
+	@Modifying(clearAutomatically = true)
+	@Query("update UserInfo u set u.avatar = :avatar, u.username = :username, u.nickname = :nickname, u.province = :province, u.city = :city, u.county = :county, u.birthday = :birthday where u.uuid = :uuid")
+	int updateUserInfo(String uuid, String avatar, String username, String nickname, String province, String city, String county, Timestamp birthday);
 	/**
 	 * 查询用户地址信息
 	 * 

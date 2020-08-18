@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.Country;
 import com.useful.person.core.services.CountryService;
 
@@ -24,11 +25,13 @@ public class CountryController {
 		return countryService.findAll();
 	}
 
+	@HasAdminRole
 	@PutMapping("/batch")
 	private List<Country> saveAll(@RequestBody List<Country> countrys) {
 		return countryService.saveAll(countrys);
 	}
 
+	@HasAdminRole
 	@PutMapping
 	private Country save(@RequestBody Country country) {
 		return countryService.save(country);

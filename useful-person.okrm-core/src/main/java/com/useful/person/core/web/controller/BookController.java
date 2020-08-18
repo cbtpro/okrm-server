@@ -35,8 +35,8 @@ public class BookController {
 	private BookServiceImpl bookService;
 
 	@ApiOperation(value = "查询所有书籍信息")
-	@HasAdminRole
 	@GetMapping
+	@HasAdminRole
 	public Page<Book> queryAll(
 			@PageableDefault(value = 15, sort = { "title" }, direction = Direction.DESC) Pageable pageable) {
 		return bookService.findAll(pageable);

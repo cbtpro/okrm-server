@@ -43,13 +43,14 @@ public class UserController {
 	private IUserService userService;
 
 	@GetMapping("/me")
-	@JsonView({UserInfoDetailView.class})
+	@JsonView({ UserInfoDetailView.class })
 	public ResponseData<UserInfo> getCurrentUser(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		UserInfo userInfo = userService.findByUuid(currentUser.getUuid());
 		ResponseData<UserInfo> responseData = new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "", userInfo);
 		return responseData;
 	}
+
 	/**
 	 * 查询用户名是否存在
 	 * 
@@ -69,6 +70,7 @@ public class UserController {
 		UserInfo userInfo = userService.findByUuid(currentUser.getUuid());
 		return new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "", userInfo);
 	}
+
 	/**
 	 * 获取用户详情
 	 * 
@@ -98,7 +100,8 @@ public class UserController {
 
 	@ApiOperation("更新用户手机")
 	@PutMapping("/mobile")
-	public ResponseData<String> updateMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
+	public ResponseData<String> updateMobile(Authentication user,
+			@RequestParam(name = "mobile", required = true) String mobile) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateMobileByUuid(currentUser.getUuid(), mobile);
 		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "手机号更新成功！", mobile);
@@ -106,7 +109,8 @@ public class UserController {
 
 	@ApiOperation("更新用户邮箱")
 	@PutMapping("/email")
-	public ResponseData<String> updateEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
+	public ResponseData<String> updateEmail(Authentication user,
+			@RequestParam(name = "email", required = true) String email) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateEmailByUuid(currentUser.getUuid(), email);
 		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "邮箱地址更新成功！", email);
@@ -121,7 +125,8 @@ public class UserController {
 
 	@ApiOperation("解绑旧手机号")
 	@PostMapping("/mobile/unbindOldMobile")
-	public Map<String, String> unbindOldMobile(Authentication user, @RequestParam(name = "mobile", required = true) String mobile) {
+	public Map<String, String> unbindOldMobile(Authentication user,
+			@RequestParam(name = "mobile", required = true) String mobile) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.unbindOldMobile(currentUser.getUuid(), mobile);
 		Map<String, String> result = new HashMap<>(1);
@@ -131,7 +136,8 @@ public class UserController {
 
 	@ApiOperation("解绑旧邮箱地址")
 	@PostMapping("/email/unbindOldEmail")
-	public Map<String, String> unbindOldEmail(Authentication user, @RequestParam(name = "email", required = true) String email) {
+	public Map<String, String> unbindOldEmail(Authentication user,
+			@RequestParam(name = "email", required = true) String email) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.unbindOldEmail(currentUser.getUuid(), email);
 		Map<String, String> result = new HashMap<>(1);
@@ -141,17 +147,21 @@ public class UserController {
 
 	@ApiOperation("更新用户实名制信息")
 	@PutMapping("/realname")
-	public ResponseData<String> updateRealname(Authentication user, @RequestParam(name = "idcardname", required = true) String identityCardName, @RequestParam(name = "idcardno", required = true) String identityCardNo) {
+	public ResponseData<String> updateRealname(Authentication user,
+			@RequestParam(name = "idcardname", required = true) String identityCardName,
+			@RequestParam(name = "idcardno", required = true) String identityCardNo) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateRealname(currentUser.getUuid(), identityCardName, identityCardNo);
 		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "实名制成功！", "");
 	}
+
 	@ApiOperation("获取用户位置信息")
 	@GetMapping("/address")
 	public Address getUserAddress(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		return userService.getUserAddress(currentUser.getUuid());
 	}
+
 	@ApiOperation("更新用户位置信息")
 	@PutMapping("/address")
 	public void updateAddress(Authentication user, @RequestBody Address address) {
@@ -161,17 +171,23 @@ public class UserController {
 
 	@ApiOperation("更新用户密码")
 	@PutMapping("/passwd")
-	public ResponseData<String> updateUserPassword(Authentication user, @RequestParam(name = "oldPassword", required = true) String oldPassword, @RequestParam(name = "password", required = true) String password) {
+	public ResponseData<String> updateUserPassword(Authentication user,
+			@RequestParam(name = "oldPassword", required = true) String oldPassword,
+			@RequestParam(name = "password", required = true) String password) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		userService.updateUserPassword(currentUser.getUuid(), oldPassword, password);
 		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "密码修改成功！", null);
 	}
+
 	@ApiOperation("更新用户信息")
 	@PutMapping
-	public UserInfo updateUserInfo(Authentication user, @RequestBody(required = true) UserInfo userInfo ) {
+	public UserInfo updateUserInfo(Authentication user, @RequestBody(required = true) UserInfo userInfo) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return userService.updateUserInfo(currentUser.getUuid(), userInfo.getAvatar(), userInfo.getUsername(), userInfo.getNickname(), userInfo.getBirthday());
+		return userService.updateUserInfo(currentUser.getUuid(), userInfo.getAvatar(), userInfo.getUsername(),
+				userInfo.getNickname(), userInfo.getProvince(), userInfo.getCity(), userInfo.getCounty(),
+				userInfo.getBirthday());
 	}
+
 	@ApiOperation("获取附近用户的位置信息")
 //	@JsonView(AddressView.class)
 	@PostMapping("/nearby/address")
@@ -183,6 +199,7 @@ public class UserController {
 			@RequestParam(name = "longitude", required = true) Double longitude,
 			@RequestParam(name = "latitude", required = true) Double latitude) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return userService.getUserNearbyUserAddress(currentUser.getUuid(), longitude0, latitude0, longitude1, latitude1, longitude, latitude);
-	} 
+		return userService.getUserNearbyUserAddress(currentUser.getUuid(), longitude0, latitude0, longitude1, latitude1,
+				longitude, latitude);
+	}
 }
