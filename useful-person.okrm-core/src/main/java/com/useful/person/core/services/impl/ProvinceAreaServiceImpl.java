@@ -24,6 +24,7 @@ public class ProvinceAreaServiceImpl implements ProvinceAreaService {
 
 	@Autowired
 	private ProvinceAreaRepository provinceAreaRepository;
+
 	@Override
 	public ProvinceArea save(ProvinceArea provinceArea) {
 		return provinceAreaRepository.save(provinceArea);

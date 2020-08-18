@@ -169,6 +169,24 @@ public class UserInfo implements UserDetails {
 	@SensitiveInfo(SensitiveType.EMAIL)
 	private String email;
 
+	// 第一级行政区
+	@Getter
+	@Setter
+	@JsonView(UserInfoDetailView.class)
+	private String province;
+
+	// 第二级行政区
+	@Getter
+	@Setter
+	@JsonView(UserInfoDetailView.class)
+	private String city;
+
+	// 第三级行政区
+	@Getter
+	@Setter
+	@JsonView(UserInfoDetailView.class)
+	private String county;
+
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)

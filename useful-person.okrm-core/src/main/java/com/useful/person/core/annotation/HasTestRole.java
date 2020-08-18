@@ -19,7 +19,7 @@ import com.useful.person.core.properties.SecurityConstants;
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.CLASS)
-@PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "ADMIN')")
-public @interface HasAdminRole {
+@PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "TEST')")
+public @interface HasTestRole {
 
 }

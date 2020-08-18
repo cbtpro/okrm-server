@@ -331,9 +331,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	@Transactional
-	public UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday) {
+	public UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, String province, String city, String county, Timestamp birthday) {
 		UserInfo userInfo = userInfoRepository.findById(uuid).orElseThrow(() -> new GeneralException("", "更新信息失败！"));
-		int count = userInfoRepository.updateUserInfo(uuid, avatar, username, nickname, birthday);
+		int count = userInfoRepository.updateUserInfo(uuid, avatar, username, nickname, province, city, county, birthday);
 		if (count > 0) {
 			UserInfoLog.builder().actionType(UserAction.UPDATE_AVATAR).actionValue(avatar).oldValue(userInfo.getAvatar()).build();
 			UserInfoLog.builder().actionType(UserAction.UPDATE_USERNAME).actionValue(username).oldValue(userInfo.getUsername()).build();

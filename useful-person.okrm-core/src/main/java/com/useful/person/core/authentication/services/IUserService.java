@@ -92,7 +92,7 @@ public interface IUserService {
 	 * @param birthday
 	 * @return 更新后的用户信息
 	 */
-	UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, Timestamp birthday);
+	UserInfo updateUserInfo(String uuid, String avatar, String username, String nickname, String province, String city, String county, Timestamp birthday);
 
 	/**
 	 * 更改用户名
