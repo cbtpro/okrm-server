@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>注册邮件</title>
+</head>
+<body>
+	您好，这是一封验证邮件，请点击下面的链接完成邮箱绑定！
+	<br>
+	<a href="#" th:href="@{{host}/activate/{email}/{uuid}(host=${host},email=${email},uuid=${uuid})}" style="font-size: 36px;">激活账户</a>
+	<br>
+	<div th:include="~{fragments :: content}"></div>
+	<br>
+	<div th:include="~{fragments :: surprise}"></div>
+	<br>
+	<div th:include="~{fragments :: copy}"></div>
+</body>
+</html>

@@ -1,39 +1,252 @@
 # okrm-server
 
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+## 介绍
 
-#### 软件架构
-软件架构说明
+okrm-server基于spring全家桶开发。
 
+## 软件架构
 
-#### 安装教程
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+```mermaid
+graph TD;
+	useful-person.com-->okrm-server;
+	okrm-server-->sms;
+	okrm-server-->mail;
+	okrm-server-->cache;
+	okrm-server-->mysql;
+	okrm-server-->oss;
+	sms-->redis;
+	mail-->redis;
+	cache-->redis;
+```
 
 
-#### 码云特技
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+
+
+## 安装教程
+
+### MySQL
+
+### Redis
+
+### 服务器目录结构
+
+```
+# okrm-server
+/home/okrm
+/home/okrm/goaloneService.sh
+/home/okrm/servicespace
+/home/okrm/okrm-server
+# useful-person.com
+/home/okrm/www/useful-person.com
+```
+
+### nginx配置
+
+```
+location / {
+    root /home/okrm/www/useful-person.com;
+    index index.html index.htm;
+}
+location /api/ {
+    proxy_pass http://127.0.0.1:8081/;
+    # 获取客户端真实ip $host 变量，Host 为变量名
+    proxy_set_header   Host             $host;
+    proxy_set_header   X-Real-IP        $remote_addr;
+    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+}
+```
+
+### 证书配置
+
+
+
+### 部署脚本
+
+这个脚本还有很大的修改空间，可以从文件中读取配置文件
+
+```shell
+#!/bin/sh
+username=okrm
+remote_id=121.40.244.200
+remote_dir=/home/okrm/servicespace/okrm-server
+fileName=useful-person.okrm-server-0.0.1-SNAPSHOT.jar
+time=$(date "+%Y-%m-%d_%H:%M:%S")
+logFile=deploy_${time}.log
+bakFile=${fileName}.${time}
+logFn() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S") $1" >> ${logFile}
+}
+# 构建
+logFn "构建"
+mvn clean install package -Dmaven.test.skip=true -Pprod
+logFn "备份"
+ssh ${username}@${remote_id} > /dev/null 2>&1 << EOF
+sh /home/okrm/goaloneService.sh okrm-server clean
+exit
+EOF
+
+# 拷贝文件
+logFn "发布"
+scp useful-person.okrm-server/target/${fileName} okrm@okrm:${remote_dir}/${fileName}
+
+logFn "启动"
+ssh ${username}@${remote_id} > /dev/null 2>&1 << EOF
+sh /home/okrm/goaloneService.sh okrm-server prod start
+exit
+EOF
+echo done!
+```
+
+### 启动脚本
+
+goaloneService.sh
+
+```shell
+#!/bin/sh
+## java env
+#export JRE_HOME=${JAVA_HOME}
+## exec shell name
+EXEC_SHELL_NAME=$1\.sh
+## service name
+SERVICE_NAME=$1
+ENV=$2
+SERVICE_DIR=/home/okrm
+JAR_NAME=useful-person.okrm-server-0.0.1-SNAPSHOT.jar
+TIME_STR=$(date +%Y%m%d%H%M%S)
+PID=pid/$SERVICE_NAME\.pid
+WORK_DIR=$SERVICE_DIR/servicespace/$1
+#function start
+start(){
+   cd $WORK_DIR
+   if [ ! -d "log" ]; then
+        mkdir log
+   fi
+   nohup /usr/java/jdk-13.0.1/bin/java -Xms256m -Xmx512m -jar $WORK_DIR/$JAR_NAME --spring.profiles.active=$ENV > log/$SERVICE_NAME.out 2>&1 &
+        echo $! > $PID
+        echo "**************** start $SERVICE_NAME success ****************"
+}
+# function stop
+stop() {
+    cd $WORK_DIR
+    if [ -f "$PID" ]; then
+        kill  `cat $PID`
+        rm -rf $PID
+    fi
+    echo "**************** stop $SERVICE_NAME ****************"
+    sleep 6
+    TEMP_PID=`ps -ef | grep -w "$SERVICE_NAME" | grep "java" | awk '{print $2}'`
+
+    if [ "$TEMP_PID" =  "" ]; then
+        echo "**************** $SERVICE_NAME process not exists or stop success ****************"
+    else
+        echo "**************** $SERVICE_NAME process pid is [$TEMP_PID] ****************"
+        kill -9 $TEMP_PID
+    fi
+    echo "**************** stop $SERVICE_NAME success ****************"
+}
+# function clean
+clean(){
+    cd $WORK_DIR
+    if [ ! -d "lastDeploy" ]; then
+        mkdir lastDeploy
+    fi
+    if [ -f "$JAR_NAME" ]; then
+        mv $JAR_NAME lastDeploy/$JAR_NAME$TIME_STR
+    fi
+}
+case "$2" in
+    start)
+        start
+    ;;
+
+    stop)
+        stop
+    ;;
+
+    restart)
+        stop
+        sleep 2
+        start
+        echo "**************** restart $SERVICE_NAME success ****************"
+    ;;
+
+    clean)
+        stop
+        sleep 2
+        clean
+        echo "**************** clean $SERVICE_NAME success ****************"
+    ;;
+
+    *)
+        ## restart
+        stop
+        sleep 2
+        start
+        ;;
+esac
+exit 0
+
+```
+
+
+
+## 使用说明
+
+安装IDE，修改IDE编码格式为UTF-8
+
+安装mysql 8.x
+
+运行redis
+
+安装docker
+
+docker pull redis
+
+docker run --name okrm-redis -d redis
+
+或者直接下载redis
+
+make
+
+make test
+
+make install
+
+make test
+
+./src/redis-server
+
+新建mysql用户okrm并给它赋予权限
+
+安装lombok
+
+maven构建
+
+maven构建
+
+```shell
+mvn clean install package -Dmaven.test.skip=true -Pprod
+```
+
+
+
+# jenkins
+
+## jenkins升级（一般不需要操作）
+
+```shell
+# 下载
+wget -O /usr/lib/jenkins/jenkins_2.237.war http://mirror.serverion.com/jenkins/war/2.237/jenkins.war
+#  curl http://updates.jenkins-ci.org/download/war/2.209/jenkins.war jenkins_2.209.war
+# 停止服务
+service jenkins stop
+
+# 替换文件
+cp /usr/lib/jenkins/jenkins_2.237.war /usr/lib/jenkins/jenkins.war
+
+# 启动服务
+service jenkins start
+```
+

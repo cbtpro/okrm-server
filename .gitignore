@@ -8,3 +8,16 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+.DS_Store
+*/.classpath
+*/.project
+.project
+*/.settings/
+.settings
+.vscode
+*/.factorypath
+useful-person.okrm-core/target
+.idea/
+/**/*.iml
+/**/*.log*
+useful-person.okrm.iml
