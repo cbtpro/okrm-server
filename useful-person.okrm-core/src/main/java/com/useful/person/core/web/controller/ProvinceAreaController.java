@@ -32,20 +32,20 @@ public class ProvinceAreaController {
 	private ProvinceAreaService provinceAreaService;
 
 	@GetMapping
-	private ResponseData<List<ProvinceArea>> findAll() {
+	public ResponseData<List<ProvinceArea>> findAll() {
 		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
 				provinceAreaService.findAll());
 	}
 
 	@HasAdminRole
 	@PutMapping("/batch")
-	private List<ProvinceArea> saveAll(@RequestBody List<ProvinceArea> provinceAreas) {
+	public List<ProvinceArea> saveAll(@RequestBody List<ProvinceArea> provinceAreas) {
 		return provinceAreaService.saveAll(provinceAreas);
 	}
 
 	@HasAdminRole
 	@PutMapping
-	private ProvinceArea save(@RequestBody ProvinceArea provinceArea) {
+	public ProvinceArea save(@RequestBody ProvinceArea provinceArea) {
 		return provinceAreaService.save(provinceArea);
 	}
 
@@ -55,12 +55,12 @@ public class ProvinceAreaController {
 //	}
 
 	@GetMapping("/query")
-	private ProvinceArea findProvinceArea(@Param(value = "code") String code) {
+	public ProvinceArea findProvinceArea(@Param(value = "code") String code) {
 		return provinceAreaService.findProvinceAreaByCode(code);
 	}
 
 	@GetMapping("/child")
-	private ResponseData<List<ProvinceArea>> findChilds(@Param(value = "upperCode") String upperCode) {
+	public ResponseData<List<ProvinceArea>> findChilds(@Param(value = "upperCode") String upperCode) {
 		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
 				provinceAreaService.findChilds(StringUtils.isNotBlank(upperCode) ? upperCode : "86"));
 	}
