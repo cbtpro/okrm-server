@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.useful.person.core.utils.StringUtil;
-
 /**
  * @author cbtpro
  *
