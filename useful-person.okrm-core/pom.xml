@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.useful-person</groupId>
 		<artifactId>useful-person.okrm</artifactId>
-		<version>${okrm.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -125,12 +125,6 @@
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.62</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
