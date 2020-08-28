@@ -2,8 +2,9 @@ jasypt:
   encryptor:
     password: okrm@2020@secrt
 logging:
-  file: logging.log
-  path: /root/servicespace/okrm-server/log/
+  file:
+    name: logging.log
+    path: /home/okrm/servicespace/okrm-server/log/
 okrm:
   api:
     lianzhuo:
@@ -20,7 +21,7 @@ okrm:
   app:
     file:
       temp:
-        dir: /root/servicespace/okrm-server/temp
+        dir: /home/okrm/servicespace/okrm-server/temp
         expire-in: 86400
     host: http://121.40.244.200
     mail: service@useful-person.com

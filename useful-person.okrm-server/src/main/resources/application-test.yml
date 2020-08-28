@@ -1,6 +1,7 @@
 logging:
-  file: logging.log
-  path: /Users/peter/Documents/okrm/
+  file:
+    name: logging.log
+    path: /Users/peter/Documents/okrm/
 okrm:
   app:
     host: //localhost
