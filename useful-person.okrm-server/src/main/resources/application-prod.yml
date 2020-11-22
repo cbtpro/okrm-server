@@ -70,9 +70,9 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       pool-name: DatebookHikariCP
-    password: ENC(uO36s6nRZvKkQtNuwhZwR0O8aigqsrWnKap3PTbHpqjuqlM3Qoz7HRKCqIWDDgVucxPgjxgmFSg6wNfF/K20BQ==)
+    password: ENC(5E6IyfMBYLID0kWxH6bCy9COmeUBes+jMD5em8phQOUam/sN0P7wQRcp9T5FYNjw)
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://rm-bp1jzjw8e8b3z2t17.mysql.rds.aliyuncs.com:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: okrm
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -81,7 +81,7 @@ spring:
     show-sql: true
   redis:
     database: 0
-    host: 192.168.0.119
+    host: localhost
     jedis:
       pool:
         max-active: 10
