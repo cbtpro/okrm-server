@@ -1,7 +1,7 @@
 okrm:
   security:
     browser:
-      remember-me-seconds: 604800
+      remember-me-seconds: 2678400
       signinType: JSON
     code:
       image:
