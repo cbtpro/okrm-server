@@ -83,7 +83,6 @@
 		</resources>
 	</build>
 
-
 	<modules>
 		<module>./useful-person.okrm-app</module>
 		<module>./useful-person.okrm-browser</module>

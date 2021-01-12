@@ -21,3 +21,4 @@ useful-person.okrm-core/target
 /**/*.iml
 /**/*.log*
 useful-person.okrm.iml
+.history/
