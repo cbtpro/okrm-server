@@ -26,6 +26,25 @@ graph TD;
 
 ## 安装教程
 
+### 数据库密码加密
+
+```shell
+# 加密
+mvn jasypt:encrypt-value -Djasypt.encryptor.password="密钥" -Djasypt.plugin.value="密码明文"
+# 如果使用src/main/resources/application.properties的配置来加密，可以执行下面的命令，不支持yml
+mvn jasypt:encrypt -Djasypt.encryptor.password="the password"
+# 解密
+mvn jasypt:decrypt-value -Djasypt.encryptor.password="密钥" -Djasypt.plugin.value="密文"
+```
+也可以直接使用jar包进行加解密
+
+```shell
+java -cp jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="root" password=security algorithm=PBEWithMD5AndDES
+
+java -cp jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptPBEStringDecryptionCLI input="i00VogiiZ1FpZR9McY7XNw==" password=security algorithm=PBEWithMD5AndD
+```
+
+
 ### MySQL
 
 ### Redis

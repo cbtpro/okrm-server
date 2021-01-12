@@ -19,4 +19,8 @@ public class ApiProperties {
 	@Setter
 	private LianzhuoProperties lianzhuo = new LianzhuoProperties();
 
+	@Getter
+	@Setter
+	private TencentProperties tencent = new TencentProperties();
+
 }
