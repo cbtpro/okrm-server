@@ -72,7 +72,7 @@ spring:
       pool-name: DatebookHikariCP
     password: ENC(uO36s6nRZvKkQtNuwhZwR0O8aigqsrWnKap3PTbHpqjuqlM3Qoz7HRKCqIWDDgVucxPgjxgmFSg6wNfF/K20BQ==)
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://121.40.244.200:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: okrm
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
