@@ -80,7 +80,7 @@ spring:
       pool-name: DatebookHikariCP
     password: ENC(5E6IyfMBYLID0kWxH6bCy9COmeUBes+jMD5em8phQOUam/sN0P7wQRcp9T5FYNjw)
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/okrm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: okrm
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -100,7 +100,7 @@ spring:
         max-idle: 5
         max-wait: 6000
         min-idle: 0
-    password: srFhMRCB0PuRCT6MkGxCCv3VJOTFhDx
+#    password: srFhMRCB0PuRCT6MkGxCCv3VJOTFhDx
     port: 6379
     timeout: 5000
   security:
