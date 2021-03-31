@@ -18,6 +18,7 @@ import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.DepartmentUniversity;
 import com.useful.person.core.services.impl.DepartmentUniversityServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -26,6 +27,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/department-university")
+@Api(value = "学校架构controller", tags = { "学校操作接口" } )
 public class DepartmentUniversityController {
 
 	@Autowired

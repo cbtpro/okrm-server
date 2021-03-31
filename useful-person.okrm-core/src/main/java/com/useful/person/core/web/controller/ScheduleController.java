@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Schedule;
 import com.useful.person.core.services.impl.ScheduleServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/schedule")
+@Api(value = "计划controller", tags = { "计划操作接口" } )
 public class ScheduleController {
 
 	@Autowired

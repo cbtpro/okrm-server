@@ -26,6 +26,8 @@ import com.useful.person.core.validator.mail.EmailCode;
 import com.useful.person.core.validator.mail.MailService;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
+
 /**
  * 
  * @author peter
@@ -33,6 +35,7 @@ import com.useful.person.core.vo.ResponseData;
  */
 @RestController
 @RequestMapping("/code")
+@Api(value = "邮箱controller", tags = { "邮箱操作接口" } )
 public class MailController {
 
 	@Autowired

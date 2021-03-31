@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.useful.person.core.vo.FileInfo;
 
+import io.swagger.annotations.Api;
+
 /**
  * 
  * @author peter
@@ -27,6 +29,7 @@ import com.useful.person.core.vo.FileInfo;
  */
 @RestController
 @RequestMapping("/file")
+@Api(value = "文件controller", tags = { "文件操作接口" } )
 public class FileController {
 
 	String folder = "/Users/peter/Documents/okrm repo";

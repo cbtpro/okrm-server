@@ -15,6 +15,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.useful.person.core.utils.JsonSerializer.MoneyJsonDeserializer;
+import com.useful.person.core.utils.JsonSerializer.MoneyJsonSerializer;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,153 +38,124 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("书籍模型")
 public class Book {
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty(value = "全局唯一标识")
 	private String uuid;
 
-	/**
-	 * 书名 eg. 有理想就有疼痛
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "书名", required = true, example = "有理想就有疼痛")
 	private String title;
 
-	/**
-	 * 副书名 eg. 中国当代文化名人访谈录
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "副书名", example = "中国当代文化名人访谈录")
 	private String subtitle;
 
-	/**
-	 * 图片 eg. http://api.jisuapi.com/isbn/upload/1/1.jpg
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "图片", example = "http://api.jisuapi.com/isbn/upload/1/1.jpg")
 	private String pic;
 
-	/**
-	 * 作者 eg. 高晓春
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "作者", example = "高晓春")
 	private String author;
 
-	/**
-	 * 摘要 eg. 《有理想就有疼痛:中国当代文化名人访谈录》是一份关于当代中国文化的最真实底稿，收录了高晓春与白先勇、冯骥才、余华、莫言、余秋雨、陈忠实等20位当代中国文化大家的对话。通过近距离的访谈，展现了这些文化大家多彩的内心世界，也阐释了他们对生命、艺术、财富及文化的理解。
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "摘要", example = "《有理想就有疼痛:中国当代文化名人访谈录》是一份关于当代中国文化的最真实底稿，收录了高晓春与白先勇、冯骥才、余华、莫言、余秋雨、陈忠实等20位当代中国文化大家的对话。通过近距离的访谈，展现了这些文化大家多彩的内心世界，也阐释了他们对生命、艺术、财富及文化的理解。")
 	private String summary;
 
-	/**
-	 * 出版社 
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "出版社")
 	private String publisher;
 
-
-	/**
-	 * 出版地
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "出版地")
 	private String pubplace;
 
-	/**
-	 * 出版时间
-	 */
 	@Getter
 	@Setter
-	private String pubdate;
+	@ApiModelProperty(value = "出版时间")
+	private Date pubdate;
 
-	/**
-	 * 页数
-	 */
 	@Getter
 	@Setter
-	private String page;
+	@ApiModelProperty(value = "页数")
+	private Integer page;
 
-	/**
-	 * 价格
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "价格", example = "CNY 20.01")
+	@JsonDeserialize(using = MoneyJsonDeserializer.class)
+	@JsonSerialize(using = MoneyJsonSerializer.class)
 	private String price;
 
-	/**
-	 * 装帧方式
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "装帧方式")
 	private String binding;
 
-	/**
-	 * ISBN eg. 9787212058937
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "ISBN", example = "9787212058937")
 	private String isbn;
 
-	/**
-	 * ISBN 10位 eg. 7212058939
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "ISBN 10位", example = "721205893")
 	private String isbn10;
 
-	/**
-	 * 主题词 eg. 名人-访问记-中国-现代
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "主题词", example = "名人-访问记-中国-现代")
 	private String keyword;
 
-	/**
-	 * 版次 eg. 1版
-	 */
 	@Getter
 	@Setter
-	private String edition;
+	@ApiModelProperty(value = "版次", example = "1")
+	private Integer edition;
 
-	/**
-	 * 印次
-	 */
 	@Getter
 	@Setter
-	private String impression;
+	@ApiModelProperty(value = "印次", example = "1")
+	private Integer impression;
 
-	/**
-	 * 正文语种
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "正文语种")
 	private String language;
 
-	/**
-	 * 开本 eg. 23×18
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "开本", example = "23×18")
 	private String format;
 
 	@Getter
 	@Setter
+	@Column(length = 5000)
+	@ApiModelProperty(value = "描述", example = "这是一段描述")
 	private String description;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 }

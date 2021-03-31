@@ -24,6 +24,7 @@ import com.useful.person.core.services.TempFileService;
 import com.useful.person.core.services.UserInfoService;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -32,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/upload")
+@Api(value = "OSS controller", tags = { "OSS操作接口" } )
 public class OSSUploadController {
 
 	@Autowired

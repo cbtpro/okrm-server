@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Hobby;
 import com.useful.person.core.services.impl.HobbyServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/hobby")
+@Api(value = "兴趣controller", tags = { "兴趣操作接口" } )
 public class HobbyController {
 
 	@Autowired

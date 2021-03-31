@@ -14,8 +14,11 @@ import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.utils.IdCardUtil;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/utils")
+@Api(value = "验证controller", tags = { "验证操作接口" } )
 public class ValidatorController {
 
 	@GetMapping("/validator/idcardno")

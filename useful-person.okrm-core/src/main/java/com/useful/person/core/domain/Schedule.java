@@ -16,6 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +36,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("计划表模型")
 public class Schedule {
 
 
@@ -41,6 +44,7 @@ public class Schedule {
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	/**
@@ -48,67 +52,56 @@ public class Schedule {
 	 */
 	@Getter
 	@Setter
+	@ApiModelProperty
 	private String event;
 
-	/**
-	 * 是否公开，公开有助于召集到志同道合的朋友
-	 */
 	@Getter
 	@Setter
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
+	@ApiModelProperty(value = "是否公开")
 	private boolean publicity;
 
-	/**
-	 * 开始时间
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "开始时间")
 	private Date startTime;
 
-	/**
-	 * 结束时间
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "结束时间")
 	private Date endTime;
 
-
-	/**
-	 * 地点
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "地点")
 	private String location;
 
-	/**
-	 * 经度
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "经度")
 	private Double longitude;
 
-	/**
-	 * 纬度
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "纬度")
 	private Double latitude;
-	/**
-	 * 描述
-	 */
+
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "描述")
 	private String description;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 }

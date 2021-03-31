@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Event;
 import com.useful.person.core.services.impl.EventServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -22,6 +23,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/event")
+@Api(value = "事件controller", tags = { "事件操作接口" } )
 public class EventController {
 
 	@Autowired
