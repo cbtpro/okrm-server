@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Vocation;
 import com.useful.person.core.services.impl.VocationServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/vocation")
+@Api(value = "职业controller", tags = { "职业操作接口" } )
 public class VocationController {
 
 	@Autowired

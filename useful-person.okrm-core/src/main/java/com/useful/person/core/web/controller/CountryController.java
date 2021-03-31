@@ -13,8 +13,11 @@ import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.Country;
 import com.useful.person.core.services.CountryService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/country")
+@Api(value = "国家和地区controller", tags = { "国家和地区操作接口" } )
 public class CountryController {
 
 	@Autowired

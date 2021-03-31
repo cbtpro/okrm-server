@@ -20,12 +20,15 @@ import com.useful.person.core.domain.ProvinceArea;
 import com.useful.person.core.services.ProvinceAreaService;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
+
 /**
  * @author cbtpro
  *
  */
 @RestController
 @RequestMapping("/province")
+@Api(value = "行政归属controller", tags = { "行政归属操作接口" } )
 public class ProvinceAreaController {
 
 	@Autowired

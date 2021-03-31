@@ -26,12 +26,15 @@ import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.utils.ShortID;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
+
 /**
  * 
  * @author peter
  *
  */
 @RestController
+@Api(value = "登陆controller", tags = { "登陆操作接口" } )
 public class LoginController {
 
 	@Autowired

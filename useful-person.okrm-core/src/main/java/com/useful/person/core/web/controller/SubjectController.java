@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Subject;
 import com.useful.person.core.services.impl.SubjectServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/subject")
+@Api(value = "科目controller", tags = { "科目操作接口" } )
 public class SubjectController {
 
 	@Autowired

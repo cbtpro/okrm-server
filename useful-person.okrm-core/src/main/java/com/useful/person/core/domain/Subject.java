@@ -17,6 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.domain.Persistable;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,32 +29,38 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_subject")
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("学科模型")
 public class Subject implements Persistable<String> {
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty(value = "唯一标识，自动获取")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "学科名称", example = "社会心理学、传播学")
 	private String name;
 
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "描述")
 	private String descirption;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 
 	@Override

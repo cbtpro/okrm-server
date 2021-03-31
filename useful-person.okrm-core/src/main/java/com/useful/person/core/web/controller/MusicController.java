@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Music;
 import com.useful.person.core.services.impl.MusicServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/music")
+@Api(value = "音乐controller", tags = { "音乐操作接口" } )
 public class MusicController {
 
 	@Autowired

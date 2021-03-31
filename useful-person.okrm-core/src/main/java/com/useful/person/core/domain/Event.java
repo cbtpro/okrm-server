@@ -25,6 +25,8 @@ import org.springframework.data.domain.Persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +43,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("事件模型")
 public class Event implements Persistable<String> {
 
 	@Getter
@@ -51,35 +54,43 @@ public class Event implements Persistable<String> {
 	}, inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "uuid") })
 	@JsonIgnoreProperties(value = { "events" })
 	@Builder.Default
+	@ApiModelProperty(value = "标签集合")
 	private Set<Tag> tags = new HashSet<>();
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@Column(nullable = false)
+	@ApiModelProperty(value = "事件标题", required = true)
 	private String title;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "事件内容", required = true)
 	private String content;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "事件描述")
 	private String description;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 
 	@Override

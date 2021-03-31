@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.Major;
 import com.useful.person.core.services.impl.MajorServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/major")
+@Api(value = "专业controller", tags = { "专业操作接口" } )
 public class MajorController {
 
 	@Autowired

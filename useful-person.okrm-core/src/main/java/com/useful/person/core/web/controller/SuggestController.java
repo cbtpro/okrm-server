@@ -15,12 +15,15 @@ import com.useful.person.core.domain.Suggest;
 import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.services.impl.SuggestServiceImpl;
 
+import io.swagger.annotations.Api;
+
 /**
  * @author peter
  *
  */
 @RestController
 @RequestMapping("/suggest")
+@Api(value = "用户建议controller", tags = { "用户建议操作接口" } )
 public class SuggestController {
 
 	@Autowired

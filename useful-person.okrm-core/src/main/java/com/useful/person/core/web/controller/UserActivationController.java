@@ -25,6 +25,7 @@ import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.redis.impl.BasicRedisOperation;
 import com.useful.person.core.validator.mail.MailService;
 
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX)
+@Api(value = "用户激活controller", tags = { "用户激活操作接口" } )
 public class UserActivationController {
 
 	@Autowired
