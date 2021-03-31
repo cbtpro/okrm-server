@@ -21,6 +21,7 @@ import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.Book;
 import com.useful.person.core.services.impl.BookServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/book")
+@Api(value = "书籍controller", tags = { "书籍操作接口" } )
 public class BookController {
 
 	@Autowired

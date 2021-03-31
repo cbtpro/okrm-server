@@ -25,6 +25,7 @@ import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.vo.Address;
 import com.useful.person.core.vo.ResponseData;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -34,6 +35,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController("userController")
 @RequestMapping("/user")
+@Api(value = "用户controller", tags = { "用户操作接口" } )
 public class UserController {
 
 //	@Autowired

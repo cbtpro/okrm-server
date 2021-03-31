@@ -19,6 +19,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +39,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("路线图模型")
 public class LifeRoadMap implements Serializable {
 
 	private static final long serialVersionUID = 9145399565539742425L;
@@ -45,58 +48,52 @@ public class LifeRoadMap implements Serializable {
 	@Setter
 	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
 	@JoinColumn(name = "user_uuid")
+	@ApiModelProperty(value = "用户信息")
 	private UserInfo user;
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
-	/**
-	 * 性别
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "性别", required = true)
 	private int sex;
 
-	/**
-	 * 事件发生年龄
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "事件发生年龄")
 	private int age;
 
-	/**
-	 * 事件
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "事件")
 	private String event;
 
-	/**
-	 * 描述
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "描述")
 	private String description;
 
-	/**
-	 * 第几次
-	 */
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "第几次")
 	private int times;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 
 	public LifeRoadMap(String uuid, int sex, int age, String event, String description, int times, Date updateTime, Date createTime) {

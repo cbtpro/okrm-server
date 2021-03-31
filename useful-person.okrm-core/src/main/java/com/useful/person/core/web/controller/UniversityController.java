@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.useful.person.core.domain.University;
 import com.useful.person.core.services.impl.UniversityServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/college")
+@Api(value = "学院controller", tags = { "学院操作接口" } )
 public class UniversityController {
 
 	@Autowired

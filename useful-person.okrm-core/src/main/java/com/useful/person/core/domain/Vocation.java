@@ -15,9 +15,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,29 +27,32 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_vocation")
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("职业模型")
 public class Vocation {
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "职业名称", example = "程序员")
 	private String vocation;
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
-	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 	
 }

@@ -24,6 +24,7 @@ import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.ChinaCollegeAndUniversity;
 import com.useful.person.core.services.impl.ChinaCollegeAndUniversityServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -32,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/university")
+@Api(value = "高校controller", tags = { "高校操作接口" } )
 public class ChinaCollegeAndUniversityController {
 
 	@Autowired

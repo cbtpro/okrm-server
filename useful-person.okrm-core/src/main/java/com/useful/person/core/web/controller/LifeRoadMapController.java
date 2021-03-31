@@ -21,6 +21,7 @@ import com.useful.person.core.domain.UserInfo;
 import com.useful.person.core.services.impl.LifeRoadMapServiceImpl;
 import com.useful.person.core.vo.LifeRoadMapVO;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -29,6 +30,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/life-road-map")
+@Api(value = "路线图controller", tags = { "路线图操作接口" } )
 public class LifeRoadMapController {
 
 	@Autowired

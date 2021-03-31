@@ -17,6 +17,7 @@ import com.useful.person.core.properties.AppConstants;
 import com.useful.person.core.domain.Tag;
 import com.useful.person.core.services.impl.TagServiceImpl;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -26,6 +27,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/tag")
+@Api(value = "标签controller", tags = { "标签操作接口" } )
 public class TagController {
 
 	@Autowired

@@ -16,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,16 +34,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("大学院系模型")
 public class DepartmentUniversity {
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "院系名称", example = "计算机系")
 	private String name;
 
 	@Getter
@@ -51,12 +56,14 @@ public class DepartmentUniversity {
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 
 }

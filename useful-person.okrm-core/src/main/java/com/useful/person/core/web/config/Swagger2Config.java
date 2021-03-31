@@ -46,6 +46,6 @@ public class Swagger2Config {
 		String url = projectHost + ":" + projectPort;
 		String projectMail = appProperties.getMail();
 		return new ApiInfoBuilder().title(projectName).contact(new Contact(projectName, url, projectMail))
-				.description(projectName + "API").version("0.1").build();
+				.description(projectName + "API").version("0.2").build();
 	}
 }

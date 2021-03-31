@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +43,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+@ApiModel("兴趣爱好模型")
 public class Hobby {
 
 	@Getter
@@ -51,30 +54,36 @@ public class Hobby {
 	}, inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "uuid")})
 	@JsonIgnoreProperties(value = { "hobbys" })
 	@Builder.Default
+	@ApiModelProperty(value = "标签集合")
 	private Set<Tag> tags = new HashSet<>();
 
 	@Id
 	@Getter
 	@Setter
 	@GeneratedValue(generator = "uuid2")
+	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "兴趣标题", required = true)
 	private String title;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "兴趣内容", required = true)
 	private String content;
 
 	@Getter
 	@Setter
+	@ApiModelProperty(value = "兴趣描述")
 	private String description;
 
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
+	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
 	@Getter
@@ -82,5 +91,6 @@ public class Hobby {
 	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 }
