@@ -18,7 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
+import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -69,6 +71,7 @@ public class TempFile implements Serializable {
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	private Date updateTime;
 
 	@Getter
@@ -76,6 +79,7 @@ public class TempFile implements Serializable {
 	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	private Date createTime;
 
 	public boolean isExpired() {
