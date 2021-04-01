@@ -15,6 +15,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,12 +53,14 @@ public class University {
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	private Date createTime;
 	
 }

@@ -31,7 +31,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.joda.money.Money;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -42,6 +41,7 @@ import com.useful.person.core.annotation.SensitiveInfo;
 import com.useful.person.core.constants.UserRole;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.sensitive.SensitiveType;
+import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
 import com.useful.person.core.utils.JsonSerializer.MoneyJsonDeserializer;
 import com.useful.person.core.utils.JsonSerializer.MoneyJsonSerializer;
 import com.useful.person.core.vo.GeneralViews;
@@ -162,6 +162,7 @@ public class UserInfo implements UserDetails {
 	@Setter
 	@JsonView(UserInfoSimpleView.class)
 	@Past(message = "生日必须是过去的时间")
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@ApiModelProperty(value = "生日")
 	private Timestamp birthday;
 
@@ -310,6 +311,7 @@ public class UserInfo implements UserDetails {
 	@Getter
 	@Setter
 	@JsonView(UserInfoDetailView.class)
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@UpdateTimestamp
 	@ApiModelProperty(value = "更新时间，自动获取")
 	private Timestamp updateTime;
@@ -318,7 +320,8 @@ public class UserInfo implements UserDetails {
 	@Setter
 	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@CreationTimestamp
 	@ApiModelProperty(value = "创建时间自动获取")
 	private Timestamp createTime;
