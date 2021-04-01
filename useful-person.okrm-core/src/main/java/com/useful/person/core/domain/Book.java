@@ -17,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
 import com.useful.person.core.utils.JsonSerializer.MoneyJsonDeserializer;
 import com.useful.person.core.utils.JsonSerializer.MoneyJsonSerializer;
 
@@ -150,12 +151,14 @@ public class Book {
 	@Setter
 	@UpdateTimestamp
 	@ApiModelProperty(value = "更新时间，自动获取")
+	@JsonSerialize(using = Date2LongSerializer.class)
 	private Date updateTime;
 
 	@Getter
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 }

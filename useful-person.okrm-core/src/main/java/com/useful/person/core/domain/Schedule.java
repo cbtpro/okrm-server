@@ -16,6 +16,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -95,6 +98,7 @@ public class Schedule {
 	@Getter
 	@Setter
 	@UpdateTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@ApiModelProperty(value = "更新时间，自动获取")
 	private Date updateTime;
 
@@ -102,6 +106,7 @@ public class Schedule {
 	@Setter
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
+	@JsonSerialize(using = Date2LongSerializer.class)
 	@ApiModelProperty(value = "创建时间自动获取")
 	private Date createTime;
 }
