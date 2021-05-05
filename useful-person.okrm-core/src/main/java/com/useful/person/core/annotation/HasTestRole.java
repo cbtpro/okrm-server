@@ -22,4 +22,5 @@ import com.useful.person.core.properties.SecurityConstants;
 @PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "TEST')")
 public @interface HasTestRole {
 
+	String value() default "";
 }

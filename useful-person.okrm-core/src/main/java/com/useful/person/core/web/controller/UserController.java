@@ -49,6 +49,7 @@ public class UserController {
 	public ResponseData<UserInfo> getCurrentUser(Authentication user) {
 		UserInfo currentUser = (UserInfo) user.getPrincipal();
 		UserInfo userInfo = userService.findByUuid(currentUser.getUuid());
+		System.out.println(userInfo.toString());
 		ResponseData<UserInfo> responseData = new ResponseData<UserInfo>(ReturnCode.CORRECT.getCode(), "", userInfo);
 		return responseData;
 	}

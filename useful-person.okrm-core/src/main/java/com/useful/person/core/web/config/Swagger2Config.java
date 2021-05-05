@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
-import com.useful.person.core.annotation.Dev;
 import com.useful.person.core.properties.AppProperties;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author peter
  *
  */
-@Dev
+@Profile("dev")
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {

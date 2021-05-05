@@ -3,6 +3,7 @@ package com.useful.person.core.web.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.domain.Role;
 import com.useful.person.core.domain.UserInfo;
+import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.services.RoleService;
 import com.useful.person.core.vo.ResponseData;
 import com.useful.person.core.vo.RoleRequestVO;
@@ -25,7 +26,7 @@ import com.useful.person.core.web.controller.ControllerConstants;
 
 import io.swagger.annotations.ApiOperation;
 
-@HasAdminRole
+@PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "ADMIN')")
 @RestController
 @RequestMapping("/admin")
 public class RoleController {

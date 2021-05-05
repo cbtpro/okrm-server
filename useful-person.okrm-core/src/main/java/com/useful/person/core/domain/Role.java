@@ -13,7 +13,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.useful.person.core.domain.UserInfo.UserInfoDetailView;
 import com.useful.person.core.utils.JsonSerializer.Date2LongSerializer;
 
 import io.swagger.annotations.ApiModel;
@@ -38,24 +40,28 @@ public class Role implements Serializable {
 	@Id
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@GeneratedValue(generator = "uuid2")
 	@ApiModelProperty("唯一标识")
 	private String uuid;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false)
 	@ApiModelProperty(value = "角色名称", example = "普通用户")
 	private String rolename;
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@ApiModelProperty(value = "角色描述", example = "只拥有查询权限")
 	private String description;
 
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@UpdateTimestamp
 	@JsonSerialize(using = Date2LongSerializer.class)
 	@ApiModelProperty(value = "更新时间，自动获取")
@@ -63,6 +69,7 @@ public class Role implements Serializable {
 
 	@Getter
 	@Setter
+	@JsonView(UserInfoDetailView.class)
 	@Column(nullable = false, insertable = true, updatable = false)
 	@CreationTimestamp
 	@JsonSerialize(using = Date2LongSerializer.class)
