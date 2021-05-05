@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.useful.person.core.annotation.HasAdminRole;
 import com.useful.person.core.domain.Book;
+import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.services.impl.BookServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ import io.swagger.annotations.ApiOperation;
  * @author peter
  *
  */
+@PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "ADMIN')")
 @RestController
 @RequestMapping("/book")
 @Api(value = "书籍controller", tags = { "书籍操作接口" } )
@@ -38,7 +40,6 @@ public class BookController {
 
 	@ApiOperation(value = "查询所有书籍信息")
 	@GetMapping
-	@HasAdminRole
 	public Page<Book> queryAll(
 			@PageableDefault(value = 15, sort = { "title" }, direction = Direction.DESC) Pageable pageable) {
 		return bookService.findAll(pageable);
