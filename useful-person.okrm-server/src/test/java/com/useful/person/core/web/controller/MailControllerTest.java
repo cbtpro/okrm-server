@@ -23,27 +23,27 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MailControllerTest {
 
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	private String email = "peter.chen@useful-person.com";
+    private String email = "peter.chen@useful-person.com";
 
-	@Before
-	public void steup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+    @Before
+    public void steup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
-	@Test
-	public void whenSendMailCodeSucess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_VALUE))
-		.andExpect(status().isOk());
-	};
+    @Test
+    public void whenSendMailCodeSucess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk());
+    };
 
-	@Test
-	public void whenSendMailCodeFail() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email).contentType(MediaType.APPLICATION_JSON_VALUE))
-		.andExpect(status().is5xxServerError());
-	};
+    @Test
+    public void whenSendMailCodeFail() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/code/mail").param("email", email)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().is5xxServerError());
+    };
 }

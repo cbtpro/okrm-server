@@ -33,54 +33,54 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/university")
-@Api(value = "高校controller", tags = { "高校操作接口" } )
+@Api(value = "高校controller", tags = { "高校操作接口" })
 public class ChinaCollegeAndUniversityController {
 
-	@Autowired
-	private ChinaCollegeAndUniversityServiceImpl chinaCollegesAndUniversitiesService;
+    @Autowired
+    private ChinaCollegeAndUniversityServiceImpl chinaCollegesAndUniversitiesService;
 
-	@ApiOperation("查询所有中国高校列表")
-	@GetMapping("/all")
-	public List<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversities() {
-		return chinaCollegesAndUniversitiesService.findAll();
-	}
+    @ApiOperation("查询所有中国高校列表")
+    @GetMapping("/all")
+    public List<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversities() {
+        return chinaCollegesAndUniversitiesService.findAll();
+    }
 
-	@ApiOperation("分页查询所有中国高校列表")
-	@GetMapping
-	public Page<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversityByPageable(
-			@RequestParam(name = "name", required = false) String name,
-			@PageableDefault(value = 15, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
-		if (StringUtils.isBlank(name)) {
-			return chinaCollegesAndUniversitiesService.findAll(pageable);
-		}
-		return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%", pageable);
-	}
+    @ApiOperation("分页查询所有中国高校列表")
+    @GetMapping
+    public Page<ChinaCollegeAndUniversity> queryAllChinaCollegesAndUniversityByPageable(
+            @RequestParam(name = "name", required = false) String name,
+            @PageableDefault(value = 15, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
+        if (StringUtils.isBlank(name)) {
+            return chinaCollegesAndUniversitiesService.findAll(pageable);
+        }
+        return chinaCollegesAndUniversitiesService.findByNameLike("%" + name + "%", pageable);
+    }
 
-	@ApiOperation("批量增加/更新中国高校")
-	@HasAdminRole
-	@PostMapping("/batch")
-	public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
-		return chinaCollegesAndUniversitiesService.saveAll(list);
-	}
+    @ApiOperation("批量增加/更新中国高校")
+    @HasAdminRole
+    @PostMapping("/batch")
+    public List<ChinaCollegeAndUniversity> addAll(@RequestBody List<ChinaCollegeAndUniversity> list) {
+        return chinaCollegesAndUniversitiesService.saveAll(list);
+    }
 
-	@ApiOperation("根据UUID查询高校列表")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public ChinaCollegeAndUniversity queryById(@PathVariable(name = "uuid", required = true) String uuid) {
-		return chinaCollegesAndUniversitiesService.findByUuid(uuid);
-	}
+    @ApiOperation("根据UUID查询高校列表")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public ChinaCollegeAndUniversity queryById(@PathVariable(name = "uuid", required = true) String uuid) {
+        return chinaCollegesAndUniversitiesService.findByUuid(uuid);
+    }
 
-	@ApiOperation("根据uuid更新中国高校")
-	@HasAdminRole
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public ChinaCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody ChinaCollegeAndUniversity entity) {
-		return chinaCollegesAndUniversitiesService.saveOne(entity);
-	}
+    @ApiOperation("根据uuid更新中国高校")
+    @HasAdminRole
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public ChinaCollegeAndUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
+            @RequestBody ChinaCollegeAndUniversity entity) {
+        return chinaCollegesAndUniversitiesService.saveOne(entity);
+    }
 
-	@ApiOperation("新增中国高校")
-	@HasAdminRole
-	@PostMapping
-	public ChinaCollegeAndUniversity add(@RequestBody ChinaCollegeAndUniversity entity) {
-		return chinaCollegesAndUniversitiesService.saveOne(entity);
-	}
+    @ApiOperation("新增中国高校")
+    @HasAdminRole
+    @PostMapping
+    public ChinaCollegeAndUniversity add(@RequestBody ChinaCollegeAndUniversity entity) {
+        return chinaCollegesAndUniversitiesService.saveOne(entity);
+    }
 }

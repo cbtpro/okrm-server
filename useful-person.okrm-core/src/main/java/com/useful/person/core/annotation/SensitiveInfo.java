@@ -17,5 +17,5 @@ import com.useful.person.core.sensitive.SensitiveType;
 @JsonSerialize(using = SensitiveInfoSerialize.class)
 public @interface SensitiveInfo {
 
-	public SensitiveType value();
+    public SensitiveType value();
 }

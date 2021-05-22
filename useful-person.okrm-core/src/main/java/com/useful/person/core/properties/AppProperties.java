@@ -16,29 +16,29 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "okrm.app")
 public class AppProperties {
 
-	private String openPort = "80";
-	@Getter
-	@Setter
-	private String host = "//localhost";
+    private String openPort = "80";
+    @Getter
+    @Setter
+    private String host = "//localhost";
 
-	@Getter
-	@Setter
-	private int port = 8080;
+    @Getter
+    @Setter
+    private int port = 8080;
 
-	@Getter
-	@Setter
-	private String mail;
+    @Getter
+    @Setter
+    private String mail;
 
-	@Getter
-	@Setter
-	private FileProperties file = new FileProperties();
+    @Getter
+    @Setter
+    private FileProperties file = new FileProperties();
 
-	public String getOrigin() {
-		String origin = this.host;
-		String port = StringUtils.trim(String.valueOf(this.port));
-		if (StringUtils.isNotBlank(port) && !openPort.equals(port)) {
-			origin += (":" + this.port);
-		}
-		return  origin;
-	}
+    public String getOrigin() {
+        String origin = this.host;
+        String port = StringUtils.trim(String.valueOf(this.port));
+        if (StringUtils.isNotBlank(port) && !openPort.equals(port)) {
+            origin += (":" + this.port);
+        }
+        return origin;
+    }
 }

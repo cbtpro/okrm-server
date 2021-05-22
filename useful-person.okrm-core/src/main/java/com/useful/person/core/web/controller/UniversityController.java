@@ -25,34 +25,34 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/college")
-@Api(value = "学院controller", tags = { "学院操作接口" } )
+@Api(value = "学院controller", tags = { "学院操作接口" })
 public class UniversityController {
 
-	@Autowired
-	private UniversityServiceImpl universityService;
+    @Autowired
+    private UniversityServiceImpl universityService;
 
-	@ApiOperation("新增学院")
-	@PostMapping
-	public University addUniversity(@RequestBody University entity) {
-		return universityService.saveOne(entity);
-	}
+    @ApiOperation("新增学院")
+    @PostMapping
+    public University addUniversity(@RequestBody University entity) {
+        return universityService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid删除学院")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteUniversityByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		universityService.deleteByUuid(uuid);
-	}
+    @ApiOperation("根据uuid删除学院")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void deleteUniversityByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+        universityService.deleteByUuid(uuid);
+    }
 
-	@ApiOperation("修改学院")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public University updateUniversity(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody University entity) {
-		return universityService.saveOne(entity);
-	}
+    @ApiOperation("修改学院")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public University updateUniversity(@PathVariable(name = "uuid", required = true) String uuid,
+            @RequestBody University entity) {
+        return universityService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid查询学院")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public University queryUniversity(@PathVariable(name = "uuid", required = true) String uuid) {
-		return universityService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询学院")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public University queryUniversity(@PathVariable(name = "uuid", required = true) String uuid) {
+        return universityService.findByUuid(uuid);
+    }
 }

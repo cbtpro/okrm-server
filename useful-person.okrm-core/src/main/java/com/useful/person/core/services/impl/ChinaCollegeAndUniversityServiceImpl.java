@@ -25,59 +25,59 @@ import com.useful.person.core.services.ChinaCollegeAndUniversityService;
 @Service("chinaCollegesAndUniversitiesService")
 @CacheConfig(cacheNames = "chinaCollegeAndUniversity")
 public class ChinaCollegeAndUniversityServiceImpl
-		implements ChinaCollegeAndUniversityService, BasicService<ChinaCollegeAndUniversity> {
+        implements ChinaCollegeAndUniversityService, BasicService<ChinaCollegeAndUniversity> {
 
-	@Autowired
-	private ChinaCollegeAndUniversityRepository chinaCollegesAndUniversitiesRepository;
+    @Autowired
+    private ChinaCollegeAndUniversityRepository chinaCollegesAndUniversitiesRepository;
 
-	@Override
-	@Cacheable
-	public ChinaCollegeAndUniversity findByUuid(String uuid) {
-		return chinaCollegesAndUniversitiesRepository.findById(uuid)
-				.orElseThrow(() -> new ChinaCollegeAndUniversityNotExistException(uuid));
-	}
+    @Override
+    @Cacheable
+    public ChinaCollegeAndUniversity findByUuid(String uuid) {
+        return chinaCollegesAndUniversitiesRepository.findById(uuid)
+                .orElseThrow(() -> new ChinaCollegeAndUniversityNotExistException(uuid));
+    }
 
-	@Override
-	@Cacheable
-	public Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable) {
-		return chinaCollegesAndUniversitiesRepository.findByNameLike(name, pageable);
-	}
+    @Override
+    @Cacheable
+    public Page<ChinaCollegeAndUniversity> findByNameLike(String name, Pageable pageable) {
+        return chinaCollegesAndUniversitiesRepository.findByNameLike(name, pageable);
+    }
 
-	@Override
-	public ChinaCollegeAndUniversity saveOne(ChinaCollegeAndUniversity entity) {
-		return chinaCollegesAndUniversitiesRepository.save(entity);
-	}
+    @Override
+    public ChinaCollegeAndUniversity saveOne(ChinaCollegeAndUniversity entity) {
+        return chinaCollegesAndUniversitiesRepository.save(entity);
+    }
 
-	@Override
-	public List<ChinaCollegeAndUniversity> saveAll(List<ChinaCollegeAndUniversity> entities) {
-		return chinaCollegesAndUniversitiesRepository.saveAll(entities);
-	}
+    @Override
+    public List<ChinaCollegeAndUniversity> saveAll(List<ChinaCollegeAndUniversity> entities) {
+        return chinaCollegesAndUniversitiesRepository.saveAll(entities);
+    }
 
-	@Override
-	public void deleteOne(ChinaCollegeAndUniversity entity) {
-		chinaCollegesAndUniversitiesRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(ChinaCollegeAndUniversity entity) {
+        chinaCollegesAndUniversitiesRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		chinaCollegesAndUniversitiesRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        chinaCollegesAndUniversitiesRepository.deleteById(uuid);
+    }
 
-	@Override
-	@Cacheable
-	public List<ChinaCollegeAndUniversity> findAll() {
-		return chinaCollegesAndUniversitiesRepository.findAll();
-	}
+    @Override
+    @Cacheable
+    public List<ChinaCollegeAndUniversity> findAll() {
+        return chinaCollegesAndUniversitiesRepository.findAll();
+    }
 
-	@Override
-	@Cacheable
-	public Page<ChinaCollegeAndUniversity> findAll(Pageable pageable) {
-		return chinaCollegesAndUniversitiesRepository.findAll(pageable);
-	}
+    @Override
+    @Cacheable
+    public Page<ChinaCollegeAndUniversity> findAll(Pageable pageable) {
+        return chinaCollegesAndUniversitiesRepository.findAll(pageable);
+    }
 
-	@Override
-	public void deleteAll() {
-		chinaCollegesAndUniversitiesRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        chinaCollegesAndUniversitiesRepository.deleteAll();
+    }
 
 }

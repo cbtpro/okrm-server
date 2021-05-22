@@ -32,41 +32,44 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/admin")
 public class UserController {
 
-	@Autowired
-	private UserInfoService userInfoService;
+    @Autowired
+    private UserInfoService userInfoService;
 
-	@PostMapping("/users")
-	@ApiOperation("查询用户列表")
-	public ResponseData<Page<UserInfo>> queryUsers(@RequestBody UsersRequestVO request) {
-		Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
-		Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
-		Long startTime = request.getRegisterTimeFrom();
-		Long endTime = request.getRegisterTimeTo();
-		Page<UserInfo> users = userInfoService.queryUsersPage(pageable, request.getUsername(), request.getNickname(), request.getMobile(), request.getEmail(),
-			startTime != null ? new Date(startTime) : null, endTime != null ? new Date(endTime) : null, request.getEnabled(), request.getRoles());
-		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
-	}
+    @PostMapping("/users")
+    @ApiOperation("查询用户列表")
+    public ResponseData<Page<UserInfo>> queryUsers(@RequestBody UsersRequestVO request) {
+        Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC,
+                request.getSortField());
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
+        Long startTime = request.getRegisterTimeFrom();
+        Long endTime = request.getRegisterTimeTo();
+        Page<UserInfo> users = userInfoService.queryUsersPage(pageable, request.getUsername(), request.getNickname(),
+                request.getMobile(), request.getEmail(), startTime != null ? new Date(startTime) : null,
+                endTime != null ? new Date(endTime) : null, request.getEnabled(), request.getRoles());
+        return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
+    }
 
-	@PostMapping("/admins")
-	@ApiOperation("查询拥有管理权限的用户")
-	public ResponseData<Page<UserInfo>> queryUsersHasAdmin(@RequestBody UsersRequestVO request) {
-		Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC, request.getSortField());
-		Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
-		Page<UserInfo> users = userInfoService.queryUsersHasAdminPage(pageable);
-		return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
-	}
+    @PostMapping("/admins")
+    @ApiOperation("查询拥有管理权限的用户")
+    public ResponseData<Page<UserInfo>> queryUsersHasAdmin(@RequestBody UsersRequestVO request) {
+        Sort sort = Sort.by(request.getSortOrder().equals("ascend") ? Direction.ASC : Direction.DESC,
+                request.getSortField());
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
+        Page<UserInfo> users = userInfoService.queryUsersHasAdminPage(pageable);
+        return new ResponseData<Page<UserInfo>>(ReturnCode.CORRECT.getCode(), null, users);
+    }
 
-	@PutMapping("/admins")
-	@ApiOperation("批量将用户添加进管理员角色")
-	public ResponseData<String> addUsersToAdmin(@RequestBody List<String> usernames) {
-		String msg = userInfoService.addUsernamesToAdmin(usernames);
-		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
-	}
+    @PutMapping("/admins")
+    @ApiOperation("批量将用户添加进管理员角色")
+    public ResponseData<String> addUsersToAdmin(@RequestBody List<String> usernames) {
+        String msg = userInfoService.addUsernamesToAdmin(usernames);
+        return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
+    }
 
-	@DeleteMapping("/admins")
-	@ApiOperation("批量删除用户的管理员角色")
-	public ResponseData<String> removeUsersFromAdmin(@RequestParam(required = true) String uuid) {
-		String msg = userInfoService.removeUserFromAdmin(uuid);
-		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
-	}
+    @DeleteMapping("/admins")
+    @ApiOperation("批量删除用户的管理员角色")
+    public ResponseData<String> removeUsersFromAdmin(@RequestParam(required = true) String uuid) {
+        String msg = userInfoService.removeUserFromAdmin(uuid);
+        return new ResponseData<String>(ReturnCode.CORRECT.getCode(), msg, null);
+    }
 }

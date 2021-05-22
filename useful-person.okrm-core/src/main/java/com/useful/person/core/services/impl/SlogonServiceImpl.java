@@ -21,43 +21,44 @@ import com.useful.person.core.services.SlogonService;
 @Service("slogonService")
 public class SlogonServiceImpl implements SlogonService, BasicService<Slogon> {
 
-	@Autowired
-	private SlogonRepository slogonRepository;
+    @Autowired
+    private SlogonRepository slogonRepository;
 
-	@Override
-	public Slogon saveOne(Slogon entity) {
-		return slogonRepository.save(entity);
-	}
+    @Override
+    public Slogon saveOne(Slogon entity) {
+        return slogonRepository.save(entity);
+    }
 
-	@Override
-	public List<Slogon> saveAll(List<Slogon> entities) {
-		return slogonRepository.saveAll(entities);
-	}
+    @Override
+    public List<Slogon> saveAll(List<Slogon> entities) {
+        return slogonRepository.saveAll(entities);
+    }
 
-	@Override
-	public Slogon findByUuid(String uuid) {
-		return slogonRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "slogon not found"));
-	}
+    @Override
+    public Slogon findByUuid(String uuid) {
+        return slogonRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(uuid, "slogon not found"));
+    }
 
-	@Override
-	public List<Slogon> findAll() {
-		return slogonRepository.findAll();
-	}
+    @Override
+    public List<Slogon> findAll() {
+        return slogonRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(Slogon entity) {
-		slogonRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Slogon entity) {
+        slogonRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		slogonRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        slogonRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void deleteAll() {
+        // TODO Auto-generated method stub
+
+    }
 
 }

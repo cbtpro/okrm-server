@@ -12,14 +12,14 @@ import lombok.Setter;
  */
 public class EmailExistException extends RuntimeException {
 
-	private static final long serialVersionUID = -1291541932789265649L;
+    private static final long serialVersionUID = -1291541932789265649L;
 
-	@Getter
-	@Setter
-	private String email;
+    @Getter
+    @Setter
+    private String email;
 
-	public EmailExistException(String email) {
-		super("email already exist");
-		this.email = email;
-	}
+    public EmailExistException(String email) {
+        super("email already exist");
+        this.email = email;
+    }
 }

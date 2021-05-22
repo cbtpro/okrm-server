@@ -21,46 +21,47 @@ import com.useful.person.core.services.SuggestService;
 @Service(value = "suggestService")
 public class SuggestServiceImpl implements SuggestService, BasicService<Suggest> {
 
-	@Autowired
-	private SuggestRepository suggestRepository;
+    @Autowired
+    private SuggestRepository suggestRepository;
 
-	@Override
-	public Suggest saveOne(Suggest entity) {
-		return suggestRepository.save(entity);
-	}
+    @Override
+    public Suggest saveOne(Suggest entity) {
+        return suggestRepository.save(entity);
+    }
 
-	@Deprecated
-	@Override
-	public List<Suggest> saveAll(List<Suggest> entities) {
-		return suggestRepository.saveAll(entities);
-	}
+    @Deprecated
+    @Override
+    public List<Suggest> saveAll(List<Suggest> entities) {
+        return suggestRepository.saveAll(entities);
+    }
 
-	@Override
-	public Suggest findByUuid(String uuid) {
-		return suggestRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "suggest not found"));
-	}
+    @Override
+    public Suggest findByUuid(String uuid) {
+        return suggestRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(uuid, "suggest not found"));
+    }
 
-	@Override
-	public List<Suggest> findAll() {
-		return suggestRepository.findAll();
-	}
+    @Override
+    public List<Suggest> findAll() {
+        return suggestRepository.findAll();
+    }
 
-	@Deprecated
-	@Override
-	public void deleteOne(Suggest entity) {
-		suggestRepository.delete(entity);
-	}
+    @Deprecated
+    @Override
+    public void deleteOne(Suggest entity) {
+        suggestRepository.delete(entity);
+    }
 
-	@Deprecated
-	@Override
-	public void deleteByUuid(String uuid) {
-		suggestRepository.deleteById(uuid);
-	}
+    @Deprecated
+    @Override
+    public void deleteByUuid(String uuid) {
+        suggestRepository.deleteById(uuid);
+    }
 
-	@Deprecated
-	@Override
-	public void deleteAll() {
-		suggestRepository.deleteAll();
-	}
-	
+    @Deprecated
+    @Override
+    public void deleteAll() {
+        suggestRepository.deleteAll();
+    }
+
 }

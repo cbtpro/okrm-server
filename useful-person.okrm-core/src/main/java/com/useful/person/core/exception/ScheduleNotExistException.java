@@ -12,14 +12,14 @@ import lombok.Setter;
  */
 public class ScheduleNotExistException extends RuntimeException {
 
-	private static final long serialVersionUID = 1953165401002813118L;
+    private static final long serialVersionUID = 1953165401002813118L;
 
-	@Getter
-	@Setter
-	private String uuid;
+    @Getter
+    @Setter
+    private String uuid;
 
-	public ScheduleNotExistException(String uuid) {
-		super("schedule not exist exist");
-		this.uuid = uuid;
-	}
+    public ScheduleNotExistException(String uuid) {
+        super("schedule not exist exist");
+        this.uuid = uuid;
+    }
 }

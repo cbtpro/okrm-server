@@ -21,42 +21,42 @@ import com.useful.person.core.services.MajorService;
 @Service("majorService")
 public class MajorServiceImpl implements MajorService, BasicService<Major> {
 
-	@Autowired
-	private MajorRepository majorRepository;
+    @Autowired
+    private MajorRepository majorRepository;
 
-	@Override
-	public Major saveOne(Major entity) {
-		return majorRepository.save(entity);
-	}
+    @Override
+    public Major saveOne(Major entity) {
+        return majorRepository.save(entity);
+    }
 
-	@Override
-	public List<Major> saveAll(List<Major> entities) {
-		return majorRepository.saveAll(entities);
-	}
+    @Override
+    public List<Major> saveAll(List<Major> entities) {
+        return majorRepository.saveAll(entities);
+    }
 
-	@Override
-	public Major findByUuid(String uuid) {
-		return majorRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "major not found"));
-	}
+    @Override
+    public Major findByUuid(String uuid) {
+        return majorRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "major not found"));
+    }
 
-	@Override
-	public List<Major> findAll() {
-		return majorRepository.findAll();
-	}
+    @Override
+    public List<Major> findAll() {
+        return majorRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(Major entity) {
-		majorRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Major entity) {
+        majorRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		majorRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        majorRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		majorRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        majorRepository.deleteAll();
+    }
 
 }

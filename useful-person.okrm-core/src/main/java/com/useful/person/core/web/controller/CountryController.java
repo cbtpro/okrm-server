@@ -17,27 +17,27 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/country")
-@Api(value = "国家和地区controller", tags = { "国家和地区操作接口" } )
+@Api(value = "国家和地区controller", tags = { "国家和地区操作接口" })
 public class CountryController {
 
-	@Autowired
-	private CountryService countryService;
+    @Autowired
+    private CountryService countryService;
 
-	@GetMapping
-	private List<Country> findAll() {
-		return countryService.findAll();
-	}
+    @GetMapping
+    private List<Country> findAll() {
+        return countryService.findAll();
+    }
 
-	@HasAdminRole
-	@PutMapping("/batch")
-	private List<Country> saveAll(@RequestBody List<Country> countrys) {
-		return countryService.saveAll(countrys);
-	}
+    @HasAdminRole
+    @PutMapping("/batch")
+    private List<Country> saveAll(@RequestBody List<Country> countrys) {
+        return countryService.saveAll(countrys);
+    }
 
-	@HasAdminRole
-	@PutMapping
-	private Country save(@RequestBody Country country) {
-		return countryService.save(country);
-	}
-	
+    @HasAdminRole
+    @PutMapping
+    private Country save(@RequestBody Country country) {
+        return countryService.save(country);
+    }
+
 }

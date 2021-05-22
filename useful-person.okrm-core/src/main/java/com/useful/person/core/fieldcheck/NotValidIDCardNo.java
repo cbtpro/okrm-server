@@ -14,15 +14,19 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 public @interface NotValidIDCardNo {
 
-	/**
-	 * 参数名
-	 * @return
-	 */
-	String message() default "身份证格式不正确";
-	/**
-	 * 分组
-	 * @return
-	 */
-	Class<?>[] groups() default {};
-	Class<? extends Payload>[] payload() default {};
+    /**
+     * 参数名
+     * 
+     * @return
+     */
+    String message() default "身份证格式不正确";
+
+    /**
+     * 分组
+     * 
+     * @return
+     */
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

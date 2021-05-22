@@ -33,56 +33,56 @@ import lombok.Setter;
 @ApiModel("用户建议模型")
 public class Suggest {
 
-	@Getter
-	@Setter
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
-	@JoinColumn(name = "user_uuid")
-	@ApiModelProperty(value = "用户信息")
-	private UserInfo user;
+    @Getter
+    @Setter
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
+    @JoinColumn(name = "user_uuid")
+    @ApiModelProperty(value = "用户信息")
+    private UserInfo user;
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty(value = "唯一标识，自动获取")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty(value = "唯一标识，自动获取")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "联系昵称")
-	private String nickname;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "联系昵称")
+    private String nickname;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "联系微信")
-	private String wechat;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "联系微信")
+    private String wechat;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "联系qq")
-	private String qq;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "联系qq")
+    private String qq;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "联系邮箱")
-	private String email;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "联系邮箱")
+    private String email;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "联系电话")
-	String mobile;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "联系电话")
+    String mobile;
 
-	@Getter
-	@Setter
-	@NotBlank
-	@Column(nullable = false)
-	@ApiModelProperty(value = "建议内容")
-	private String suggest;
+    @Getter
+    @Setter
+    @NotBlank
+    @Column(nullable = false)
+    @ApiModelProperty(value = "建议内容")
+    private String suggest;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 }

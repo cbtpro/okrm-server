@@ -20,21 +20,21 @@ import lombok.Setter;
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class BaseDomain {
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@UpdateTimestamp
-	@ApiModelProperty(value = "更新时间，自动获取")
-	@JsonSerialize(using = Date2LongSerializer.class)
-	private Date updateTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @UpdateTimestamp
+    @ApiModelProperty(value = "更新时间，自动获取")
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 
 }

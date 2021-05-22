@@ -32,41 +32,40 @@ import io.swagger.annotations.ApiOperation;
 @PreAuthorize("hasRole('" + SecurityConstants.DEFAULT_ROLE_NAME_PREFIX + "ADMIN')")
 @RestController
 @RequestMapping("/book")
-@Api(value = "书籍controller", tags = { "书籍操作接口" } )
+@Api(value = "书籍controller", tags = { "书籍操作接口" })
 public class BookController {
 
-	@Autowired
-	private BookServiceImpl bookService;
+    @Autowired
+    private BookServiceImpl bookService;
 
-	@ApiOperation(value = "查询所有书籍信息")
-	@GetMapping
-	public Page<Book> queryAll(
-			@PageableDefault(value = 15, sort = { "title" }, direction = Direction.DESC) Pageable pageable) {
-		return bookService.findAll(pageable);
-	}
+    @ApiOperation(value = "查询所有书籍信息")
+    @GetMapping
+    public Page<Book> queryAll(
+            @PageableDefault(value = 15, sort = { "title" }, direction = Direction.DESC) Pageable pageable) {
+        return bookService.findAll(pageable);
+    }
 
-	@ApiOperation(value = "根据uuid查询书籍")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Book queryBookByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		return bookService.findOne(uuid);
-	}
+    @ApiOperation(value = "根据uuid查询书籍")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Book queryBookByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+        return bookService.findOne(uuid);
+    }
 
-	@ApiOperation(value = "新增/更新一本书籍")
-	@PostMapping
-	public Book createBook(@RequestBody Book book) {
-		return bookService.saveOne(book);
-	}
+    @ApiOperation(value = "新增/更新一本书籍")
+    @PostMapping
+    public Book createBook(@RequestBody Book book) {
+        return bookService.saveOne(book);
+    }
 
-	@ApiOperation(value = "根据uuid更新书籍")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Book updateBook(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Book entity) {
-		return bookService.saveOne(entity);
-	}
+    @ApiOperation(value = "根据uuid更新书籍")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Book updateBook(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Book entity) {
+        return bookService.saveOne(entity);
+    }
 
-	@ApiOperation(value = "删除书籍")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteBook(@PathVariable(name = "uuid", required = true) String uuid) {
-		bookService.deleteByUuid(uuid);
-	}
+    @ApiOperation(value = "删除书籍")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void deleteBook(@PathVariable(name = "uuid", required = true) String uuid) {
+        bookService.deleteByUuid(uuid);
+    }
 }

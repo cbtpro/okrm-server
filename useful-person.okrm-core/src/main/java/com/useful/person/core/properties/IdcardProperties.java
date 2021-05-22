@@ -12,23 +12,23 @@ import lombok.Setter;
  */
 public class IdcardProperties {
 
-	@Getter
-	@Setter
-	private String host = "https://idcard.market.alicloudapi.com";
+    @Getter
+    @Setter
+    private String host = "https://idcard.market.alicloudapi.com";
 
-	@Getter
-	@Setter
-	private String path = "/lianzhuo/idcard";
+    @Getter
+    @Setter
+    private String path = "/lianzhuo/idcard";
 
-	@Getter
-	@Setter
-	private String appCode;
+    @Getter
+    @Setter
+    private String appCode;
 
-	@Getter
-	@Setter
-	private String appKey;
+    @Getter
+    @Setter
+    private String appKey;
 
-	@Getter
-	@Setter
-	private String appSecret;
+    @Getter
+    @Setter
+    private String appSecret;
 }

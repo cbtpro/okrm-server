@@ -25,34 +25,33 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/major")
-@Api(value = "专业controller", tags = { "专业操作接口" } )
+@Api(value = "专业controller", tags = { "专业操作接口" })
 public class MajorController {
 
-	@Autowired
-	private MajorServiceImpl majorService;
+    @Autowired
+    private MajorServiceImpl majorService;
 
-	@ApiOperation("根据uuid查询大学专业")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Major query(@PathVariable(name = "uuid", required = true) String uuid) {
-		return majorService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询大学专业")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Major query(@PathVariable(name = "uuid", required = true) String uuid) {
+        return majorService.findByUuid(uuid);
+    }
 
-	@ApiOperation("新增大学专业")
-	@PostMapping
-	public Major addMajor(@RequestBody Major entity) {
-		return majorService.saveOne(entity);
-	}
+    @ApiOperation("新增大学专业")
+    @PostMapping
+    public Major addMajor(@RequestBody Major entity) {
+        return majorService.saveOne(entity);
+    }
 
-	@ApiOperation("修改大学专业")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Major updateMajor(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Major entity) {
-		return majorService.saveOne(entity);
-	}
+    @ApiOperation("修改大学专业")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Major updateMajor(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Major entity) {
+        return majorService.saveOne(entity);
+    }
 
-	@ApiOperation("删除大学专业")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteMajor(@PathVariable(name = "uuid", required = true) String uuid) {
-		majorService.deleteByUuid(uuid);
-	}
+    @ApiOperation("删除大学专业")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void deleteMajor(@PathVariable(name = "uuid", required = true) String uuid) {
+        majorService.deleteByUuid(uuid);
+    }
 }

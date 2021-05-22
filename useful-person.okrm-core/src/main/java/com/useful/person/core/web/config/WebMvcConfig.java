@@ -1,4 +1,5 @@
 package com.useful.person.core.web.config;
+
 //package com.useful_person.web.config;
 //
 //import org.springframework.beans.factory.annotation.Autowired;

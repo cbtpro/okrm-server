@@ -35,46 +35,45 @@ import lombok.Setter;
 @ApiModel("学科模型")
 public class Subject implements Persistable<String> {
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty(value = "唯一标识，自动获取")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty(value = "唯一标识，自动获取")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "学科名称", example = "社会心理学、传播学")
-	private String name;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "学科名称", example = "社会心理学、传播学")
+    private String name;
 
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "描述")
+    private String descirption;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "描述")
-	private String descirption;
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Override
+    public String getId() {
+        return this.uuid;
+    }
 
-	@Override
-	public String getId() {
-		return this.uuid;
-	}
-
-	@Override
-	public boolean isNew() {
-		return StringUtils.isBlank(this.uuid);
-	}
+    @Override
+    public boolean isNew() {
+        return StringUtils.isBlank(this.uuid);
+    }
 }

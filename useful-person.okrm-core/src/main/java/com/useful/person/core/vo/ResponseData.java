@@ -23,30 +23,30 @@ import lombok.Setter;
 @ApiModel("VO响应数据")
 public class ResponseData<T> implements Serializable {
 
-	private static final long serialVersionUID = -6079487872936692537L;
+    private static final long serialVersionUID = -6079487872936692537L;
 
-	/**
-	 * 返回代码 {@link com.useful.person.core.constants.ReturnCode}
-	 */
-	@Getter
-	@Setter
-	@JsonView(GeneralViews.IErrorView.class)
-	@ApiModelProperty(value = "返回代码", example = "0")
-	private int code;
+    /**
+     * 返回代码 {@link com.useful.person.core.constants.ReturnCode}
+     */
+    @Getter
+    @Setter
+    @JsonView(GeneralViews.IErrorView.class)
+    @ApiModelProperty(value = "返回代码", example = "0")
+    private int code;
 
-	@Getter
-	@Setter
-	@JsonView(GeneralViews.IErrorView.class)
-	@ApiModelProperty(value = "文字消息")
-	private String content;
+    @Getter
+    @Setter
+    @JsonView(GeneralViews.IErrorView.class)
+    @ApiModelProperty(value = "文字消息")
+    private String content;
 
-	/**
-	 * 返回结果，如果有的话
-	 */
-	@Getter
-	@Setter
-	@JsonView(GeneralViews.INormalView.class)
-	@ApiModelProperty(value = "返回结果")
-	private T data;
+    /**
+     * 返回结果，如果有的话
+     */
+    @Getter
+    @Setter
+    @JsonView(GeneralViews.INormalView.class)
+    @ApiModelProperty(value = "返回结果")
+    private T data;
 
 }

@@ -32,96 +32,97 @@ import com.useful.person.core.validator.code.ValidatorCodeException;
  */
 public class EmailCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	private EmailCodeRedisOperation emailCodeRedisOperation;
+    private EmailCodeRedisOperation emailCodeRedisOperation;
 
-	private AuthenticationFailureHandler authenticationFailureHandler;
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
-	private Set<String> urls = new HashSet<>();
+    private Set<String> urls = new HashSet<>();
 
-	private SecurityProperties securityProperties;
+    private SecurityProperties securityProperties;
 
-	private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-	@Override
-	public void afterPropertiesSet() throws ServletException {
-		super.afterPropertiesSet();
-		String needCodeUrls = securityProperties.getMail().getCode().getUrl();
-		String[] configUrls = needCodeUrls.split(",");
-		for (String configUrl : configUrls) {
-			urls.add(configUrl);
-		}
-	}
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        String needCodeUrls = securityProperties.getMail().getCode().getUrl();
+        String[] configUrls = needCodeUrls.split(",");
+        for (String configUrl : configUrls) {
+            urls.add(configUrl);
+        }
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		boolean action = false;
-		String requestUri = request.getRequestURI();
-		for (String url : urls) {
-			if (antPathMatcher.match(url, requestUri)) {
-				action = true;
-				break;
-			}
-		}
-		if (action) {
-			try {
-				validate(new ServletWebRequest(request));
-			} catch (ValidatorCodeException e) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, e);
-				return;
-			}
-		}
-		filterChain.doFilter(request, response);
-	}
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        boolean action = false;
+        String requestUri = request.getRequestURI();
+        for (String url : urls) {
+            if (antPathMatcher.match(url, requestUri)) {
+                action = true;
+                break;
+            }
+        }
+        if (action) {
+            try {
+                validate(new ServletWebRequest(request));
+            } catch (ValidatorCodeException e) {
+                authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                return;
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
 
-	public void validate(ServletWebRequest request) throws ServletRequestBindingException {
-		String emailCodeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_EMAIL);
-		if (StringUtils.isBlank(emailCodeInRequest)) {
-			throw new ValidatorCodeException("邮箱验证码不能为空！");
-		}
-		EmailCode emailCodeInRedis = (EmailCode) emailCodeRedisOperation.get(request);
-		if (emailCodeInRedis == null) {
-			throw new ValidatorCodeException("邮箱验证码不存在");
-		}
-		if (emailCodeInRedis.isExpired()) {
-			throw new ValidatorCodeException("邮箱验证码已过期");
-		}
-		if (!StringUtils.equalsIgnoreCase(emailCodeInRedis.getCode(), emailCodeInRequest)) {
-			throw new ValidatorCodeException("邮箱验证码不匹配");
-		}
-		emailCodeRedisOperation.remove(request);
-	}
+    public void validate(ServletWebRequest request) throws ServletRequestBindingException {
+        String emailCodeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),
+                SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_EMAIL);
+        if (StringUtils.isBlank(emailCodeInRequest)) {
+            throw new ValidatorCodeException("邮箱验证码不能为空！");
+        }
+        EmailCode emailCodeInRedis = (EmailCode) emailCodeRedisOperation.get(request);
+        if (emailCodeInRedis == null) {
+            throw new ValidatorCodeException("邮箱验证码不存在");
+        }
+        if (emailCodeInRedis.isExpired()) {
+            throw new ValidatorCodeException("邮箱验证码已过期");
+        }
+        if (!StringUtils.equalsIgnoreCase(emailCodeInRedis.getCode(), emailCodeInRequest)) {
+            throw new ValidatorCodeException("邮箱验证码不匹配");
+        }
+        emailCodeRedisOperation.remove(request);
+    }
 
-	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
-		return authenticationFailureHandler;
-	}
+    public AuthenticationFailureHandler getAuthenticationFailureHandler() {
+        return authenticationFailureHandler;
+    }
 
-	public SecurityProperties getSecurityProperties() {
-		return securityProperties;
-	}
+    public SecurityProperties getSecurityProperties() {
+        return securityProperties;
+    }
 
-	public Set<String> getUrls() {
-		return urls;
-	}
+    public Set<String> getUrls() {
+        return urls;
+    }
 
-	public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
-		this.authenticationFailureHandler = authenticationFailureHandler;
-	}
+    public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
-	public void setSecurityProperties(SecurityProperties securityProperties) {
-		this.securityProperties = securityProperties;
-	}
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
-	public void setUrls(Set<String> urls) {
-		this.urls = urls;
-	}
+    public void setUrls(Set<String> urls) {
+        this.urls = urls;
+    }
 
-	public EmailCodeRedisOperation getEmailCodeRedisOperation() {
-		return emailCodeRedisOperation;
-	}
+    public EmailCodeRedisOperation getEmailCodeRedisOperation() {
+        return emailCodeRedisOperation;
+    }
 
-	public void setEmailCodeRedisOperation(EmailCodeRedisOperation emailCodeRedisOperation) {
-		this.emailCodeRedisOperation = emailCodeRedisOperation;
-	}
+    public void setEmailCodeRedisOperation(EmailCodeRedisOperation emailCodeRedisOperation) {
+        this.emailCodeRedisOperation = emailCodeRedisOperation;
+    }
 
 }

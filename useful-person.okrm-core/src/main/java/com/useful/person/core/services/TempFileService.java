@@ -7,6 +7,6 @@ import com.useful.person.core.domain.UserInfo;
 
 public interface TempFileService {
 
-	TempFile uploadFile(UserInfo currentUser, MultipartFile file, boolean compress);
+    TempFile uploadFile(UserInfo currentUser, MultipartFile file, boolean compress);
 
 }

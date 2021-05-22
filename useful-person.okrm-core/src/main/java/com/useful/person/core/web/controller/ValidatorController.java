@@ -18,25 +18,26 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/utils")
-@Api(value = "验证controller", tags = { "验证操作接口" } )
+@Api(value = "验证controller", tags = { "验证操作接口" })
 public class ValidatorController {
 
-	@GetMapping("/validator/idcardno")
-	public Callable<ResponseData<String>> validatorIdcardNo(@RequestParam(required = true) String idcardno, HttpServletResponse response) {
-		Callable<ResponseData<String>> callable = new Callable<>() {
-			@Override
-			public ResponseData<String> call() throws Exception {
-				ResponseData<String> responseData = null;
-				boolean flag = IdCardUtil.checkIdCardNo(idcardno);
-				if (flag) {
-					responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(), "身份证号正确！", "");
-				} else {
-					response.setStatus(HttpStatus.BAD_REQUEST.value());
-					responseData = new ResponseData<String>(ReturnCode.ERROR.getCode(), "身份证号不正确", "");
-				}
-				return responseData;
-			}
-		};
-		return callable;
-	}
+    @GetMapping("/validator/idcardno")
+    public Callable<ResponseData<String>> validatorIdcardNo(@RequestParam(required = true) String idcardno,
+            HttpServletResponse response) {
+        Callable<ResponseData<String>> callable = new Callable<>() {
+            @Override
+            public ResponseData<String> call() throws Exception {
+                ResponseData<String> responseData = null;
+                boolean flag = IdCardUtil.checkIdCardNo(idcardno);
+                if (flag) {
+                    responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(), "身份证号正确！", "");
+                } else {
+                    response.setStatus(HttpStatus.BAD_REQUEST.value());
+                    responseData = new ResponseData<String>(ReturnCode.ERROR.getCode(), "身份证号不正确", "");
+                }
+                return responseData;
+            }
+        };
+        return callable;
+    }
 }

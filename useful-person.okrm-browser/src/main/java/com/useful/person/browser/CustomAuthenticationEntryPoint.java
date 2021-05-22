@@ -17,14 +17,15 @@ import com.useful.person.core.vo.ResponseData;
 
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(ContentType.CONTENT_TYPE_JSON);
-		ResponseData<String> responseData = new ResponseData<>(ReturnCode.ERROR.getCode(), "用户未登录！", authException.getLocalizedMessage());
-		Gson gson = new Gson();
-		response.getWriter().write(gson.toJson(responseData));
-	}
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(ContentType.CONTENT_TYPE_JSON);
+        ResponseData<String> responseData = new ResponseData<>(ReturnCode.ERROR.getCode(), "用户未登录！",
+                authException.getLocalizedMessage());
+        Gson gson = new Gson();
+        response.getWriter().write(gson.toJson(responseData));
+    }
 
 }

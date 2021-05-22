@@ -34,7 +34,7 @@ public class Request {
     public Request(Method method, String host, String path, String appKey, String appSecret, int timeout) {
         this.method = method;
         this.host = host;
-        this.path = path;        
+        this.path = path;
         this.appKey = appKey;
         this.appSecret = appSecret;
         this.timeout = timeout;
@@ -49,7 +49,7 @@ public class Request {
      * （必选）Host
      */
     private String host;
-    
+
     /**
      * （必选）Path
      */
@@ -74,7 +74,7 @@ public class Request {
      * （可选） HTTP头
      */
     private Map<String, String> headers;
-    
+
     /**
      * （可选） Querys
      */
@@ -115,7 +115,7 @@ public class Request {
     public void setPath(String path) {
         this.path = path;
     }
-    
+
     public String getPath() {
         return path;
     }
@@ -155,7 +155,7 @@ public class Request {
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
-    
+
     public Map<String, String> getQuerys() {
         return querys;
     }
@@ -163,7 +163,7 @@ public class Request {
     public void setQuerys(Map<String, String> querys) {
         this.querys = querys;
     }
-    
+
     public Map<String, String> getBodys() {
         return bodys;
     }

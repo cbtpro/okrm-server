@@ -23,47 +23,47 @@ import com.useful.person.core.vo.LifeRoadMapVO;
 @Service("lifeRoadMapService")
 public class LifeRoadMapServiceImpl implements LifeRoadMapService, BasicService<LifeRoadMap> {
 
-	@Autowired
-	private LifeRoadMapRepository lifeRoadMapRepository;
+    @Autowired
+    private LifeRoadMapRepository lifeRoadMapRepository;
 
-	@Override
-	public LifeRoadMap saveOne(LifeRoadMap entity) {
-		return lifeRoadMapRepository.save(entity);
-	}
+    @Override
+    public LifeRoadMap saveOne(LifeRoadMap entity) {
+        return lifeRoadMapRepository.save(entity);
+    }
 
-	@Override
-	public List<LifeRoadMap> saveAll(List<LifeRoadMap> entities) {
-		return lifeRoadMapRepository.saveAll(entities);
-	}
+    @Override
+    public List<LifeRoadMap> saveAll(List<LifeRoadMap> entities) {
+        return lifeRoadMapRepository.saveAll(entities);
+    }
 
-	@Override
-	public LifeRoadMap findByUuid(String uuid) {
-		return lifeRoadMapRepository.findById(uuid)
-				.orElseThrow(() -> new ResourceNotFoundException(uuid, "life road map not found"));
-	}
+    @Override
+    public LifeRoadMap findByUuid(String uuid) {
+        return lifeRoadMapRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(uuid, "life road map not found"));
+    }
 
-	@Override
-	public List<LifeRoadMap> findAll() {
-		return lifeRoadMapRepository.findAll();
-	}
+    @Override
+    public List<LifeRoadMap> findAll() {
+        return lifeRoadMapRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(LifeRoadMap entity) {
-		lifeRoadMapRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(LifeRoadMap entity) {
+        lifeRoadMapRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		lifeRoadMapRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        lifeRoadMapRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		lifeRoadMapRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        lifeRoadMapRepository.deleteAll();
+    }
 
-	public List<LifeRoadMapVO> findAllMyLifeRoadMap(UserInfo currentUser) {
-		List<LifeRoadMapVO> list = lifeRoadMapRepository.findByUser(currentUser);
-		return list;
-	}
+    public List<LifeRoadMapVO> findAllMyLifeRoadMap(UserInfo currentUser) {
+        List<LifeRoadMapVO> list = lifeRoadMapRepository.findByUser(currentUser);
+        return list;
+    }
 }

@@ -17,32 +17,32 @@ import com.useful.person.core.authentication.services.impl.UserDetailsServiceImp
  */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		SmsCodeAuthenticationToken smsCodeAuthenticationToken = (SmsCodeAuthenticationToken) authentication;
-		UserDetails user = userDetailsService.loadUserByMobile((String) smsCodeAuthenticationToken.getPrincipal());
-		if (user == null) {
-			throw new InternalAuthenticationServiceException("无法获取手机号注册信息");
-		}
-		SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
-		authenticationResult.setDetails(smsCodeAuthenticationToken.getDetails());
-		return authenticationResult;
-	}
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        SmsCodeAuthenticationToken smsCodeAuthenticationToken = (SmsCodeAuthenticationToken) authentication;
+        UserDetails user = userDetailsService.loadUserByMobile((String) smsCodeAuthenticationToken.getPrincipal());
+        if (user == null) {
+            throw new InternalAuthenticationServiceException("无法获取手机号注册信息");
+        }
+        SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
+        authenticationResult.setDetails(smsCodeAuthenticationToken.getDetails());
+        return authenticationResult;
+    }
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
-	}
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
+    }
 
-	public UserDetailsService getUserDetailsService() {
-		return userDetailsService;
-	}
+    public UserDetailsService getUserDetailsService() {
+        return userDetailsService;
+    }
 
-	public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
-		this.userDetailsService = (UserDetailsServiceImpl) userDetailsService;
-	}
+    public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = (UserDetailsServiceImpl) userDetailsService;
+    }
 
 }

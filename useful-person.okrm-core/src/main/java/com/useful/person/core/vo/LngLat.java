@@ -5,11 +5,11 @@ import lombok.Setter;
 
 public class LngLat {
 
-	@Getter
-	@Setter
-	public Double longitude;
+    @Getter
+    @Setter
+    public Double longitude;
 
-	@Getter
-	@Setter
-	public Double latitude;
+    @Getter
+    @Setter
+    public Double latitude;
 }

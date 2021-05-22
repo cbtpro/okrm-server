@@ -21,42 +21,43 @@ import com.useful.person.core.services.SubjectService;
 @Service("subjectService")
 public class SubjectServiceImpl implements SubjectService, BasicService<Subject> {
 
-	@Autowired
-	private SubjectRepository subjectRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
-	@Override
-	public Subject saveOne(Subject entity) {
-		return subjectRepository.save(entity);
-	}
+    @Override
+    public Subject saveOne(Subject entity) {
+        return subjectRepository.save(entity);
+    }
 
-	@Override
-	public List<Subject> saveAll(List<Subject> entities) {
-		return subjectRepository.saveAll(entities);
-	}
+    @Override
+    public List<Subject> saveAll(List<Subject> entities) {
+        return subjectRepository.saveAll(entities);
+    }
 
-	@Override
-	public Subject findByUuid(String uuid) {
-		return subjectRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "subject not found"));
-	}
+    @Override
+    public Subject findByUuid(String uuid) {
+        return subjectRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(uuid, "subject not found"));
+    }
 
-	@Override
-	public List<Subject> findAll() {
-		return subjectRepository.findAll();
-	}
+    @Override
+    public List<Subject> findAll() {
+        return subjectRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(Subject entity) {
-		subjectRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Subject entity) {
+        subjectRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		subjectRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        subjectRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		subjectRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        subjectRepository.deleteAll();
+    }
 
 }

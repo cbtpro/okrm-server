@@ -24,29 +24,28 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/schedule")
-@Api(value = "计划controller", tags = { "计划操作接口" } )
+@Api(value = "计划controller", tags = { "计划操作接口" })
 public class ScheduleController {
 
-	@Autowired
-	private ScheduleServiceImpl scheduleService;
+    @Autowired
+    private ScheduleServiceImpl scheduleService;
 
-	@ApiOperation("根据UUID查询日程")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Schedule queryById(@PathVariable(name = "uuid", required = true) String uuid) {
-		return scheduleService.findByUuid(uuid);
-	}
+    @ApiOperation("根据UUID查询日程")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Schedule queryById(@PathVariable(name = "uuid", required = true) String uuid) {
+        return scheduleService.findByUuid(uuid);
+    }
 
-	@ApiOperation("新增日程")
-	@PostMapping
-	public Schedule add(@RequestBody Schedule entity) {
-		return scheduleService.saveOne(entity);
-	}
+    @ApiOperation("新增日程")
+    @PostMapping
+    public Schedule add(@RequestBody Schedule entity) {
+        return scheduleService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid更新日程")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Schedule updateOne(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Schedule entity) {
-		return scheduleService.saveOne(entity);
-	}
+    @ApiOperation("根据uuid更新日程")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Schedule updateOne(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Schedule entity) {
+        return scheduleService.saveOne(entity);
+    }
 
 }

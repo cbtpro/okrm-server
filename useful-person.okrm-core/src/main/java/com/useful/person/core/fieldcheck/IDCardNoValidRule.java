@@ -7,9 +7,9 @@ import com.useful.person.core.utils.IdCardUtil;
 
 public class IDCardNoValidRule implements ConstraintValidator<NotValidIDCardNo, String> {
 
-	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
-		return IdCardUtil.checkIdCardNo(value);
-	}
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return IdCardUtil.checkIdCardNo(value);
+    }
 
 }

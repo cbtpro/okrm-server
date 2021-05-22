@@ -21,42 +21,43 @@ import com.useful.person.core.services.UniversityService;
 @Service("universityService")
 public class UniversityServiceImpl implements UniversityService, BasicService<University> {
 
-	@Autowired
-	private UniversityRepository universityRepository;
+    @Autowired
+    private UniversityRepository universityRepository;
 
-	@Override
-	public University saveOne(University entity) {
-		return universityRepository.save(entity);
-	}
+    @Override
+    public University saveOne(University entity) {
+        return universityRepository.save(entity);
+    }
 
-	@Override
-	public List<University> saveAll(List<University> entities) {
-		return universityRepository.saveAll(entities);
-	}
+    @Override
+    public List<University> saveAll(List<University> entities) {
+        return universityRepository.saveAll(entities);
+    }
 
-	@Override
-	public University findByUuid(String uuid) {
-		return universityRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "university not found"));
-	}
+    @Override
+    public University findByUuid(String uuid) {
+        return universityRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException(uuid, "university not found"));
+    }
 
-	@Override
-	public List<University> findAll() {
-		return universityRepository.findAll();
-	}
+    @Override
+    public List<University> findAll() {
+        return universityRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(University entity) {
-		universityRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(University entity) {
+        universityRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		universityRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        universityRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		universityRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        universityRepository.deleteAll();
+    }
 
 }

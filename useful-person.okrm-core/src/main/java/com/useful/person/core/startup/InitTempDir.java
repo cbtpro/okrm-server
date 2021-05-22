@@ -15,18 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class InitTempDir implements CommandLineRunner {
 
-  @Autowired
-  private AppProperties appProperties;
+    @Autowired
+    private AppProperties appProperties;
 
-  @Override
-  public void run(String... args) throws Exception {
-    TempProperties tempProperties = appProperties.getFile().getTemp();
-    String tempDirPath = tempProperties.getDir();
-    File tempDir = new File(tempDirPath);
-    if (!tempDir.exists()) {
-      tempDir.mkdir();
-      log.info("图片临时文件夹不存在，创建临时文件夹");
+    @Override
+    public void run(String... args) throws Exception {
+        TempProperties tempProperties = appProperties.getFile().getTemp();
+        String tempDirPath = tempProperties.getDir();
+        File tempDir = new File(tempDirPath);
+        if (!tempDir.exists()) {
+            tempDir.mkdir();
+            log.info("图片临时文件夹不存在，创建临时文件夹");
+        }
     }
-  }
 
 }

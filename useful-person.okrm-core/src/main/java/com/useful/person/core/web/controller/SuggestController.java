@@ -23,18 +23,18 @@ import io.swagger.annotations.Api;
  */
 @RestController
 @RequestMapping("/suggest")
-@Api(value = "用户建议controller", tags = { "用户建议操作接口" } )
+@Api(value = "用户建议controller", tags = { "用户建议操作接口" })
 public class SuggestController {
 
-	@Autowired
-	private SuggestServiceImpl suggestService;
+    @Autowired
+    private SuggestServiceImpl suggestService;
 
-	@PostMapping
-	public Suggest saveSuggest(@RequestBody Suggest suggest, Authentication user) {
-		if (!StringUtils.isEmpty(user)) {
-			UserInfo currentUser = (UserInfo) user.getPrincipal();
-			suggest.setUser(currentUser);
-		}
-		return suggestService.saveOne(suggest);
-	}
+    @PostMapping
+    public Suggest saveSuggest(@RequestBody Suggest suggest, Authentication user) {
+        if (!StringUtils.isEmpty(user)) {
+            UserInfo currentUser = (UserInfo) user.getPrincipal();
+            suggest.setUser(currentUser);
+        }
+        return suggestService.saveOne(suggest);
+    }
 }
