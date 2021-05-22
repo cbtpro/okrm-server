@@ -35,6 +35,10 @@ spring:
       request-timeout: 120000
   profiles:
     active: dev
+  messages:
+    basename: classpath:resources/i18n/messages
+    use-code-as-default-message: true
+    encoding: UTF-8
   servlet:
     multipart:
       max-file-size: 20MB

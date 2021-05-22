@@ -16,9 +16,11 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.useful.person.browser.support.SimpleResponse;
+import com.useful.person.core.constants.ReturnCode;
+import com.useful.person.core.i18n.MessageSourceHandler;
 import com.useful.person.core.properties.SecurityProperties;
 import com.useful.person.core.properties.SigninType;
+import com.useful.person.core.vo.ResponseData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,37 +33,41 @@ import lombok.extern.slf4j.Slf4j;
 @Component("okrmAuthenticationFailureHandler")
 public class OkrmAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
-		Enumeration<String> parameterNames = request.getParameterNames();
-		StringBuffer logSb = new StringBuffer("");
-		while(parameterNames.hasMoreElements()) {
-			String parameterName = parameterNames.nextElement();
-			String  parameterValue = request.getParameter(parameterName);
-			if ("password".equals(parameterName)) {
-				parameterValue = "*".repeat(parameterValue.length());
-			}
-			if (logSb.length() > 0) {
-				logSb.append(", ");
-			}
-			logSb.append(parameterName + ": " + parameterValue);
-		}
-		log.info("登陆失败，参数：" + logSb);
-		if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
-			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-		} else {
-			super.onAuthenticationFailure(request, response, exception);
-		}
-	}
+    @Autowired
+    private MessageSourceHandler messageSourceHandler;
+
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException exception) throws IOException, ServletException {
+        Enumeration<String> parameterNames = request.getParameterNames();
+        StringBuffer logSb = new StringBuffer("");
+        while (parameterNames.hasMoreElements()) {
+            String parameterName = parameterNames.nextElement();
+            String parameterValue = request.getParameter(parameterName);
+            if ("password".equals(parameterName)) {
+                parameterValue = "*".repeat(parameterValue.length());
+            }
+            if (logSb.length() > 0) {
+                logSb.append(", ");
+            }
+            logSb.append(parameterName + ": " + parameterValue);
+        }
+        log.info("登陆失败，参数：" + logSb);
+        if (SigninType.JSON.equals(securityProperties.getBrowser().getSigninType())) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+            response.getWriter().write(objectMapper
+                    .writeValueAsString(new ResponseData<>(ReturnCode.ERROR.getCode(), messageSourceHandler.getMessage(exception.getMessage()))));
+        } else {
+            super.onAuthenticationFailure(request, response, exception);
+        }
+    }
 
 }
