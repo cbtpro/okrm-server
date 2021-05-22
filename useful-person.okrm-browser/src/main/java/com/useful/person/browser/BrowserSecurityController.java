@@ -30,29 +30,29 @@ import com.useful.person.core.properties.SecurityProperties;
 @RestController
 public class BrowserSecurityController {
 
-	private static String HTML_SUFFIX = ".html";
+    private static String HTML_SUFFIX = ".html";
 
-	private RequestCache requestCache = new HttpSessionRequestCache();
+    private RequestCache requestCache = new HttpSessionRequestCache();
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 
-	@CrossOrigin // 允许302后的接口跨域访问，解决前端跨域访问的问题
-	@RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		SavedRequest saveRequest = requestCache.getRequest(request, response);
+    @CrossOrigin // 允许302后的接口跨域访问，解决前端跨域访问的问题
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        SavedRequest saveRequest = requestCache.getRequest(request, response);
 
-		if (saveRequest != null) {
-			String redirectUrl = saveRequest.getRedirectUrl();
-			if (StringUtils.endsWithIgnoreCase(redirectUrl, HTML_SUFFIX)) {
-				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getSigninPage());
-			}
-		}
-		return new SimpleResponse("访问的服务需要登录");
-	}
+        if (saveRequest != null) {
+            String redirectUrl = saveRequest.getRedirectUrl();
+            if (StringUtils.endsWithIgnoreCase(redirectUrl, HTML_SUFFIX)) {
+                redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getSigninPage());
+            }
+        }
+        return new SimpleResponse("访问的服务需要登录");
+    }
 
 }

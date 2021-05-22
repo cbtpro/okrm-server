@@ -32,57 +32,57 @@ import lombok.Setter;
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class TempFile implements Serializable {
 
-	private static final long serialVersionUID = -306560126029437310L;
+    private static final long serialVersionUID = -306560126029437310L;
 
-	@Getter
-	@Setter
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	private String uuid;
+    @Getter
+    @Setter
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = true)
-	@JoinColumn(name = "user_uuid")
-	private UserInfo user;
-	/**
-	 * 文件的存储地址，目前只有OSS一条路径
-	 */
-	@Getter
-	@Setter
-	private String url;
+    @Getter
+    @Setter
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = true)
+    @JoinColumn(name = "user_uuid")
+    private UserInfo user;
+    /**
+     * 文件的存储地址，目前只有OSS一条路径
+     */
+    @Getter
+    @Setter
+    private String url;
 
-	/**
-	 * 删除标记，默认是是true，当确认文件的确是要保留后，立即标记为false
-	 */
-	@Getter
-	@Setter
-	@Builder.Default
-	private Boolean canBeDelete = true;
+    /**
+     * 删除标记，默认是是true，当确认文件的确是要保留后，立即标记为false
+     */
+    @Getter
+    @Setter
+    @Builder.Default
+    private Boolean canBeDelete = true;
 
-	/**
-	 * 过期时间，如果过期了，程序就将可以删除的标记的记录从OSS中删除，否则就直接删除这条记录
-	 */
-	@Getter
-	@Setter
-	private LocalDateTime expireTime;
+    /**
+     * 过期时间，如果过期了，程序就将可以删除的标记的记录从OSS中删除，否则就直接删除这条记录
+     */
+    @Getter
+    @Setter
+    private LocalDateTime expireTime;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	private Date updateTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	private Date createTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date createTime;
 
-	public boolean isExpired() {
-		return LocalDateTime.now().isAfter(expireTime);
-	}
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expireTime);
+    }
 }

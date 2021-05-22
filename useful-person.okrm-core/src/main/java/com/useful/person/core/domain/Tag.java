@@ -42,54 +42,53 @@ import lombok.Setter;
 @ApiModel("标签模型")
 public class Tag {
 
-	@Getter
-	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
-	@Builder.Default
-	@ApiModelProperty(value = "事件列表")
-	private Set<Event> events = new HashSet<>();
+    @Getter
+    @Setter
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnoreProperties(value = { "tags" })
+    @Builder.Default
+    @ApiModelProperty(value = "事件列表")
+    private Set<Event> events = new HashSet<>();
 
-	@Getter
-	@Setter
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnoreProperties(value = { "tags" })
-	@Builder.Default
-	@ApiModelProperty(value = "兴趣列表")
-	private Set<Hobby> hobbys = new HashSet<>();
+    @Getter
+    @Setter
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnoreProperties(value = { "tags" })
+    @Builder.Default
+    @ApiModelProperty(value = "兴趣列表")
+    private Set<Hobby> hobbys = new HashSet<>();
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty("唯一标识")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty("唯一标识")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@NotNull
-	@ApiModelProperty(value = "标签名称")
-	private String title;
+    @Getter
+    @Setter
+    @NotNull
+    @ApiModelProperty(value = "标签名称")
+    private String title;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "标签描述")
-	private String description;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "标签描述")
+    private String description;
 
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
-
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 
 }

@@ -10,15 +10,15 @@ import lombok.Setter;
  */
 public class ChinaCollegeAndUniversityNotExistException extends RuntimeException {
 
-	private static final long serialVersionUID = 1626033649291312149L;
+    private static final long serialVersionUID = 1626033649291312149L;
 
-	@Getter
-	@Setter
-	private String uuid;
+    @Getter
+    @Setter
+    private String uuid;
 
-	public ChinaCollegeAndUniversityNotExistException(String uuid) {
-		super("china Colleges And Universities not exist");
-		this.uuid = uuid;
-	}
+    public ChinaCollegeAndUniversityNotExistException(String uuid) {
+        super("china Colleges And Universities not exist");
+        this.uuid = uuid;
+    }
 
 }

@@ -12,12 +12,12 @@ import lombok.Setter;
  */
 public class WeappProperties {
 
-	@Getter
-	@Setter
-	private String appId;
+    @Getter
+    @Setter
+    private String appId;
 
-	@Getter
-	@Setter
-	private String appSecret;
+    @Getter
+    @Setter
+    private String appSecret;
 
 }

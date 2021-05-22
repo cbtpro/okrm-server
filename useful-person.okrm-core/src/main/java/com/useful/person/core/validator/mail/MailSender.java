@@ -20,35 +20,35 @@ import com.useful.person.core.properties.SecurityProperties;
 @Configuration
 public class MailSender {
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 
-	@Bean("javaMailSender")
-	public JavaMailSenderImpl javaMailSenderConfiguration() {
-		MailConfig mailConfig = securityProperties.getMail().getConfig();
-		String host = mailConfig.getHost();
-		int port = Integer.valueOf(mailConfig.getPort());
-		String username = mailConfig.getUsername();
-		String password = mailConfig.getPassword();
-		String defaultEncoding = mailConfig.getDefaultEncoding();
-		long timeout = mailConfig.getTimeout();
-		long connectiontimeout = mailConfig.getConnectiontimeout();
-		long writetimeout = mailConfig.getWritetimeout();
-		boolean debug = Boolean.valueOf(mailConfig.getDebug());
-		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-		javaMailSender.setHost(host);
-		javaMailSender.setPort(port);
-		javaMailSender.setUsername(username);
-		javaMailSender.setPassword(password);
-		javaMailSender.setDefaultEncoding(defaultEncoding);
-		Properties javaMailProperties = new Properties();
-		javaMailProperties.put("mail.smtp.auth", "true");
-		javaMailProperties.put("mail.smtp.ssl.enable", true);
-		javaMailProperties.put("mail.smtp.timeout", timeout);
-		javaMailProperties.put("mail.smtp.connectiontimeout", connectiontimeout);
-		javaMailProperties.put("mail.smtp.writetimeout", writetimeout);
-		javaMailProperties.put("mail.debug", debug);
-		javaMailSender.setJavaMailProperties(javaMailProperties);
-		return javaMailSender;
-	}
+    @Bean("javaMailSender")
+    public JavaMailSenderImpl javaMailSenderConfiguration() {
+        MailConfig mailConfig = securityProperties.getMail().getConfig();
+        String host = mailConfig.getHost();
+        int port = Integer.valueOf(mailConfig.getPort());
+        String username = mailConfig.getUsername();
+        String password = mailConfig.getPassword();
+        String defaultEncoding = mailConfig.getDefaultEncoding();
+        long timeout = mailConfig.getTimeout();
+        long connectiontimeout = mailConfig.getConnectiontimeout();
+        long writetimeout = mailConfig.getWritetimeout();
+        boolean debug = Boolean.valueOf(mailConfig.getDebug());
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(host);
+        javaMailSender.setPort(port);
+        javaMailSender.setUsername(username);
+        javaMailSender.setPassword(password);
+        javaMailSender.setDefaultEncoding(defaultEncoding);
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.smtp.ssl.enable", true);
+        javaMailProperties.put("mail.smtp.timeout", timeout);
+        javaMailProperties.put("mail.smtp.connectiontimeout", connectiontimeout);
+        javaMailProperties.put("mail.smtp.writetimeout", writetimeout);
+        javaMailProperties.put("mail.debug", debug);
+        javaMailSender.setJavaMailProperties(javaMailProperties);
+        return javaMailSender;
+    }
 }

@@ -25,34 +25,33 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/hobby")
-@Api(value = "兴趣controller", tags = { "兴趣操作接口" } )
+@Api(value = "兴趣controller", tags = { "兴趣操作接口" })
 public class HobbyController {
 
-	@Autowired
-	private HobbyServiceImpl hobbyService;
+    @Autowired
+    private HobbyServiceImpl hobbyService;
 
-	@ApiOperation("根据uuid查询兴趣爱好")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Hobby hobby(@PathVariable(name = "uuid", required = true) String uuid) {
-		return hobbyService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询兴趣爱好")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Hobby hobby(@PathVariable(name = "uuid", required = true) String uuid) {
+        return hobbyService.findByUuid(uuid);
+    }
 
-	@ApiOperation("新增兴趣好爱")
-	@PostMapping
-	public Hobby createHobby(@RequestBody Hobby entity) {
-		return hobbyService.saveOne(entity);
-	}
+    @ApiOperation("新增兴趣好爱")
+    @PostMapping
+    public Hobby createHobby(@RequestBody Hobby entity) {
+        return hobbyService.saveOne(entity);
+    }
 
-	@ApiOperation("修改兴趣爱好")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Hobby updateHobby(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Hobby entity) {
-		return hobbyService.saveOne(entity);
-	}
-	
-	@ApiOperation("删除兴趣爱好")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
-		hobbyService.deleteByUuid(uuid);
-	}
+    @ApiOperation("修改兴趣爱好")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Hobby updateHobby(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Hobby entity) {
+        return hobbyService.saveOne(entity);
+    }
+
+    @ApiOperation("删除兴趣爱好")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
+        hobbyService.deleteByUuid(uuid);
+    }
 }

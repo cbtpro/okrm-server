@@ -20,42 +20,42 @@ import com.useful.person.core.services.VocationService;
 @Service("vocationService")
 public class VocationServiceImpl implements VocationService, BasicService<Vocation> {
 
-	@Autowired
-	private VocationRepository vocationRepository;
-	
-	@Override
-	public Vocation findByUuid(String uuid) {
-		return vocationRepository.findById(uuid).orElse(null);
-	}
+    @Autowired
+    private VocationRepository vocationRepository;
 
-	@Override
-	public Vocation saveOne(Vocation entity) {
-		return vocationRepository.save(entity);
-	}
+    @Override
+    public Vocation findByUuid(String uuid) {
+        return vocationRepository.findById(uuid).orElse(null);
+    }
 
-	@Override
-	public List<Vocation> saveAll(List<Vocation> entities) {
-		return vocationRepository.saveAll(entities);
-	}
+    @Override
+    public Vocation saveOne(Vocation entity) {
+        return vocationRepository.save(entity);
+    }
 
-	@Override
-	public void deleteOne(Vocation entity) {
-		vocationRepository.delete(entity);
-	}
+    @Override
+    public List<Vocation> saveAll(List<Vocation> entities) {
+        return vocationRepository.saveAll(entities);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		vocationRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteOne(Vocation entity) {
+        vocationRepository.delete(entity);
+    }
 
-	@Override
-	public List<Vocation> findAll() {
-		return vocationRepository.findAll();
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        vocationRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		vocationRepository.deleteAll();
-	}
+    @Override
+    public List<Vocation> findAll() {
+        return vocationRepository.findAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        vocationRepository.deleteAll();
+    }
 
 }

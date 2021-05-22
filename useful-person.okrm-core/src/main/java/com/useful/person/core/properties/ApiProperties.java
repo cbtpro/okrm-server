@@ -15,12 +15,12 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "okrm.api")
 public class ApiProperties {
 
-	@Getter
-	@Setter
-	private LianzhuoProperties lianzhuo = new LianzhuoProperties();
+    @Getter
+    @Setter
+    private LianzhuoProperties lianzhuo = new LianzhuoProperties();
 
-	@Getter
-	@Setter
-	private TencentProperties tencent = new TencentProperties();
+    @Getter
+    @Setter
+    private TencentProperties tencent = new TencentProperties();
 
 }

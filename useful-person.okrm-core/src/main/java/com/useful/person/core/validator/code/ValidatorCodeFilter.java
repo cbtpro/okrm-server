@@ -27,86 +27,88 @@ import com.useful.person.core.validator.code.captcha.ImageCode;
  */
 public class ValidatorCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	private AuthenticationFailureHandler authenticationFailureHandler;
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
-	private Set<String> urls = new HashSet<>();
+    private Set<String> urls = new HashSet<>();
 
-	private SecurityProperties securityProperties;
+    private SecurityProperties securityProperties;
 
-	private AntPathMatcher antPathMatcher = new AntPathMatcher();
-	@Override
-	public void afterPropertiesSet() throws ServletException {
-		super.afterPropertiesSet();
-		String needCodeUrls = securityProperties.getCode().getImage().getUrl();
-		String[] configUrls = needCodeUrls.split(",");
-		for (String configUrl : configUrls) {
-			urls.add(configUrl);
-		}
-		urls.add("/authentication/form");
-	}
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		boolean action = false;
-		String requestUri = request.getRequestURI();
-		for(String url:urls) {
-			if (antPathMatcher.match(url, requestUri)) {
-				action = true;
-				break;
-			}
-		}
-		if (action) {
-			try {
-				validate(request);
-			} catch (ValidatorCodeException e) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, e);
-				return;
-			}
-		}
-		filterChain.doFilter(request, response);
-	}
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        String needCodeUrls = securityProperties.getCode().getImage().getUrl();
+        String[] configUrls = needCodeUrls.split(",");
+        for (String configUrl : configUrls) {
+            urls.add(configUrl);
+        }
+        urls.add("/authentication/form");
+    }
 
-	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
-		return authenticationFailureHandler;
-	}
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        boolean action = false;
+        String requestUri = request.getRequestURI();
+        for (String url : urls) {
+            if (antPathMatcher.match(url, requestUri)) {
+                action = true;
+                break;
+            }
+        }
+        if (action) {
+            try {
+                validate(request);
+            } catch (ValidatorCodeException e) {
+                authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                return;
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
 
-	public SecurityProperties getSecurityProperties() {
-		return securityProperties;
-	}
+    public AuthenticationFailureHandler getAuthenticationFailureHandler() {
+        return authenticationFailureHandler;
+    }
 
-	public Set<String> getUrls() {
-		return urls;
-	}
+    public SecurityProperties getSecurityProperties() {
+        return securityProperties;
+    }
 
-	public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
-		this.authenticationFailureHandler = authenticationFailureHandler;
-	}
+    public Set<String> getUrls() {
+        return urls;
+    }
 
-	public void setSecurityProperties(SecurityProperties securityProperties) {
-		this.securityProperties = securityProperties;
-	}
+    public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
-	public void setUrls(Set<String> urls) {
-		this.urls = urls;
-	}
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
-	private void validate(HttpServletRequest request) throws ServletRequestBindingException {
-		String codeInRequest = (String) request.getParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
-		if (StringUtils.isBlank(codeInRequest)) {
-			throw new ValidatorCodeException("验证码不能为空");
-		}
-		ImageCode codeImageInSession = (ImageCode) request.getSession().getAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
-		if (codeImageInSession == null) {
-			throw new ValidatorCodeException("验证码不存在");
-		}
-		if (codeImageInSession.isExpired()) {
-			throw new ValidatorCodeException("验证码已过期");
-		}
-		if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
-			throw new ValidatorCodeException("验证码不匹配");
-		}
-		request.getSession().removeAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
-	}
+    public void setUrls(Set<String> urls) {
+        this.urls = urls;
+    }
+
+    private void validate(HttpServletRequest request) throws ServletRequestBindingException {
+        String codeInRequest = (String) request.getParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE);
+        if (StringUtils.isBlank(codeInRequest)) {
+            throw new ValidatorCodeException("验证码不能为空");
+        }
+        ImageCode codeImageInSession = (ImageCode) request.getSession()
+                .getAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
+        if (codeImageInSession == null) {
+            throw new ValidatorCodeException("验证码不存在");
+        }
+        if (codeImageInSession.isExpired()) {
+            throw new ValidatorCodeException("验证码已过期");
+        }
+        if (!StringUtils.equalsIgnoreCase(codeImageInSession.getCode(), codeInRequest)) {
+            throw new ValidatorCodeException("验证码不匹配");
+        }
+        request.getSession().removeAttribute(SecurityConstants.DEFAULT_SESSION_KEY_IMAGE_CODE);
+    }
 
 }

@@ -14,27 +14,27 @@ import com.useful.person.core.exception.OSSException;
  */
 public interface IUploadFile {
 
-	/**
-	 * 上传文件到OSS
-	 * 
-	 * @param inputStream
-	 * @param remotePath
-	 */
-	public void uploadToOSS(InputStream sourceInputStream, String remotePath) throws OSSException;
+    /**
+     * 上传文件到OSS
+     * 
+     * @param inputStream
+     * @param remotePath
+     */
+    public void uploadToOSS(InputStream sourceInputStream, String remotePath) throws OSSException;
 
-	/**
-	 * 上传文件到OSS
-	 * 
-	 * @param file
-	 * @param remotePath
-	 */
-	public void uploadToOSS(File sourceFile, String remotePath) throws OSSException;
+    /**
+     * 上传文件到OSS
+     * 
+     * @param file
+     * @param remotePath
+     */
+    public void uploadToOSS(File sourceFile, String remotePath) throws OSSException;
 
-	/**
-	 * 上传文件到OSS
-	 * 
-	 * @param sourceFilePath
-	 * @param remotePath
-	 */
-	public void uploadToOSS(String sourceFilePath, String remotePath) throws OSSException;
+    /**
+     * 上传文件到OSS
+     * 
+     * @param sourceFilePath
+     * @param remotePath
+     */
+    public void uploadToOSS(String sourceFilePath, String remotePath) throws OSSException;
 }

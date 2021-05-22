@@ -7,23 +7,23 @@ package com.useful.person.core.properties;
  */
 public class ValidatorCodeProperties {
 
-	private ImageCodeProperties image = new ImageCodeProperties();
-	
-	private SmsCodeProperties sms = new SmsCodeProperties();
+    private ImageCodeProperties image = new ImageCodeProperties();
 
-	public ImageCodeProperties getImage() {
-		return image;
-	}
+    private SmsCodeProperties sms = new SmsCodeProperties();
 
-	public void setImage(ImageCodeProperties image) {
-		this.image = image;
-	}
+    public ImageCodeProperties getImage() {
+        return image;
+    }
 
-	public SmsCodeProperties getSms() {
-		return sms;
-	}
+    public void setImage(ImageCodeProperties image) {
+        this.image = image;
+    }
 
-	public void setSms(SmsCodeProperties sms) {
-		this.sms = sms;
-	}
+    public SmsCodeProperties getSms() {
+        return sms;
+    }
+
+    public void setSms(SmsCodeProperties sms) {
+        this.sms = sms;
+    }
 }

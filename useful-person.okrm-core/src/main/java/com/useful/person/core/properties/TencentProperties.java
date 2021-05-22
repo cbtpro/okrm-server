@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 public class TencentProperties {
 
-	@Getter
-	@Setter
-	private WeappProperties weapp = new WeappProperties();
+    @Getter
+    @Setter
+    private WeappProperties weapp = new WeappProperties();
 }

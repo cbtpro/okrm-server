@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogRecordAspect {
 
-	@Around("execution(* com.useful.person.core.web.controller.UserController.*(..)) && @annotation(org.springframework.web.bind.annotation.PostMapping)\n"
-			+ "	@annotation(org.springframework.web.bind.annotation.PutMapping)")
-	public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
-		Object object = pjp.proceed();
-		return object;
-	}
+    @Around("execution(* com.useful.person.core.web.controller.UserController.*(..)) && @annotation(org.springframework.web.bind.annotation.PostMapping)\n"
+            + "	@annotation(org.springframework.web.bind.annotation.PutMapping)")
+    public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
+        Object object = pjp.proceed();
+        return object;
+    }
 }

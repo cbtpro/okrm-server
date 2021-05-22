@@ -10,8 +10,8 @@ import lombok.Setter;
  */
 public class MailVerificationProperties {
 
-	@Getter
-	@Setter
-	private int expireIn = 60 * 60 * 24 * 2;
+    @Getter
+    @Setter
+    private int expireIn = 60 * 60 * 24 * 2;
 
 }

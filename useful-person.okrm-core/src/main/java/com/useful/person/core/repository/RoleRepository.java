@@ -9,8 +9,8 @@ import com.useful.person.core.domain.Role;
 
 public interface RoleRepository extends JpaRepository<Role, String> {
 
-	Role findByRolename(String rolename);
+    Role findByRolename(String rolename);
 
-	List<Role> findAll(Specification<Role> spec);
+    List<Role> findAll(Specification<Role> spec);
 
 }

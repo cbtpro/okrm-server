@@ -23,52 +23,52 @@ import com.useful.person.core.services.BookService;
 @Service("bookService")
 public class BookServiceImpl implements BookService, BasicService<Book> {
 
-	@Autowired
-	private BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
-	@Override
-	public Page<Book> findAll(Pageable pageable) {
-		return bookRepository.findAll(pageable);
-	}
+    @Override
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
 
-	@Override
-	public Book findOne(String uuid) {
-		return bookRepository.findById(uuid).orElseThrow(() -> new BookNotExistException(uuid));
-	}
+    @Override
+    public Book findOne(String uuid) {
+        return bookRepository.findById(uuid).orElseThrow(() -> new BookNotExistException(uuid));
+    }
 
-	@Override
-	public Book saveOne(Book entity) {
-		return bookRepository.save(entity);
-	}
+    @Override
+    public Book saveOne(Book entity) {
+        return bookRepository.save(entity);
+    }
 
-	@Override
-	public Book findByUuid(String uuid) {
-		return bookRepository.findById(uuid).orElseThrow(() -> new BookNotExistException(uuid));
-	}
+    @Override
+    public Book findByUuid(String uuid) {
+        return bookRepository.findById(uuid).orElseThrow(() -> new BookNotExistException(uuid));
+    }
 
-	@Override
-	public List<Book> findAll() {
-		return bookRepository.findAll();
-	}
+    @Override
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
 
-	@Override
-	public List<Book> saveAll(List<Book> entities) {
-		return bookRepository.saveAll(entities);
-	}
+    @Override
+    public List<Book> saveAll(List<Book> entities) {
+        return bookRepository.saveAll(entities);
+    }
 
-	@Override
-	public void deleteOne(Book entity) {
-		bookRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Book entity) {
+        bookRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		bookRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        bookRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		bookRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        bookRepository.deleteAll();
+    }
 
 }

@@ -16,26 +16,26 @@ import com.useful.person.core.redis.RedisRepository;
 @Component
 public class BasicRedisOperation implements RedisRepository {
 
-	@Autowired
-	private RedisTemplate<Object, Object> redisTemplate;
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
-	@Override
-	public void save(String key, Object object, long timeout, TimeUnit unit) {
-		redisTemplate.opsForValue().set(key, object, timeout, unit);
-	}
+    @Override
+    public void save(String key, Object object, long timeout, TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, object, timeout, unit);
+    }
 
-	@Override
-	public Object get(String key) {
-		Object value = redisTemplate.opsForValue().get(key);
-		if (value == null) {
-			return null;
-		}
-		return value;
-	}
+    @Override
+    public Object get(String key) {
+        Object value = redisTemplate.opsForValue().get(key);
+        if (value == null) {
+            return null;
+        }
+        return value;
+    }
 
-	@Override
-	public void remove(String key) {
-		redisTemplate.delete(key);
-	}
+    @Override
+    public void remove(String key) {
+        redisTemplate.delete(key);
+    }
 
 }

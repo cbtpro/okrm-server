@@ -25,34 +25,33 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/slogon")
-@Api(value = "口号controller", tags = { "口号操作接口" } )
+@Api(value = "口号controller", tags = { "口号操作接口" })
 public class SlogonController {
 
-	@Autowired
-	private SlogonServiceImpl slogonService;
+    @Autowired
+    private SlogonServiceImpl slogonService;
 
-	@ApiOperation("新增slogon")
-	@PostMapping
-	public Slogon addSlogon(@RequestBody Slogon entity) {
-		return slogonService.saveOne(entity);
-	}
+    @ApiOperation("新增slogon")
+    @PostMapping
+    public Slogon addSlogon(@RequestBody Slogon entity) {
+        return slogonService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid删除slogon")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteSlogonByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		slogonService.deleteByUuid(uuid);
-	}
+    @ApiOperation("根据uuid删除slogon")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void deleteSlogonByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+        slogonService.deleteByUuid(uuid);
+    }
 
-	@ApiOperation("修改slogon")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Slogon updateSlogon(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Slogon entity) {
-		return slogonService.saveOne(entity);
-	}
+    @ApiOperation("修改slogon")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Slogon updateSlogon(@PathVariable(name = "uuid", required = true) String uuid, @RequestBody Slogon entity) {
+        return slogonService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid查询slogon")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Slogon querySlogon(@PathVariable(name = "uuid", required = true) String uuid) {
-		return slogonService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询slogon")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Slogon querySlogon(@PathVariable(name = "uuid", required = true) String uuid) {
+        return slogonService.findByUuid(uuid);
+    }
 }

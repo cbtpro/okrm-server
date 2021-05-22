@@ -2,12 +2,13 @@ package com.useful.person.core.properties;
 
 /**
  * 登录后是跳转还是返回json
+ * 
  * @author peter
  *
  */
 public enum SigninType {
-	// 直接跳转
-	REDIRECT,
-	// 返回json
-	JSON
+    // 直接跳转
+    REDIRECT,
+    // 返回json
+    JSON
 }

@@ -42,71 +42,70 @@ import lombok.Setter;
 @ApiModel("计划表模型")
 public class Schedule {
 
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty("唯一标识")
+    private String uuid;
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty("唯一标识")
-	private String uuid;
+    /**
+     * 事件
+     */
+    @Getter
+    @Setter
+    @ApiModelProperty
+    private String event;
 
-	/**
-	 * 事件
-	 */
-	@Getter
-	@Setter
-	@ApiModelProperty
-	private String event;
+    @Getter
+    @Setter
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @ApiModelProperty(value = "是否公开")
+    private boolean publicity;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	@ApiModelProperty(value = "是否公开")
-	private boolean publicity;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "开始时间")
+    private Date startTime;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "开始时间")
-	private Date startTime;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "结束时间")
+    private Date endTime;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "结束时间")
-	private Date endTime;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "地点")
+    private String location;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "地点")
-	private String location;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "经度")
+    private Double longitude;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "经度")
-	private Double longitude;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "纬度")
+    private Double latitude;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "纬度")
-	private Double latitude;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "描述")
+    private String description;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "描述")
-	private String description;
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
-
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 }

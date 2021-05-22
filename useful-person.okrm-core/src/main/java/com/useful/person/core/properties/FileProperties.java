@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 public class FileProperties {
 
-	@Getter
-	@Setter
-	private TempProperties temp = new TempProperties();
+    @Getter
+    @Setter
+    private TempProperties temp = new TempProperties();
 }

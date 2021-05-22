@@ -12,15 +12,15 @@ import lombok.Setter;
  */
 public class MobileNotRegisteredException extends RuntimeException {
 
-	private static final long serialVersionUID = -2349287081667943994L;
+    private static final long serialVersionUID = -2349287081667943994L;
 
-	@Getter
-	@Setter
-	private String mobile;
+    @Getter
+    @Setter
+    private String mobile;
 
-	public MobileNotRegisteredException(String mobile) {
-		super("Mobile not registered");
-		this.mobile = mobile;
-	}
+    public MobileNotRegisteredException(String mobile) {
+        super("Mobile not registered");
+        this.mobile = mobile;
+    }
 
 }

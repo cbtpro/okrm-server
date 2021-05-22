@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 public class LianzhuoProperties {
 
-	@Getter
-	@Setter
-	private IdcardProperties idcard = new IdcardProperties();
+    @Getter
+    @Setter
+    private IdcardProperties idcard = new IdcardProperties();
 }

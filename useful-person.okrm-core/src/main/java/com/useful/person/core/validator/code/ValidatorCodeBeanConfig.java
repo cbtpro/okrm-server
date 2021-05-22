@@ -20,35 +20,36 @@ import com.useful.person.core.validator.code.sms.alidayu.DefaultSmsCodeSender;
 @Configuration
 public class ValidatorCodeBeanConfig {
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 
-	@Bean
-	@ConditionalOnMissingBean(name = "imageCodeGenerator")
-	public ValidatorCodeGenerator imageCodeGenerator() {
-		ImageCodeGenerator codeGenerator = new ImageCodeGenerator();
-		codeGenerator.setSecurityProperties(securityProperties);
-		return codeGenerator;
-	}
+    @Bean
+    @ConditionalOnMissingBean(name = "imageCodeGenerator")
+    public ValidatorCodeGenerator imageCodeGenerator() {
+        ImageCodeGenerator codeGenerator = new ImageCodeGenerator();
+        codeGenerator.setSecurityProperties(securityProperties);
+        return codeGenerator;
+    }
 
-	/**
-	 * 使用@ConditionalOnMissingBean(SmsCodeSender.class)也可以
-	 */
-	@Bean("smsCodeSender")
-	@Profile({"prod", "test"})
-	@ConditionalOnMissingBean(name = "smsCodeSender")
-	public SmsCodeSender smsCodeSender() {
-		return new DefaultSmsCodeSender();
-	}
+    /**
+     * 使用@ConditionalOnMissingBean(SmsCodeSender.class)也可以
+     */
+    @Bean("smsCodeSender")
+    @Profile({ "prod", "test" })
+    @ConditionalOnMissingBean(name = "smsCodeSender")
+    public SmsCodeSender smsCodeSender() {
+        return new DefaultSmsCodeSender();
+    }
 
-	/**
-	 * 测试环境使用模拟发送短信
-	 * @return
-	 */
-	@Bean("smsCodeSender")
-	@Profile({"dev"})
-	@ConditionalOnMissingBean(name = "smsCodeSender")
-	public SmsCodeSender mockSmsCodeSender() {
-		return new MockSmsCodeSender();
-	}
+    /**
+     * 测试环境使用模拟发送短信
+     * 
+     * @return
+     */
+    @Bean("smsCodeSender")
+    @Profile({ "dev" })
+    @ConditionalOnMissingBean(name = "smsCodeSender")
+    public SmsCodeSender mockSmsCodeSender() {
+        return new MockSmsCodeSender();
+    }
 }
