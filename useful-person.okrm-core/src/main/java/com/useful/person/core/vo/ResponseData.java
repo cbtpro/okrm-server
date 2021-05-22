@@ -9,17 +9,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * @author peter
  *
  */
-@NoArgsConstructor
-@AllArgsConstructor
 @ApiModel("VO响应数据")
 public class ResponseData<T> implements Serializable {
 
@@ -48,5 +44,16 @@ public class ResponseData<T> implements Serializable {
     @JsonView(GeneralViews.INormalView.class)
     @ApiModelProperty(value = "返回结果")
     private T data;
+
+    public ResponseData(int code, String content) {
+        this.code = code;
+        this.content = content;
+    }
+
+    public ResponseData(int code, String content, T data) {
+        this.code = code;
+        this.content = content;
+        this.data = data;
+    }
 
 }

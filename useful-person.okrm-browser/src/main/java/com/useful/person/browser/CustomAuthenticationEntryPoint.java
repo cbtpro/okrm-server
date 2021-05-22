@@ -22,10 +22,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(ContentType.CONTENT_TYPE_JSON);
-        ResponseData<String> responseData = new ResponseData<>(ReturnCode.ERROR.getCode(), "用户未登录！",
-                authException.getLocalizedMessage());
         Gson gson = new Gson();
-        response.getWriter().write(gson.toJson(responseData));
+        response.getWriter().write(gson.toJson(new ResponseData<>(ReturnCode.ERROR.getCode(), "请登录用户！")));
     }
 
 }

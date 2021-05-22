@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.useful.person.browser.support.SimpleResponse;
+import com.useful.person.core.constants.ReturnCode;
 import com.useful.person.core.properties.SecurityConstants;
 import com.useful.person.core.properties.SecurityProperties;
 
@@ -52,7 +53,7 @@ public class BrowserSecurityController {
                 redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getSigninPage());
             }
         }
-        return new SimpleResponse("访问的服务需要登录");
+        return new SimpleResponse(ReturnCode.ERROR.getCode(), "访问的服务需要登录");
     }
 
 }

@@ -12,7 +12,8 @@ public class ValidatorCodeException extends AuthenticationException {
     private static final long serialVersionUID = -1125394705996443271L;
 
     public ValidatorCodeException(String msg) {
-        super(msg);
+//        super(msg);
+        super("image.code.error");
     }
 
 }

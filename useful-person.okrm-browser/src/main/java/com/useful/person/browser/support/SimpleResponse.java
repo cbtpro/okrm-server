@@ -1,5 +1,8 @@
 package com.useful.person.browser.support;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 
  * @author peter
@@ -7,18 +10,28 @@ package com.useful.person.browser.support;
  */
 public class SimpleResponse {
 
-    public SimpleResponse(Object content) {
+    public SimpleResponse(int code, Object content) {
+        this.code = code;
         this.content = content;
+        this.data = null;
     }
 
+    public SimpleResponse(int code, Object content, Object data) {
+        this.code = code;
+        this.content = content;
+        this.data = data;
+    }
+
+    @Getter
+    @Setter
+    private int code;
+
+    @Getter
+    @Setter
     private Object content;
 
-    public Object getContent() {
-        return content;
-    }
-
-    public void setContent(Object content) {
-        this.content = content;
-    }
+    @Getter
+    @Setter
+    private Object data;
 
 }
