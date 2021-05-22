@@ -22,37 +22,37 @@ import com.useful.person.core.services.ProvinceAreaService;
 @CacheConfig(cacheNames = "provinceArea")
 public class ProvinceAreaServiceImpl implements ProvinceAreaService {
 
-	@Autowired
-	private ProvinceAreaRepository provinceAreaRepository;
+    @Autowired
+    private ProvinceAreaRepository provinceAreaRepository;
 
-	@Override
-	public ProvinceArea save(ProvinceArea provinceArea) {
-		return provinceAreaRepository.save(provinceArea);
-	}
+    @Override
+    public ProvinceArea save(ProvinceArea provinceArea) {
+        return provinceAreaRepository.save(provinceArea);
+    }
 
-	@Override
-	public List<ProvinceArea> saveAll(List<ProvinceArea> provinceAreas) {
-		return provinceAreaRepository.saveAll(provinceAreas);
-	}
+    @Override
+    public List<ProvinceArea> saveAll(List<ProvinceArea> provinceAreas) {
+        return provinceAreaRepository.saveAll(provinceAreas);
+    }
 
-	@Override
-	public List<ProvinceArea> findAll() {
-		return provinceAreaRepository.findAllByOrderByCode();
-	}
+    @Override
+    public List<ProvinceArea> findAll() {
+        return provinceAreaRepository.findAllByOrderByCode();
+    }
 
-	@Override
-	public List<ProvinceArea> findChilds(String upperCode) {
-		return provinceAreaRepository.findByUpperCodeOrderByCode(upperCode);
-	}
+    @Override
+    public List<ProvinceArea> findChilds(String upperCode) {
+        return provinceAreaRepository.findByUpperCodeOrderByCode(upperCode);
+    }
 
-	@Override
-	public ProvinceArea findProvinceAreaByUuid(String uuid) {
-		return provinceAreaRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "省份信息不存在"));
-	}
+    @Override
+    public ProvinceArea findProvinceAreaByUuid(String uuid) {
+        return provinceAreaRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "省份信息不存在"));
+    }
 
-	@Override
-	public ProvinceArea findProvinceAreaByCode(String code) {
-		return provinceAreaRepository.findByCodeOrderByCode(code);
-	}
+    @Override
+    public ProvinceArea findProvinceAreaByCode(String code) {
+        return provinceAreaRepository.findByCodeOrderByCode(code);
+    }
 
 }

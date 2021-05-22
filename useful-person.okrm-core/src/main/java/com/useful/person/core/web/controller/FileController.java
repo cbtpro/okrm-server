@@ -29,29 +29,29 @@ import io.swagger.annotations.Api;
  */
 @RestController
 @RequestMapping("/file")
-@Api(value = "文件controller", tags = { "文件操作接口" } )
+@Api(value = "文件controller", tags = { "文件操作接口" })
 public class FileController {
 
-	String folder = "/Users/peter/Documents/okrm repo";
+    String folder = "/Users/peter/Documents/okrm repo";
 
-	@PostMapping
-	public FileInfo upload(MultipartFile file) throws Exception {
-		File localFile = new File(folder, System.currentTimeMillis() + ".txt");
+    @PostMapping
+    public FileInfo upload(MultipartFile file) throws Exception {
+        File localFile = new File(folder, System.currentTimeMillis() + ".txt");
 //		file.getInputStream()
-		file.transferTo(localFile);
-		return new FileInfo(localFile.getAbsolutePath());
-	}
+        file.transferTo(localFile);
+        return new FileInfo(localFile.getAbsolutePath());
+    }
 
-	@GetMapping("/{filename}")
-	public void download(@PathVariable String filename, HttpServletRequest request, HttpServletResponse response)
-			throws FileNotFoundException, IOException {
-		try (InputStream inputStream = new FileInputStream(new File(folder, filename + ".txt"));
-				OutputStream outputStream = response.getOutputStream();) {
-			response.setContentType("application/x-download");
-			response.addHeader("Content-Disposition", "attachment;filename=test.txt");
+    @GetMapping("/{filename}")
+    public void download(@PathVariable String filename, HttpServletRequest request, HttpServletResponse response)
+            throws FileNotFoundException, IOException {
+        try (InputStream inputStream = new FileInputStream(new File(folder, filename + ".txt"));
+                OutputStream outputStream = response.getOutputStream();) {
+            response.setContentType("application/x-download");
+            response.addHeader("Content-Disposition", "attachment;filename=test.txt");
 
-			IOUtils.copy(inputStream, outputStream);
-			outputStream.flush();
-		}
-	}
+            IOUtils.copy(inputStream, outputStream);
+            outputStream.flush();
+        }
+    }
 }

@@ -7,94 +7,94 @@ package com.useful.person.core.properties;
  */
 public class SmsCodeProperties {
 
-	private int length = 4;
+    private int length = 4;
 
-	private int expireIn = 5 * 60;
+    private int expireIn = 5 * 60;
 
-	private String url = "";
+    private String url = "";
 
-	private String regionId = "cn-hangzhou";
+    private String regionId = "cn-hangzhou";
 
-	private String accessKeyId;
+    private String accessKeyId;
 
-	private String secret;
+    private String secret;
 
-	private String domain = "dysmsapi.aliyuncs.com";
+    private String domain = "dysmsapi.aliyuncs.com";
 
-	private String version = "2017-05-25";
+    private String version = "2017-05-25";
 
-	private String signName = "生而不庸";
+    private String signName = "生而不庸";
 
-	public int getLength() {
-		return length;
-	}
+    public int getLength() {
+        return length;
+    }
 
-	public void setLength(int length) {
-		this.length = length;
-	}
+    public void setLength(int length) {
+        this.length = length;
+    }
 
-	public int getExpireIn() {
-		return expireIn;
-	}
+    public int getExpireIn() {
+        return expireIn;
+    }
 
-	public void setExpireIn(int expireIn) {
-		this.expireIn = expireIn;
-	}
+    public void setExpireIn(int expireIn) {
+        this.expireIn = expireIn;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getRegionId() {
-		return regionId;
-	}
+    public String getRegionId() {
+        return regionId;
+    }
 
-	public void setRegionId(String regionId) {
-		this.regionId = regionId;
-	}
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
+    }
 
-	public String getAccessKeyId() {
-		return accessKeyId;
-	}
+    public String getAccessKeyId() {
+        return accessKeyId;
+    }
 
-	public void setAccessKeyId(String accessKeyId) {
-		this.accessKeyId = accessKeyId;
-	}
+    public void setAccessKeyId(String accessKeyId) {
+        this.accessKeyId = accessKeyId;
+    }
 
-	public String getSecret() {
-		return secret;
-	}
+    public String getSecret() {
+        return secret;
+    }
 
-	public void setSecret(String secret) {
-		this.secret = secret;
-	}
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 
-	public String getDomain() {
-		return domain;
-	}
+    public String getDomain() {
+        return domain;
+    }
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public String getSignName() {
-		return signName;
-	}
+    public String getSignName() {
+        return signName;
+    }
 
-	public void setSignName(String signName) {
-		this.signName = signName;
-	}
+    public void setSignName(String signName) {
+        this.signName = signName;
+    }
 
 }

@@ -10,12 +10,12 @@ import lombok.Setter;
  */
 public class MailCodeProperties {
 
-	@Getter
-	@Setter
-	private int expireIn = 60 * 30;
+    @Getter
+    @Setter
+    private int expireIn = 60 * 30;
 
-	@Getter
-	@Setter
-	private String url = "";
+    @Getter
+    @Setter
+    private String url = "";
 
 }

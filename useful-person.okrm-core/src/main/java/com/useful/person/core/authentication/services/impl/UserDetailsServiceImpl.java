@@ -18,24 +18,24 @@ import com.useful.person.core.domain.UserInfo;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private IUserService userServices;
+    @Autowired
+    private IUserService userServices;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) {
-		UserInfo user = userServices.findByUsername(username);
-		if (user == null) {
-			throw new UsernameNotExistException(username);
-		}
-		return user;
-	}
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        UserInfo user = userServices.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotExistException(username);
+        }
+        return user;
+    }
 
-	public UserDetails loadUserByMobile(String mobile) throws MobileNotRegisteredException {
-		UserInfo user = userServices.findByMobile(mobile);
-		if (user == null) {
-			throw new MobileNotRegisteredException(mobile);
-		}
-		return user;
-	}
+    public UserDetails loadUserByMobile(String mobile) throws MobileNotRegisteredException {
+        UserInfo user = userServices.findByMobile(mobile);
+        if (user == null) {
+            throw new MobileNotRegisteredException(mobile);
+        }
+        return user;
+    }
 
 }

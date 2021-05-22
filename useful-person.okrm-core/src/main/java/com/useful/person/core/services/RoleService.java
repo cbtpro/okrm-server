@@ -14,47 +14,51 @@ import com.useful.person.core.vo.RoleRequestVO;
  */
 public interface RoleService {
 
-	/**
-	 * 查询所有角色
-	 * @return List<Role>
-	 */
-	List<Role> findAll();
+    /**
+     * 查询所有角色
+     * 
+     * @return List<Role>
+     */
+    List<Role> findAll();
 
-	List<Role> findAll(RoleRequestVO request);
+    List<Role> findAll(RoleRequestVO request);
 
+    /**
+     * 新增角色
+     * 
+     * @param uuid
+     * @param role
+     * @return Role
+     */
+    Role saveRole(String uuid, Role role);
 
-	/**
-	 * 新增角色
-	 * @param uuid
-	 * @param role
-	 * @return Role
-	 */
-	Role saveRole(String uuid, Role role);
+    /**
+     * 更新角色
+     * 
+     * @param uuid
+     * @param role
+     * @return Role
+     */
+    Role updateRole(String uuid, Role role);
 
-	/**
-	 * 更新角色
-	 * @param uuid
-	 * @param role
-	 * @return Role
-	 */
-	Role updateRole(String uuid, Role role);
+    /**
+     * 删除角色
+     * 
+     * @param uuid
+     * @param role
+     * @return 删除的记录数
+     */
+    void delRole(String uuid, String roleUuid);
 
-	/**
-	 * 删除角色
-	 * @param uuid
-	 * @param role
-	 * @return 删除的记录数
-	 */
-	void delRole(String uuid, String roleUuid);
+    /**
+     * 根据UUID查询角色
+     * 
+     * @param uuid
+     * @return Role
+     */
+    Role findByUuid(String uuid);
 
-	/**
-	 * 根据UUID查询角色
-	 * @param uuid
-	 * @return Role
-	 */
-	Role findByUuid(String uuid);
+    List<Role> findByRolenames(String[] rolenames);
 
-	List<Role> findByRolenames(String[] rolenames);
-
-	Role findByRolename(String rolename);
+    Role findByRolename(String rolename);
 }

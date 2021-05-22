@@ -24,8 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author peter
- * 职业
+ * @author peter 职业
  */
 @Entity
 @Table(name = "t_vocation")
@@ -33,31 +32,31 @@ import lombok.Setter;
 @ApiModel("职业模型")
 public class Vocation {
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty("唯一标识")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty("唯一标识")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "职业名称", example = "程序员")
-	private String vocation;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "职业名称", example = "程序员")
+    private String vocation;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
-	
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
+
 }

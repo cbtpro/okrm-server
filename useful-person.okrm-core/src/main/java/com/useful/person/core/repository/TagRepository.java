@@ -14,12 +14,13 @@ import com.useful.person.core.domain.Tag;
  */
 public interface TagRepository extends JpaRepository<Tag, String> {
 
-	/**
-	 * 根据标题查询tag并返回排序结果
-	 * @param title
-	 * @param sort
-	 * @return
-	 */
-	List<Tag> findByTitle(String title, Sort sort);
-	
+    /**
+     * 根据标题查询tag并返回排序结果
+     * 
+     * @param title
+     * @param sort
+     * @return
+     */
+    List<Tag> findByTitle(String title, Sort sort);
+
 }

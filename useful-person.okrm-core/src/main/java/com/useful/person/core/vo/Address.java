@@ -20,31 +20,31 @@ import lombok.Setter;
 @ApiModel("VO用户位置")
 public class Address {
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "用户唯一标识")
-	private String uuid;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "用户唯一标识")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "用户昵称")
-	private String nickname;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "用户昵称")
+    private String nickname;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "用户头像")
-	private String avatar;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "用户头像")
+    private String avatar;
 
-	@Getter
-	@Setter
-	@SensitiveInfo(SensitiveType.LONGITUDE)
-	@ApiModelProperty(value = "经度")
-	private Double longitude;
+    @Getter
+    @Setter
+    @SensitiveInfo(SensitiveType.LONGITUDE)
+    @ApiModelProperty(value = "经度")
+    private Double longitude;
 
-	@Getter
-	@Setter
-	@SensitiveInfo(SensitiveType.LATITUDE)
-	@ApiModelProperty(value = "纬度")
-	private Double latitude;
+    @Getter
+    @Setter
+    @SensitiveInfo(SensitiveType.LATITUDE)
+    @ApiModelProperty(value = "纬度")
+    private Double latitude;
 
 }

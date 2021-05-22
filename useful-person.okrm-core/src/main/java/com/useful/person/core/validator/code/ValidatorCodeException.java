@@ -9,10 +9,10 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class ValidatorCodeException extends AuthenticationException {
 
-	private static final long serialVersionUID = -1125394705996443271L;
+    private static final long serialVersionUID = -1125394705996443271L;
 
-	public ValidatorCodeException(String msg) {
-		super(msg);
-	}
+    public ValidatorCodeException(String msg) {
+        super(msg);
+    }
 
 }

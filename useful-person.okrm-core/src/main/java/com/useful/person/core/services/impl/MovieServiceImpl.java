@@ -21,42 +21,42 @@ import com.useful.person.core.services.MovieService;
 @Service("movieService")
 public class MovieServiceImpl implements MovieService, BasicService<Movie> {
 
-	@Autowired
-	private MovieRepository movieRepository;
+    @Autowired
+    private MovieRepository movieRepository;
 
-	@Override
-	public Movie saveOne(Movie entity) {
-		return movieRepository.save(entity);
-	}
+    @Override
+    public Movie saveOne(Movie entity) {
+        return movieRepository.save(entity);
+    }
 
-	@Override
-	public List<Movie> saveAll(List<Movie> entities) {
-		return movieRepository.saveAll(entities);
-	}
+    @Override
+    public List<Movie> saveAll(List<Movie> entities) {
+        return movieRepository.saveAll(entities);
+    }
 
-	@Override
-	public Movie findByUuid(String uuid) {
-		return movieRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "movie not found"));
-	}
+    @Override
+    public Movie findByUuid(String uuid) {
+        return movieRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, "movie not found"));
+    }
 
-	@Override
-	public List<Movie> findAll() {
-		return movieRepository.findAll();
-	}
+    @Override
+    public List<Movie> findAll() {
+        return movieRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(Movie entity) {
-		movieRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Movie entity) {
+        movieRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		movieRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        movieRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		movieRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        movieRepository.deleteAll();
+    }
 
 }

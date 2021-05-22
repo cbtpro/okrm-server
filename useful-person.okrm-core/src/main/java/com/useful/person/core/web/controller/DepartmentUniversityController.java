@@ -27,43 +27,43 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/department-university")
-@Api(value = "学校架构controller", tags = { "学校操作接口" } )
+@Api(value = "学校架构controller", tags = { "学校操作接口" })
 public class DepartmentUniversityController {
 
-	@Autowired
-	private DepartmentUniversityServiceImpl departmentUniversityService;
+    @Autowired
+    private DepartmentUniversityServiceImpl departmentUniversityService;
 
-	@ApiOperation("查询所有大学的院系结构")
-	@HasAdminRole
-	@GetMapping
-	public List<DepartmentUniversity> queryAll() {
-		return departmentUniversityService.findAll();
-	}
+    @ApiOperation("查询所有大学的院系结构")
+    @HasAdminRole
+    @GetMapping
+    public List<DepartmentUniversity> queryAll() {
+        return departmentUniversityService.findAll();
+    }
 
-	@ApiOperation("批量新增/更新大学的院系结构")
-	@HasAdminRole
-	@PostMapping("/batch")
-	public List<DepartmentUniversity> saveAll(@RequestBody List<DepartmentUniversity> list) {
-		return departmentUniversityService.saveAll(list);
-	}
+    @ApiOperation("批量新增/更新大学的院系结构")
+    @HasAdminRole
+    @PostMapping("/batch")
+    public List<DepartmentUniversity> saveAll(@RequestBody List<DepartmentUniversity> list) {
+        return departmentUniversityService.saveAll(list);
+    }
 
-	@ApiOperation("根据uuid查询大学院系结构")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public DepartmentUniversity queryByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		return departmentUniversityService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询大学院系结构")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public DepartmentUniversity queryByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+        return departmentUniversityService.findByUuid(uuid);
+    }
 
-	@ApiOperation("根据uuid更新大学院系结构")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public DepartmentUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody DepartmentUniversity entity) {
-		return departmentUniversityService.saveOne(entity);
-	}
+    @ApiOperation("根据uuid更新大学院系结构")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public DepartmentUniversity updateOne(@PathVariable(name = "uuid", required = true) String uuid,
+            @RequestBody DepartmentUniversity entity) {
+        return departmentUniversityService.saveOne(entity);
+    }
 
-	@ApiOperation("新增大学院系结构")
-	@HasAdminRole
-	@PostMapping
-	public DepartmentUniversity add(@RequestBody DepartmentUniversity entity) {
-		return departmentUniversityService.saveOne(entity);
-	}
+    @ApiOperation("新增大学院系结构")
+    @HasAdminRole
+    @PostMapping
+    public DepartmentUniversity add(@RequestBody DepartmentUniversity entity) {
+        return departmentUniversityService.saveOne(entity);
+    }
 }

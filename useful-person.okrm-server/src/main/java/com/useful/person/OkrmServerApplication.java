@@ -15,8 +15,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableCaching(proxyTargetClass = true)
 public class OkrmServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OkrmServerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OkrmServerApplication.class, args);
+    }
 
 }

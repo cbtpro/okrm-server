@@ -13,12 +13,12 @@ import org.junit.Test;
  */
 public class IdCardUtilTest {
 
-	private String idCard = "370703198111300338";
+    private String idCard = "370703198111300338";
 
 //	private String name = "郭德昌";
 
-	@Test
-	public void testCheckIdCardNo() {
-		assertTrue(IdCardUtil.checkIdCardNo(idCard));
-	}
+    @Test
+    public void testCheckIdCardNo() {
+        assertTrue(IdCardUtil.checkIdCardNo(idCard));
+    }
 }

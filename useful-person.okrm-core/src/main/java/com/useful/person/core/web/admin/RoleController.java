@@ -31,43 +31,45 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/admin")
 public class RoleController {
 
-	@Autowired
-	private RoleService roleService;
+    @Autowired
+    private RoleService roleService;
 
-	@ApiOperation("查询角色")
-	@GetMapping("/role"+ ControllerConstants.PATH_UUID_SUFFIX)
-	public ResponseData<Role> queryRole(@PathVariable(name = "uuid", required = true) String uuid) {
-		Role role = roleService.findByUuid(uuid);
-		return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), null, role);
-	}
-	@ApiOperation("查询所有角色")
-	@PostMapping("/roles")
-	public ResponseData<List<Role>> queryRoles(@RequestBody RoleRequestVO role) {
-		List<Role> roles = roleService.findAll(role);
-		return new ResponseData<List<Role>>(ReturnCode.CORRECT.getCode(), null, roles);
-	}
+    @ApiOperation("查询角色")
+    @GetMapping("/role" + ControllerConstants.PATH_UUID_SUFFIX)
+    public ResponseData<Role> queryRole(@PathVariable(name = "uuid", required = true) String uuid) {
+        Role role = roleService.findByUuid(uuid);
+        return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), null, role);
+    }
 
-	@ApiOperation("新增角色")
-	@PostMapping("/role")
-	public ResponseData<Role> saveRole(Authentication authentication, @RequestBody Role role) {
-		UserInfo user = (UserInfo) authentication.getPrincipal();
-		Role newRole = roleService.saveRole(user.getUuid(), role);
-		return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), "添加成功！", newRole);
-	}
+    @ApiOperation("查询所有角色")
+    @PostMapping("/roles")
+    public ResponseData<List<Role>> queryRoles(@RequestBody RoleRequestVO role) {
+        List<Role> roles = roleService.findAll(role);
+        return new ResponseData<List<Role>>(ReturnCode.CORRECT.getCode(), null, roles);
+    }
 
-	@ApiOperation("修改角色")
-	@PutMapping("/role")
-	public ResponseData<Role> updateRole(Authentication authentication, @RequestBody Role role) {
-		UserInfo user = (UserInfo) authentication.getPrincipal();
-		Role updatedRole = roleService.updateRole(user.getUuid(), role);
-		return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), "更新成功！", updatedRole);
-	}
+    @ApiOperation("新增角色")
+    @PostMapping("/role")
+    public ResponseData<Role> saveRole(Authentication authentication, @RequestBody Role role) {
+        UserInfo user = (UserInfo) authentication.getPrincipal();
+        Role newRole = roleService.saveRole(user.getUuid(), role);
+        return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), "添加成功！", newRole);
+    }
 
-	@ApiOperation("删除角色")
-	@DeleteMapping("/role")
-	public ResponseData<String> deleteRole(Authentication authentication, @RequestParam(value = "uuid", required = true) String roleUuid) {
-		UserInfo user = (UserInfo) authentication.getPrincipal();
-		roleService.delRole(user.getUuid(), roleUuid);
-		return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "删除成功！", null);
-	}
+    @ApiOperation("修改角色")
+    @PutMapping("/role")
+    public ResponseData<Role> updateRole(Authentication authentication, @RequestBody Role role) {
+        UserInfo user = (UserInfo) authentication.getPrincipal();
+        Role updatedRole = roleService.updateRole(user.getUuid(), role);
+        return new ResponseData<Role>(ReturnCode.CORRECT.getCode(), "更新成功！", updatedRole);
+    }
+
+    @ApiOperation("删除角色")
+    @DeleteMapping("/role")
+    public ResponseData<String> deleteRole(Authentication authentication,
+            @RequestParam(value = "uuid", required = true) String roleUuid) {
+        UserInfo user = (UserInfo) authentication.getPrincipal();
+        roleService.delRole(user.getUuid(), roleUuid);
+        return new ResponseData<String>(ReturnCode.CORRECT.getCode(), "删除成功！", null);
+    }
 }

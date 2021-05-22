@@ -23,36 +23,36 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserControllerTest {
 
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@Before
-	public void steup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+    @Before
+    public void steup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
-	@Test
-	public void whenQueryUsersSuccess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/user").param("username", "cbtpro")
-				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$").value(true));
+    @Test
+    public void whenQueryUsersSuccess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user").param("username", "cbtpro")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(true));
 
-	}
+    }
 
-	@Test
-	public void whenGetUserInfoSuccess() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/user/21d496b0-8120-4a62-9519-6518a7ae7058")
-				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("大反派🍄"));
-	}
+    @Test
+    public void whenGetUserInfoSuccess() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/21d496b0-8120-4a62-9519-6518a7ae7058")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("大反派🍄"));
+    }
 
-	@Test
-	public void whenGetUserInfoFail() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/user/-1").contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(MockMvcResultMatchers.status().is4xxClientError());
-	}
+    @Test
+    public void whenGetUserInfoFail() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/-1").contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
 
 //	@Test
 //	public void whenCreateUserSuccess() throws Exception {

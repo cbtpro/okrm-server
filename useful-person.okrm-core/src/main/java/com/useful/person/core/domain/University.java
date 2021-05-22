@@ -36,31 +36,31 @@ import lombok.Setter;
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class University {
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    private String uuid;
 
-	@Getter
-	@Setter
-	private String name;
+    @Getter
+    @Setter
+    private String name;
 
-	@Getter
-	@Setter
-	private String descirption;
+    @Getter
+    @Setter
+    private String descirption;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	private Date updateTime;
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	private Date createTime;
-	
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date createTime;
+
 }

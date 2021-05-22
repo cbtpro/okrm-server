@@ -35,20 +35,20 @@ import io.swagger.annotations.Api;
  */
 @RestController
 @RequestMapping("/code")
-@Api(value = "邮箱controller", tags = { "邮箱操作接口" } )
+@Api(value = "邮箱controller", tags = { "邮箱操作接口" })
 public class MailController {
 
-	@Autowired
-	private MailService mailService;
+    @Autowired
+    private MailService mailService;
 
-	@Autowired
-	private TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-	@Autowired
-	private EmailCodeRedisOperation emailCodeRedisOperation;
+    @Autowired
+    private EmailCodeRedisOperation emailCodeRedisOperation;
 
-	@Autowired
-	private SecurityProperties securityProperties;
+    @Autowired
+    private SecurityProperties securityProperties;
 //
 //	@GetMapping("/testmail")
 //	public Callable<String> testMail(HttpServletRequest request, HttpServletResponse response,
@@ -66,37 +66,39 @@ public class MailController {
 //		return callable;
 //	}
 
-	@GetMapping("/mail")
-	public Callable<ResponseData<String>> sendMailCode(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(name = "email", required = true) String email) {
-		Callable<ResponseData<String>> callable = new Callable<ResponseData<String>>() {
-			@Override
-			public ResponseData<String> call() throws Exception {
-				ResponseData<String> responseData = null;
-				MailCodeProperties mailCodeProperties = securityProperties.getMail().getCode();
-				int expireIn = mailCodeProperties.getExpireIn();
-				// 判断验证码是否过期
-				EmailCode emailCodeInRedis = emailCodeRedisOperation.get(new ServletWebRequest(request));
-				if (emailCodeInRedis == null || emailCodeInRedis.isExpired()) {
-					String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(1111, 9999));
-					EmailCode emailCode = new EmailCode(randomCode, expireIn);
-					Context verificationCodeContext = new Context();
-					verificationCodeContext.setVariable("verificationCode", randomCode);
-					String verificationCodeMailContent = templateEngine.process("verification-code-template",
-							verificationCodeContext);
-					mailService.sendHtmlMail(email, "验证码" + randomCode, verificationCodeMailContent);
-					emailCodeRedisOperation.save(new ServletWebRequest(request), emailCode, expireIn, TimeUnit.SECONDS);
-					responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(), "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。", null);
-				} else {
-					LocalDateTime expireTime = emailCodeInRedis.getExpireTime();
-					LocalDateTime now = LocalDateTime.now();
-					Duration duration = Duration.between(now, expireTime);
-					responseData = new ResponseData<String>(ReturnCode.ERROR.getCode(), "邮箱验证码还有" + duration.toSeconds() + "秒过期！", null);
-				}
-				return responseData;
-			}
-		};
-		return callable;
-	}
+    @GetMapping("/mail")
+    public Callable<ResponseData<String>> sendMailCode(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam(name = "email", required = true) String email) {
+        Callable<ResponseData<String>> callable = new Callable<ResponseData<String>>() {
+            @Override
+            public ResponseData<String> call() throws Exception {
+                ResponseData<String> responseData = null;
+                MailCodeProperties mailCodeProperties = securityProperties.getMail().getCode();
+                int expireIn = mailCodeProperties.getExpireIn();
+                // 判断验证码是否过期
+                EmailCode emailCodeInRedis = emailCodeRedisOperation.get(new ServletWebRequest(request));
+                if (emailCodeInRedis == null || emailCodeInRedis.isExpired()) {
+                    String randomCode = String.valueOf(ThreadLocalRandom.current().nextInt(1111, 9999));
+                    EmailCode emailCode = new EmailCode(randomCode, expireIn);
+                    Context verificationCodeContext = new Context();
+                    verificationCodeContext.setVariable("verificationCode", randomCode);
+                    String verificationCodeMailContent = templateEngine.process("verification-code-template",
+                            verificationCodeContext);
+                    mailService.sendHtmlMail(email, "验证码" + randomCode, verificationCodeMailContent);
+                    emailCodeRedisOperation.save(new ServletWebRequest(request), emailCode, expireIn, TimeUnit.SECONDS);
+                    responseData = new ResponseData<String>(ReturnCode.CORRECT.getCode(),
+                            "邮件验证码发送成功，请在" + (expireIn / 60) + "分钟内使用。", null);
+                } else {
+                    LocalDateTime expireTime = emailCodeInRedis.getExpireTime();
+                    LocalDateTime now = LocalDateTime.now();
+                    Duration duration = Duration.between(now, expireTime);
+                    responseData = new ResponseData<String>(ReturnCode.ERROR.getCode(),
+                            "邮箱验证码还有" + duration.toSeconds() + "秒过期！", null);
+                }
+                return responseData;
+            }
+        };
+        return callable;
+    }
 
 }

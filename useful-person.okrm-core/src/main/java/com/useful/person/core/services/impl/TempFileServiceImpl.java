@@ -26,45 +26,47 @@ import net.coobird.thumbnailator.Thumbnails;
 @Service("tempFileService")
 public class TempFileServiceImpl implements TempFileService {
 
-	@Autowired
-	private TempFileRepository tempFileRepository;
+    @Autowired
+    private TempFileRepository tempFileRepository;
 
-	@Autowired
-	private IUploadFile ossUploadFile;
+    @Autowired
+    private IUploadFile ossUploadFile;
 
-	@Autowired
-	private AppProperties appProperties;
+    @Autowired
+    private AppProperties appProperties;
 
-	@Autowired
-	private SecurityProperties securityProperties;
-	
-	@Override
-	@Transactional
-	public TempFile uploadFile(UserInfo currentUser, MultipartFile file, boolean compress) {
-		OSSConfig ossConfig = securityProperties.getOss().getConfig();
-		String uuid = UUID.randomUUID().toString();
-		String originalFileName = file.getOriginalFilename();
-		String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1, originalFileName.length());
-		TempProperties tempProperties = appProperties.getFile().getTemp();
-		String tempDir = tempProperties.getDir();
-		int expireIn = tempProperties.getExpireIn();
-		String fileName = uuid + "." + fileExtension;
-		String outFile = tempDir + "/" + fileName;
-		if (compress) {
-			try {
-				Thumbnails.of(file.getInputStream()).size(480, 480).outputFormat(fileExtension).toFile(outFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new OSSException("上传头像失败！");
-			}
-		}
-		String path = ossConfig.getAvatarDir() + "/" + fileName;
-		ossUploadFile.uploadToOSS(outFile, path);
-		String url = ossConfig.getResourceUrl() + "/" + path;
-		TempFile tempFile = TempFile.builder().user(currentUser).url(url).expireTime(LocalDateTime.now().plusSeconds(expireIn)).build();
-		TempFile returnTempFile = tempFileRepository.save(tempFile);
-		FileUtil.deleteFile(outFile);
-		return returnTempFile;
-	}
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    @Override
+    @Transactional
+    public TempFile uploadFile(UserInfo currentUser, MultipartFile file, boolean compress) {
+        OSSConfig ossConfig = securityProperties.getOss().getConfig();
+        String uuid = UUID.randomUUID().toString();
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1,
+                originalFileName.length());
+        TempProperties tempProperties = appProperties.getFile().getTemp();
+        String tempDir = tempProperties.getDir();
+        int expireIn = tempProperties.getExpireIn();
+        String fileName = uuid + "." + fileExtension;
+        String outFile = tempDir + "/" + fileName;
+        if (compress) {
+            try {
+                Thumbnails.of(file.getInputStream()).size(480, 480).outputFormat(fileExtension).toFile(outFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new OSSException("上传头像失败！");
+            }
+        }
+        String path = ossConfig.getAvatarDir() + "/" + fileName;
+        ossUploadFile.uploadToOSS(outFile, path);
+        String url = ossConfig.getResourceUrl() + "/" + path;
+        TempFile tempFile = TempFile.builder().user(currentUser).url(url)
+                .expireTime(LocalDateTime.now().plusSeconds(expireIn)).build();
+        TempFile returnTempFile = tempFileRepository.save(tempFile);
+        FileUtil.deleteFile(outFile);
+        return returnTempFile;
+    }
 
 }

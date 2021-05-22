@@ -39,85 +39,90 @@ import com.useful.person.core.vo.RoleRequestVO;
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
 
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-	@Autowired
-	private UserInfoLogRepository userInfoLogRepository;
+    @Autowired
+    private UserInfoLogRepository userInfoLogRepository;
 
-	@Autowired
-	private UserInfoRepository userInfoRepository;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
-	@Override
-	public List<Role> findAll() {
-		return roleRepository.findAll();
-	}
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
+    }
 
-	@Override
-	@Transactional
-	public Role saveRole(String uuid, Role role) {
-		UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
-		Role newRole = roleRepository.save(role);
-		UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.ADD_ROLE).actionValue(role.getRolename()).build();
-		userInfoLogRepository.save(userInfoLog);
-		return newRole;
-	}
+    @Override
+    @Transactional
+    public Role saveRole(String uuid, Role role) {
+        UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
+        Role newRole = roleRepository.save(role);
+        UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.ADD_ROLE)
+                .actionValue(role.getRolename()).build();
+        userInfoLogRepository.save(userInfoLog);
+        return newRole;
+    }
 
-	@Override
-	@Transactional
-	public Role updateRole(String uuid, Role role) {
-		UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
-		Role newRole = roleRepository.save(role);
-		UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_ROLE).actionValue(role.getUuid()).build();
-		userInfoLogRepository.save(userInfoLog);
-		return newRole;
-	}
+    @Override
+    @Transactional
+    public Role updateRole(String uuid, Role role) {
+        UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
+        Role newRole = roleRepository.save(role);
+        UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.UPDATE_ROLE)
+                .actionValue(role.getUuid()).build();
+        userInfoLogRepository.save(userInfoLog);
+        return newRole;
+    }
 
-	@Override
-	@Transactional
-	public void delRole(String uuid, String roleUuid) {
-		UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
-		roleRepository.deleteById(roleUuid);;
-		UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.DEL_ROLE).oldValue(roleUuid).actionValue(null).build();
-		userInfoLogRepository.save(userInfoLog);
-	}
+    @Override
+    @Transactional
+    public void delRole(String uuid, String roleUuid) {
+        UserInfo currentUser = userInfoRepository.findById(uuid).orElseThrow(() -> new UserNotExistException(uuid));
+        roleRepository.deleteById(roleUuid);
+        ;
+        UserInfoLog userInfoLog = UserInfoLog.builder().user(currentUser).actionType(UserAction.DEL_ROLE)
+                .oldValue(roleUuid).actionValue(null).build();
+        userInfoLogRepository.save(userInfoLog);
+    }
 
-	@Override
-	public Role findByUuid(String uuid) {
-		return roleRepository.findById(uuid).orElseThrow(() -> new GeneralException(uuid, "角色uuid不存在！"));
-	}
+    @Override
+    public Role findByUuid(String uuid) {
+        return roleRepository.findById(uuid).orElseThrow(() -> new GeneralException(uuid, "角色uuid不存在！"));
+    }
 
-	@Override
-	public List<Role> findAll(RoleRequestVO request) {
-		String sortField = request.getSortField();
-		String order = request.getSortOrder();
-		Sort sort = Sort.by("ascend".equalsIgnoreCase(order) ? Direction.ASC : Direction.DESC, StringUtils.isBlank(sortField) ? "uuid" : sortField);
-		return roleRepository.findAll(sort);
-	}
+    @Override
+    public List<Role> findAll(RoleRequestVO request) {
+        String sortField = request.getSortField();
+        String order = request.getSortOrder();
+        Sort sort = Sort.by("ascend".equalsIgnoreCase(order) ? Direction.ASC : Direction.DESC,
+                StringUtils.isBlank(sortField) ? "uuid" : sortField);
+        return roleRepository.findAll(sort);
+    }
 
-	@Override
-	public Role findByRolename(String rolename) {
-		return roleRepository.findByRolename(rolename);
-	}
-	
-	@Override
-	public List<Role> findByRolenames(String[] rolenames) {
-		Specification<Role> spec = new Specification<>() {
+    @Override
+    public Role findByRolename(String rolename) {
+        return roleRepository.findByRolename(rolename);
+    }
 
-			private static final long serialVersionUID = 1L;
+    @Override
+    public List<Role> findByRolenames(String[] rolenames) {
+        Specification<Role> spec = new Specification<>() {
 
-			public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				List<Predicate> predicates = new ArrayList<>();
-				if (rolenames != null && rolenames.length > 0) {
-					In<String> in = criteriaBuilder.in(root.get("rolename"));
-					for (String rolename : rolenames) {
-						in.value(rolename);
-					}
-					predicates.add(in);
-				}
-				return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-			};
-		};
-		return roleRepository.findAll(spec);
-	}
+            private static final long serialVersionUID = 1L;
+
+            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (rolenames != null && rolenames.length > 0) {
+                    In<String> in = criteriaBuilder.in(root.get("rolename"));
+                    for (String rolename : rolenames) {
+                        in.value(rolename);
+                    }
+                    predicates.add(in);
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            };
+        };
+        return roleRepository.findAll(spec);
+    }
 }

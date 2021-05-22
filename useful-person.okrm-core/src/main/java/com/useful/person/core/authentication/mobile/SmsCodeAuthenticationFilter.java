@@ -19,57 +19,57 @@ import com.useful.person.core.properties.SecurityConstants;
  */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-	private static String METHOD_POST = "POST";
+    private static String METHOD_POST = "POST";
 
-	private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
+    private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
 
-	private boolean postOnly = true;
+    private boolean postOnly = true;
 
-	public SmsCodeAuthenticationFilter() {
-		super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE, METHOD_POST));
-	}
+    public SmsCodeAuthenticationFilter() {
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE, METHOD_POST));
+    }
 
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException {
-		if (postOnly && !METHOD_POST.equals(request.getMethod())) {
-			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
-		}
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
+        if (postOnly && !METHOD_POST.equals(request.getMethod())) {
+            throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
+        }
 
-		String mobile = obtainMobile(request);
+        String mobile = obtainMobile(request);
 
-		if (mobile == null) {
-			mobile = "";
-		}
+        if (mobile == null) {
+            mobile = "";
+        }
 
-		mobile = mobile.trim();
+        mobile = mobile.trim();
 
-		SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
+        SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
 
-		setDetails(request, authRequest);
+        setDetails(request, authRequest);
 
-		return this.getAuthenticationManager().authenticate(authRequest);
-	}
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
 
-	protected String obtainMobile(HttpServletRequest request) {
-		return request.getParameter(mobileParameter);
-	}
+    protected String obtainMobile(HttpServletRequest request) {
+        return request.getParameter(mobileParameter);
+    }
 
-	protected void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
-		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-	}
+    protected void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+    }
 
-	public void setMobileParameter(String usernameParameter) {
-		Assert.hasText(usernameParameter, "Username parameter must not be empty or null");
-		this.mobileParameter = usernameParameter;
-	}
+    public void setMobileParameter(String usernameParameter) {
+        Assert.hasText(usernameParameter, "Username parameter must not be empty or null");
+        this.mobileParameter = usernameParameter;
+    }
 
-	public void setPostOnly(boolean postOnly) {
-		this.postOnly = postOnly;
-	}
+    public void setPostOnly(boolean postOnly) {
+        this.postOnly = postOnly;
+    }
 
-	public final String getMobileParameter() {
-		return mobileParameter;
-	}
+    public final String getMobileParameter() {
+        return mobileParameter;
+    }
 
 }

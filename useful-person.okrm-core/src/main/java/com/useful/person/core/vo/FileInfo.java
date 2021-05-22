@@ -7,18 +7,18 @@ package com.useful.person.core.vo;
  */
 public class FileInfo {
 
-	public FileInfo(String path) {
-		this.path = path;
-	}
+    public FileInfo(String path) {
+        this.path = path;
+    }
 
-	private String path;
+    private String path;
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
 }

@@ -28,43 +28,42 @@ import io.swagger.annotations.Api;
  */
 @RestController
 @RequestMapping("/province")
-@Api(value = "行政归属controller", tags = { "行政归属操作接口" } )
+@Api(value = "行政归属controller", tags = { "行政归属操作接口" })
 public class ProvinceAreaController {
 
-	@Autowired
-	private ProvinceAreaService provinceAreaService;
+    @Autowired
+    private ProvinceAreaService provinceAreaService;
 
-	@GetMapping
-	public ResponseData<List<ProvinceArea>> findAll() {
-		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
-				provinceAreaService.findAll());
-	}
+    @GetMapping
+    public ResponseData<List<ProvinceArea>> findAll() {
+        return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null, provinceAreaService.findAll());
+    }
 
-	@HasAdminRole
-	@PutMapping("/batch")
-	public List<ProvinceArea> saveAll(@RequestBody List<ProvinceArea> provinceAreas) {
-		return provinceAreaService.saveAll(provinceAreas);
-	}
+    @HasAdminRole
+    @PutMapping("/batch")
+    public List<ProvinceArea> saveAll(@RequestBody List<ProvinceArea> provinceAreas) {
+        return provinceAreaService.saveAll(provinceAreas);
+    }
 
-	@HasAdminRole
-	@PutMapping
-	public ProvinceArea save(@RequestBody ProvinceArea provinceArea) {
-		return provinceAreaService.save(provinceArea);
-	}
+    @HasAdminRole
+    @PutMapping
+    public ProvinceArea save(@RequestBody ProvinceArea provinceArea) {
+        return provinceAreaService.save(provinceArea);
+    }
 
 //	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
 //	private ProvinceArea findProvinceAreaByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
 //		return provinceAreaService.findProvinceAreaByUuid(uuid);
 //	}
 
-	@GetMapping("/query")
-	public ProvinceArea findProvinceArea(@Param(value = "code") String code) {
-		return provinceAreaService.findProvinceAreaByCode(code);
-	}
+    @GetMapping("/query")
+    public ProvinceArea findProvinceArea(@Param(value = "code") String code) {
+        return provinceAreaService.findProvinceAreaByCode(code);
+    }
 
-	@GetMapping("/child")
-	public ResponseData<List<ProvinceArea>> findChilds(@Param(value = "upperCode") String upperCode) {
-		return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
-				provinceAreaService.findChilds(StringUtils.isNotBlank(upperCode) ? upperCode : "86"));
-	}
+    @GetMapping("/child")
+    public ResponseData<List<ProvinceArea>> findChilds(@Param(value = "upperCode") String upperCode) {
+        return new ResponseData<List<ProvinceArea>>(ReturnCode.CORRECT.getCode(), null,
+                provinceAreaService.findChilds(StringUtils.isNotBlank(upperCode) ? upperCode : "86"));
+    }
 }

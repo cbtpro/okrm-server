@@ -36,49 +36,49 @@ import lombok.Setter;
 @ApiModel("省份区域模型")
 public class ProvinceArea implements Serializable {
 
-	private static final long serialVersionUID = 3669161463250183394L;
+    private static final long serialVersionUID = 3669161463250183394L;
 
-	@Getter
-	@Setter
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty(value = "全局唯一标识")
-	private String uuid;
+    @Getter
+    @Setter
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty(value = "全局唯一标识")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "城市代码：例如北京市的code是110000", example = "110000", required = true)
-	private String code;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "城市代码：例如北京市的code是110000", example = "110000", required = true)
+    private String code;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "城市名称", required = true)
-	private String name;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "城市名称", required = true)
+    private String name;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "上级代码，最上级是86", required = true)
-	private String upperCode;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "上级代码，最上级是86", required = true)
+    private String upperCode;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "描述")
-	private String description;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "描述")
+    private String description;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间，自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间，自动获取")
+    private Date createTime;
 }

@@ -21,22 +21,22 @@ import com.useful.person.core.services.CountryService;
 @CacheConfig(cacheNames = "country")
 public class CountryServiceImpl implements CountryService {
 
-	@Autowired
-	private CountryRepository countryRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
-	@Override
-	public Country save(Country country) {
-		return countryRepository.save(country);
-	}
+    @Override
+    public Country save(Country country) {
+        return countryRepository.save(country);
+    }
 
-	@Override
-	public List<Country> saveAll(List<Country> countrys) {
-		return countryRepository.saveAll(countrys);
-	}
+    @Override
+    public List<Country> saveAll(List<Country> countrys) {
+        return countryRepository.saveAll(countrys);
+    }
 
-	@Override
-	public List<Country> findAll() {
-		return countryRepository.findAll();
-	}
+    @Override
+    public List<Country> findAll() {
+        return countryRepository.findAll();
+    }
 
 }

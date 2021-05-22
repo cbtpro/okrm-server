@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 public class OSSProperties {
 
-	@Getter
-	@Setter
-	private OSSConfig config;
+    @Getter
+    @Setter
+    private OSSConfig config;
 }

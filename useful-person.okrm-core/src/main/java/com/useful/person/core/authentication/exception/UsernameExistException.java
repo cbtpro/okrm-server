@@ -10,15 +10,15 @@ import lombok.Setter;
  */
 public class UsernameExistException extends RuntimeException {
 
-	private static final long serialVersionUID = 223134528173245335L;
+    private static final long serialVersionUID = 223134528173245335L;
 
-	@Getter
-	@Setter
-	private String username;
+    @Getter
+    @Setter
+    private String username;
 
-	public UsernameExistException(String username) {
-		super("用户名已存在！");
-		this.username = username;
-	}
+    public UsernameExistException(String username) {
+        super("用户名已存在！");
+        this.username = username;
+    }
 
 }

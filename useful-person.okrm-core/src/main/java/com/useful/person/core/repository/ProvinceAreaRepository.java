@@ -16,23 +16,26 @@ import com.useful.person.core.domain.ProvinceArea;
  */
 public interface ProvinceAreaRepository extends JpaRepository<ProvinceArea, String> {
 
-	/**
-	 * 查询所有省份地区里列表
-	 * @return 省份地区列表
-	 */
-	List<ProvinceArea> findAllByOrderByCode();
+    /**
+     * 查询所有省份地区里列表
+     * 
+     * @return 省份地区列表
+     */
+    List<ProvinceArea> findAllByOrderByCode();
 
-	/**
-	 * 根据code查询省份
-	 * @param code
-	 * @return 省份地区
-	 */
-	ProvinceArea findByCodeOrderByCode(String code);
+    /**
+     * 根据code查询省份
+     * 
+     * @param code
+     * @return 省份地区
+     */
+    ProvinceArea findByCodeOrderByCode(String code);
 
-	/**
-	 * 根据上层code查询下层地区
-	 * @param upperCode
-	 * @return 省份地区列表
-	 */
-	List<ProvinceArea> findByUpperCodeOrderByCode(String upperCode);
+    /**
+     * 根据上层code查询下层地区
+     * 
+     * @param upperCode
+     * @return 省份地区列表
+     */
+    List<ProvinceArea> findByUpperCodeOrderByCode(String upperCode);
 }

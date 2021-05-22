@@ -12,19 +12,18 @@ import lombok.Setter;
  */
 public enum ReturnCode {
 
-	CORRECT(0, "correct"),
-	ERROR(1, "error");
+    CORRECT(0, "correct"), ERROR(1, "error");
 
-	@Getter
-	@Setter
-	private int code;
+    @Getter
+    @Setter
+    private int code;
 
-	@Getter
-	@Setter
-	private String type;
+    @Getter
+    @Setter
+    private String type;
 
-	private ReturnCode(int code, String type) {
-		this.code = code;
-		this.type = type;
-	}
+    private ReturnCode(int code, String type) {
+        this.code = code;
+        this.type = type;
+    }
 }

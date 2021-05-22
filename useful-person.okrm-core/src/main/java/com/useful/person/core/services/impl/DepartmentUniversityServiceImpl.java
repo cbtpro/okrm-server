@@ -19,44 +19,46 @@ import com.useful.person.core.services.DepartmentUniversityService;
  *
  */
 @Service("departmentUniversityService")
-public class DepartmentUniversityServiceImpl implements DepartmentUniversityService, BasicService<DepartmentUniversity> {
+public class DepartmentUniversityServiceImpl
+        implements DepartmentUniversityService, BasicService<DepartmentUniversity> {
 
-	@Autowired
-	private DepartmentUniversityRepository departmentUniversityRepository;
+    @Autowired
+    private DepartmentUniversityRepository departmentUniversityRepository;
 
-	@Override
-	public DepartmentUniversity saveOne(DepartmentUniversity entity) {
-		return departmentUniversityRepository.save(entity);
-	}
+    @Override
+    public DepartmentUniversity saveOne(DepartmentUniversity entity) {
+        return departmentUniversityRepository.save(entity);
+    }
 
-	@Override
-	public List<DepartmentUniversity> saveAll(List<DepartmentUniversity> entities) {
-		return departmentUniversityRepository.saveAll(entities);
-	}
+    @Override
+    public List<DepartmentUniversity> saveAll(List<DepartmentUniversity> entities) {
+        return departmentUniversityRepository.saveAll(entities);
+    }
 
-	@Override
-	public DepartmentUniversity findByUuid(String uuid) {
-		return departmentUniversityRepository.findById(uuid).orElseThrow(() -> new DepartmentUniversityNotExistException(uuid));
-	}
+    @Override
+    public DepartmentUniversity findByUuid(String uuid) {
+        return departmentUniversityRepository.findById(uuid)
+                .orElseThrow(() -> new DepartmentUniversityNotExistException(uuid));
+    }
 
-	@Override
-	public List<DepartmentUniversity> findAll() {
-		return departmentUniversityRepository.findAll();
-	}
+    @Override
+    public List<DepartmentUniversity> findAll() {
+        return departmentUniversityRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(DepartmentUniversity entity) {
-		departmentUniversityRepository.delete(entity);		
-	}
+    @Override
+    public void deleteOne(DepartmentUniversity entity) {
+        departmentUniversityRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		departmentUniversityRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        departmentUniversityRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		departmentUniversityRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        departmentUniversityRepository.deleteAll();
+    }
 
 }

@@ -24,23 +24,23 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class FileControllerTest {
 
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@Before
-	public void steup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+    @Before
+    public void steup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
-	@Test
-	public void whenUploadFileSuccess() throws Exception {
-		String result = mockMvc
-				.perform(MockMvcRequestBuilders.multipart("/file")
-						.file(new MockMultipartFile("file", "test.txt", "multipart/form-data",
-								"hello upload".getBytes("UTF-8"))))
-				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-		System.out.println(result);
-	}
+    @Test
+    public void whenUploadFileSuccess() throws Exception {
+        String result = mockMvc
+                .perform(MockMvcRequestBuilders.multipart("/file")
+                        .file(new MockMultipartFile("file", "test.txt", "multipart/form-data",
+                                "hello upload".getBytes("UTF-8"))))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        System.out.println(result);
+    }
 }

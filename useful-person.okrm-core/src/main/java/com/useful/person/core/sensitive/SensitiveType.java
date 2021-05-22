@@ -9,47 +9,47 @@ package com.useful.person.core.sensitive;
  */
 public enum SensitiveType {
 
-	/**
-	 * 中文名称
-	 */
-	CHINESE_NAME,
+    /**
+     * 中文名称
+     */
+    CHINESE_NAME,
 
-	/**
-	 * 用户密码
-	 */
-	PASSWORD,
+    /**
+     * 用户密码
+     */
+    PASSWORD,
 
-	/**
-	 * 手机号
-	 */
-	MOBILE,
+    /**
+     * 手机号
+     */
+    MOBILE,
 
-	/**
-	 * email
-	 */
-	EMAIL,
+    /**
+     * email
+     */
+    EMAIL,
 
-	/**
-	 * 身份证姓名
-	 */
-	ID_CARD_NAME,
-	/**
-	 * 身份证
-	 */
-	ID_CARD,
+    /**
+     * 身份证姓名
+     */
+    ID_CARD_NAME,
+    /**
+     * 身份证
+     */
+    ID_CARD,
 
-	/**
-	 * 银行卡号
-	 */
-	BANK_CARD,
+    /**
+     * 银行卡号
+     */
+    BANK_CARD,
 
-	/**
-	 * 经度
-	 */
-	LONGITUDE,
+    /**
+     * 经度
+     */
+    LONGITUDE,
 
-	/**
-	 * 纬度
-	 */
-	LATITUDE,
+    /**
+     * 纬度
+     */
+    LATITUDE,
 }

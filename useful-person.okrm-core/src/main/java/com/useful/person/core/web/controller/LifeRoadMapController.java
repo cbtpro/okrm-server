@@ -30,38 +30,38 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/life-road-map")
-@Api(value = "路线图controller", tags = { "路线图操作接口" } )
+@Api(value = "路线图controller", tags = { "路线图操作接口" })
 public class LifeRoadMapController {
 
-	@Autowired
-	private LifeRoadMapServiceImpl lifeRoadMapService;
+    @Autowired
+    private LifeRoadMapServiceImpl lifeRoadMapService;
 
-	@ApiOperation("查询人生路线图")
-	@GetMapping
-	public List<LifeRoadMapVO> queryMyLifeRoadMap(Authentication user) {
-		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		return lifeRoadMapService.findAllMyLifeRoadMap(currentUser);
-	}
+    @ApiOperation("查询人生路线图")
+    @GetMapping
+    public List<LifeRoadMapVO> queryMyLifeRoadMap(Authentication user) {
+        UserInfo currentUser = (UserInfo) user.getPrincipal();
+        return lifeRoadMapService.findAllMyLifeRoadMap(currentUser);
+    }
 
-	@ApiOperation("新增人生路线图")
-	@PostMapping
-	public LifeRoadMap create(@RequestBody LifeRoadMap entity, Authentication user) {
-		UserInfo currentUser = (UserInfo) user.getPrincipal();
-		entity.setUser(currentUser);
-		return lifeRoadMapService.saveOne(entity);
-	}
+    @ApiOperation("新增人生路线图")
+    @PostMapping
+    public LifeRoadMap create(@RequestBody LifeRoadMap entity, Authentication user) {
+        UserInfo currentUser = (UserInfo) user.getPrincipal();
+        entity.setUser(currentUser);
+        return lifeRoadMapService.saveOne(entity);
+    }
 
-	@ApiOperation("修改人生路线图")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public LifeRoadMap updateLifeRoadMap(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody LifeRoadMap entity) {
-		return lifeRoadMapService.saveOne(entity);
-	}
+    @ApiOperation("修改人生路线图")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public LifeRoadMap updateLifeRoadMap(@PathVariable(name = "uuid", required = true) String uuid,
+            @RequestBody LifeRoadMap entity) {
+        return lifeRoadMapService.saveOne(entity);
+    }
 
-	@ApiOperation("删除人生路线")
-	@DeleteMapping
-	public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
-		lifeRoadMapService.deleteByUuid(uuid);
-	}
+    @ApiOperation("删除人生路线")
+    @DeleteMapping
+    public void delete(@PathVariable(name = "uuid", required = true) String uuid) {
+        lifeRoadMapService.deleteByUuid(uuid);
+    }
 
 }

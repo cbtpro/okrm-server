@@ -25,34 +25,34 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/vocation")
-@Api(value = "职业controller", tags = { "职业操作接口" } )
+@Api(value = "职业controller", tags = { "职业操作接口" })
 public class VocationController {
 
-	@Autowired
-	private VocationServiceImpl vocationService;
+    @Autowired
+    private VocationServiceImpl vocationService;
 
-	@ApiOperation("新增职业")
-	@PostMapping
-	public Vocation addVocation(@RequestBody Vocation entity) {
-		return vocationService.saveOne(entity);
-	}
+    @ApiOperation("新增职业")
+    @PostMapping
+    public Vocation addVocation(@RequestBody Vocation entity) {
+        return vocationService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid删除职业")
-	@DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public void deleteVocationByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
-		vocationService.deleteByUuid(uuid);
-	}
+    @ApiOperation("根据uuid删除职业")
+    @DeleteMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public void deleteVocationByUuid(@PathVariable(name = "uuid", required = true) String uuid) {
+        vocationService.deleteByUuid(uuid);
+    }
 
-	@ApiOperation("修改职业")
-	@PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Vocation updateVocation(@PathVariable(name = "uuid", required = true) String uuid,
-			@RequestBody Vocation entity) {
-		return vocationService.saveOne(entity);
-	}
+    @ApiOperation("修改职业")
+    @PutMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Vocation updateVocation(@PathVariable(name = "uuid", required = true) String uuid,
+            @RequestBody Vocation entity) {
+        return vocationService.saveOne(entity);
+    }
 
-	@ApiOperation("根据uuid查询职业")
-	@GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
-	public Vocation queryUniversity(@PathVariable(name = "uuid", required = true) String uuid) {
-		return vocationService.findByUuid(uuid);
-	}
+    @ApiOperation("根据uuid查询职业")
+    @GetMapping(ControllerConstants.PATH_UUID_SUFFIX)
+    public Vocation queryUniversity(@PathVariable(name = "uuid", required = true) String uuid) {
+        return vocationService.findByUuid(uuid);
+    }
 }

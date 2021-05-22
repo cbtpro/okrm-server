@@ -40,35 +40,35 @@ import lombok.Setter;
 @ApiModel("大学院系模型")
 public class DepartmentUniversity {
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	@ApiModelProperty("唯一标识")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @ApiModelProperty("唯一标识")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "院系名称", example = "计算机系")
-	private String name;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "院系名称", example = "计算机系")
+    private String name;
 
-	@Getter
-	@Setter
-	private String descirption;
+    @Getter
+    @Setter
+    private String descirption;
 
-	@Getter
-	@Setter
-	@UpdateTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "更新时间，自动获取")
-	private Date updateTime;
+    @Getter
+    @Setter
+    @UpdateTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "更新时间，自动获取")
+    private Date updateTime;
 
-	@Getter
-	@Setter
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	@JsonSerialize(using = Date2LongSerializer.class)
-	@ApiModelProperty(value = "创建时间自动获取")
-	private Date createTime;
+    @Getter
+    @Setter
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    @JsonSerialize(using = Date2LongSerializer.class)
+    @ApiModelProperty(value = "创建时间自动获取")
+    private Date createTime;
 
 }

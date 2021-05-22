@@ -10,15 +10,15 @@ import lombok.Setter;
  */
 public class SenderMailException extends RuntimeException {
 
-	private static final long serialVersionUID = -6020199092308059095L;
+    private static final long serialVersionUID = -6020199092308059095L;
 
-	@Getter
-	@Setter
-	private String msg;
+    @Getter
+    @Setter
+    private String msg;
 
-	public SenderMailException(String message) {
-		super("send mail fail");
-		this.msg = message;
-	}
+    public SenderMailException(String message) {
+        super("send mail fail");
+        this.msg = message;
+    }
 
 }

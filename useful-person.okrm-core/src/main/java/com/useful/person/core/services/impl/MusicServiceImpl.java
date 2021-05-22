@@ -21,42 +21,43 @@ import com.useful.person.core.services.MusicService;
 @Service("musicService")
 public class MusicServiceImpl implements MusicService, BasicService<Music> {
 
-	@Autowired
-	private MusicRepository musicRepository;
+    @Autowired
+    private MusicRepository musicRepository;
 
-	@Override
-	public Music saveOne(Music entity) {
-		return musicRepository.save(entity);
-	}
+    @Override
+    public Music saveOne(Music entity) {
+        return musicRepository.save(entity);
+    }
 
-	@Override
-	public List<Music> saveAll(List<Music> entities) {
-		return musicRepository.saveAll(entities);
-	}
+    @Override
+    public List<Music> saveAll(List<Music> entities) {
+        return musicRepository.saveAll(entities);
+    }
 
-	@Override
-	public Music findByUuid(String uuid) {
-		return musicRepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("uuid", "music not found"));
-	}
+    @Override
+    public Music findByUuid(String uuid) {
+        return musicRepository.findById(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("uuid", "music not found"));
+    }
 
-	@Override
-	public List<Music> findAll() {
-		return musicRepository.findAll();
-	}
+    @Override
+    public List<Music> findAll() {
+        return musicRepository.findAll();
+    }
 
-	@Override
-	public void deleteOne(Music entity) {
-		musicRepository.delete(entity);
-	}
+    @Override
+    public void deleteOne(Music entity) {
+        musicRepository.delete(entity);
+    }
 
-	@Override
-	public void deleteByUuid(String uuid) {
-		musicRepository.deleteById(uuid);
-	}
+    @Override
+    public void deleteByUuid(String uuid) {
+        musicRepository.deleteById(uuid);
+    }
 
-	@Override
-	public void deleteAll() {
-		musicRepository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        musicRepository.deleteAll();
+    }
 
 }

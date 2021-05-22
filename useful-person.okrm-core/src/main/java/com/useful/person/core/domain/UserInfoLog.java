@@ -42,38 +42,38 @@ import lombok.Setter;
 @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 public class UserInfoLog implements Serializable {
 
-	private static final long serialVersionUID = 6620662048345368634L;
+    private static final long serialVersionUID = 6620662048345368634L;
 
-	@Getter
-	@Setter
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-	@JoinColumn(name = "user_uuid")
-	private UserInfo user;
+    @Getter
+    @Setter
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, optional = false)
+    @JoinColumn(name = "user_uuid")
+    private UserInfo user;
 
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(generator = "uuid2")
-	private String uuid;
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    private String uuid;
 
-	@Getter
-	@Setter
-	@Enumerated
-	@NotNull
-	private UserAction actionType;
+    @Getter
+    @Setter
+    @Enumerated
+    @NotNull
+    private UserAction actionType;
 
-	@Getter
-	@Setter
-	private String actionValue;
+    @Getter
+    @Setter
+    private String actionValue;
 
-	@Getter
-	@Setter
-	private String oldValue;
+    @Getter
+    @Setter
+    private String oldValue;
 
-	@Getter
-	@Setter
-	@JsonView(UserInfoDetailView.class)
-	@Column(nullable = false, insertable = true, updatable = false)
-	@CreationTimestamp
-	private Date createTime;
+    @Getter
+    @Setter
+    @JsonView(UserInfoDetailView.class)
+    @Column(nullable = false, insertable = true, updatable = false)
+    @CreationTimestamp
+    private Date createTime;
 }

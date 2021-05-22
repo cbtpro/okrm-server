@@ -22,9 +22,9 @@ package com.useful.person.core.aliyun.api.gateway.constant;
  * HTTP Schema常量
  */
 public class HttpSchema {
-    //HTTP
+    // HTTP
     public static final String HTTP = "http://";
-    //HTTPS
+    // HTTPS
     public static final String HTTPS = "https://";
 
 }
