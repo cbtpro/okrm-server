@@ -19,7 +19,7 @@ public class UsernameNotExistException extends RuntimeException {
     private String username;
 
     public UsernameNotExistException(String username) {
-        super("username not exist!");
+        super("username.not.exist");
         this.username = username;
     }
 }

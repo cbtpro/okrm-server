@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.useful.person.core.authentication.exception.EmailExistException;
 import com.useful.person.core.authentication.exception.GeneralException;
@@ -29,11 +28,10 @@ import com.useful.person.core.properties.AppConstants;
  * @author peter
  *
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(UserNotExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleUserNotExistException(UserNotExistException userNotExistException) {
         Map<String, String> result = new HashMap<>(2);
@@ -43,7 +41,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(UsernameExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handleUsernameExistException(UsernameExistException usernameExistException) {
         Map<String, Object> result = new HashMap<>(3);
@@ -54,7 +51,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MobileExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handlerMobileExistException(MobileExistException mobileExistException) {
         Map<String, Object> result = new HashMap<>(3);
@@ -65,7 +61,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MobileNotRegisteredException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handleMobileNotRegisteredException(MobileNotRegisteredException e) {
         Map<String, Object> result = new HashMap<>(3);
@@ -76,7 +71,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(EmailExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handlerEmailExistException(EmailExistException e) {
         Map<String, Object> result = new HashMap<>(3);
@@ -87,7 +81,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(EventNotExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handlerTaskNotExistExcetpion(EventNotExistException taskNotExistException) {
         Map<String, String> result = new HashMap<>(2);
@@ -97,7 +90,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ChinaCollegeAndUniversityNotExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handlerChinaCollegeAndUniversityNotExistException(
             ChinaCollegeAndUniversityNotExistException e) {
@@ -108,7 +100,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ChinaAdultCollegeAndUniversityNotExistException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handlerChinaAdultCollegeAndUniversityNotExistException(
             ChinaAdultCollegeAndUniversityNotExistException e) {
@@ -119,7 +110,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(SenderMailException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handlerSendMailException(SenderMailException e) {
         Map<String, String> result = new HashMap<>(1);
@@ -128,7 +118,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(OSSException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handlerOSSException(OSSException e) {
         Map<String, String> result = new HashMap<>(1);
@@ -137,7 +126,6 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handlerResourceNotFoundException(ResourceNotFoundException e) {
         Map<String, String> result = new HashMap<>(1);
@@ -152,7 +140,6 @@ public class ControllerExceptionHandler {
      * @return Map<String, Object> 错误消息
      */
     @ExceptionHandler(GeneralException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handlerGeneralException(GeneralException e) {
         Map<String, Object> result = new HashMap<>(1);
