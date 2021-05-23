@@ -8,7 +8,7 @@ jasypt:
 logging:
   file:
     name: okrm.log
-    path: /Users/peter/Documents/okrm/
+    path: E:\Users\cbtpro\Documents\okrm\
 management:
   endpoint:
     shutdown:
@@ -29,7 +29,7 @@ okrm:
   app:
     file:
       temp:
-        dir: /Users/peter/Developer/temp
+        dir: E:\Users\cbtpro\Developer\temp
         expire-in: 86400
     host: //localhost
     mail: service@useful-person.com
