@@ -79,6 +79,7 @@
                     <!-- 态资源打包 -->
                     <include>static/*</include>
                     <include>templates/*</include>
+                    <include>i18n/*</include>
                 </includes>
             </resource>
         </resources>
