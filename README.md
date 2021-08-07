@@ -281,4 +281,3 @@ cp /usr/lib/jenkins/jenkins_2.237.war /usr/lib/jenkins/jenkins.war
 # 启动服务
 service jenkins start
 ```
-
