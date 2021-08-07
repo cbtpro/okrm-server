@@ -78,6 +78,19 @@ location /api/ {
 ```
 
 ### 证书配置
+nginx配置目录`/root/nginx/conf`
+将证书上传到目录`/root/nginx/conf/cert`
+```shell
+scp ~/Downloads/6079910_useful-person.com_nginx/6079910_useful-person.com.* root@121.40.244.200:/root/nginx/conf/cert/
+```
+修改对应的conf文件，将指定正确的证书地址
+```shell
+```
+重启nginx
+```shell
+/root/nginx/nginx -s reload
+```
+访问浏览，刷新证书
 
 
 
