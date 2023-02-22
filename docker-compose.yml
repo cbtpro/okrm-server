@@ -1,0 +1,6 @@
+redis:
+  image: redis
+  container_name: okrm_dev_redis
+  command: ["redis-server", "--appendonly", "yes", "--requirepass","srFhMRCB0PuRCT6MkGxCCv3VJOTFhDx"]
+  ports:
+    - "6379:6379"

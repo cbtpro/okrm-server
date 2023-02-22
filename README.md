@@ -28,7 +28,20 @@ graph TD;
 
 ### MySQL
 
+使用root用户使用utf8mb4字符集创建okrm库，创建用户名okrm密码okrm_password授权dba、数据库okrm，
+
+使用okrm-core/src/main/resources/sql中的sql初始化持续登录的表和用户连接信息的表
+
 ### Redis
+
+在项目根目录使用docker-compose启动redis
+
+```shell
+docker-compose up -d
+docker-compose stop
+docker-compose restart
+docker-compose rm
+```
 
 ### 服务器目录结构
 
