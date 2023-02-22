@@ -30,9 +30,9 @@ graph TD;
 
 ```shell
 # 加密
-mvn jasypt:encrypt-value -Djasypt.encryptor.password="密钥" -Djasypt.plugin.value="密码明文"
-# 如果使用src/main/resources/application.properties的配置来加密，可以执行下面的命令，不支持yml
-mvn jasypt:encrypt -Djasypt.encryptor.password="the password"
+mvn jasypt:encrypt-value -Djasypt.encryptor.password="密钥（仅限ascii格式）" -Djasypt.plugin.value="密码明文"
+# 可以直接在配置文件中配置DEC(123456)，使用DEC(密码明文)，执行下面的命令后，会讲配置文件中的DEC(密码明文)替换成ENC(加密后的密码)
+mvn jasypt:encrypt -Djasypt.plugin.path="file:useful-person.okrm-server/src/main/resources/application.yml" -Djasypt.encryptor.password="密钥"
 # 解密
 mvn jasypt:decrypt-value -Djasypt.encryptor.password="密钥" -Djasypt.plugin.value="密文"
 ```
@@ -91,6 +91,19 @@ location /api/ {
 ```
 
 ### 证书配置
+nginx配置目录`/root/nginx/conf`
+将证书上传到目录`/root/nginx/conf/cert`
+```shell
+scp ~/Downloads/6079910_useful-person.com_nginx/6079910_useful-person.com.* root@121.40.244.200:/root/nginx/conf/cert/
+```
+修改对应的conf文件，将指定正确的证书地址
+```shell
+```
+重启nginx
+```shell
+/root/nginx/nginx -s reload
+```
+访问浏览，刷新证书
 
 
 
@@ -281,3 +294,4 @@ cp /usr/lib/jenkins/jenkins_2.237.war /usr/lib/jenkins/jenkins.war
 # 启动服务
 service jenkins start
 ```
+

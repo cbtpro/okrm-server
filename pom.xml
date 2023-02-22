@@ -5,17 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.useful-person</groupId>
     <artifactId>useful-person.okrm</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${okrm.version}</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- <version>2.1.12.RELEASE</version> <version>2.2.6.RELEASE</version> -->
         <version>2.3.1.RELEASE</version>
     </parent>
 
     <properties>
         <java.version>11</java.version>
+        <okrm.version>0.0.1-SNAPSHOT</okrm.version>
         <swagger.version>2.9.2</swagger.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
         <spring.social.version>1.1.6.RELEASE</spring.social.version>
@@ -68,6 +70,29 @@
                 <artifactId>jasypt-maven-plugin</artifactId>
                 <version>3.0.2</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.useful.person.OkrmServerApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                          <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -88,6 +113,7 @@
     <modules>
         <module>./useful-person.okrm-app</module>
         <module>./useful-person.okrm-browser</module>
+        <!-- <module>./useful-person.okrm-security</module> -->
         <module>./useful-person.okrm-core</module>
         <module>./useful-person.okrm-server</module>
     </modules>
