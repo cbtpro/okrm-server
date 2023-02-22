@@ -116,6 +116,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                         SecurityConstants.DEFAULT_VALIDATOR_CODE_URL_PREFIX + "/*", // 验证码
                         SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*", // 激活
                         SecurityConstants.DEFAULT_ACTIVATE_URL_PREFIX + "/*/*", "/oauth2/authorization/*",
+                        "/swagger-ui.html",
+                        "/webjars",
                         "/favicon.ico")
                 .permitAll().anyRequest().authenticated()
                 // 禁用csrf
