@@ -23,4 +23,8 @@ public class ApiProperties {
     @Setter
     private TencentProperties tencent = new TencentProperties();
 
+    @Getter
+    @Setter
+    private TencentProperties tencent = new TencentProperties();
+
 }
