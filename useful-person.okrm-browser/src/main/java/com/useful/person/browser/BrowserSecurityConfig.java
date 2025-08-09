@@ -44,10 +44,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private EmailCodeRedisOperation emailCodeRedisOperation;
 
     @Autowired
-    OkrmAuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
+    private OkrmAuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
 
     @Autowired
-    OkrmAuthenticationFailureHandler okrmAuthenticationFailureHandler;
+    private OkrmAuthenticationFailureHandler okrmAuthenticationFailureHandler;
 
 //	@Autowired
 //	OkrmLogoutSuccess okrmLogoutSuccess;

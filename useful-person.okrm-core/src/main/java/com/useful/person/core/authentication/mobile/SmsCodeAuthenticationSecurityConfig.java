@@ -23,13 +23,13 @@ import com.useful.person.core.authentication.services.impl.UserDetailsServiceImp
 public class SmsCodeAuthenticationSecurityConfig
         extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
+    @Autowired(required = true)
     private AuthenticationSuccessHandler okrmAuthenticationSuccessHandler;
 
-    @Autowired
+    @Autowired(required = true)
     private AuthenticationFailureHandler okrmAuthenticationFailureHandler;
 
-    @Autowired
+    @Autowired(required = true)
     private UserDetailsServiceImpl userDetailsService;
 
     @Override

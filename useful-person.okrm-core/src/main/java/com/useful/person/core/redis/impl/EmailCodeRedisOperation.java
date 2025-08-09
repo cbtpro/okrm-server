@@ -38,7 +38,8 @@ public class EmailCodeRedisOperation extends BasicRedisOperation {
 
     private String getRedisSessionKey(ServletWebRequest request) {
         String email = request.getParameter("email");
-        return SecurityConstants.DEFAULT_SESSION_KEY_EMAIL_CODE + "_" + request.getSessionId()
-                + (StringUtils.isNotBlank(email) ? "_" + email : "");
+        String key = SecurityConstants.DEFAULT_SESSION_KEY_EMAIL_CODE + "_" + request.getSessionId()
+        + (StringUtils.isNotBlank(email) ? "_" + email : "");
+        return key;
     }
 }
